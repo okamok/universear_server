@@ -32,7 +32,9 @@ def target_edit(request, target_id=None):
         # POST 時
 
         print('deeeee')
-        # print(request.POST['target_file_name'])
+
+
+        ######## ターゲットファイル
         filePath = './tmp/' + request.POST['target_file_name']
         print(filePath)
 
@@ -44,6 +46,25 @@ def target_edit(request, target_id=None):
         enc_file = base64.b64encode(contents)
 
         # print(enc_file)
+
+        ######## meta テキスト
+        #### テキスト作成
+        metaPath = './tmp/meta.txt'
+
+        metaContent = "{\n" \
+                        '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
+                        '\t"url" : "http://zine.hiliberate.biz/movie/deathro_crazy_for_you.mp4"\n' \
+                       '}'
+
+        # ファイルが存在していれば削除
+        if default_storage.exists(metaPath):
+            default_storage.delete(metaPath)
+
+        # ファイル保存
+        default_storage.save(metaPath, ContentFile(metaContent))
+
+
+
 
         return render(request, 'hlar/target_edit.html')
 
