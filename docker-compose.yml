@@ -1,0 +1,18 @@
+db:
+  image: mysql
+  ports:
+         - "3306:3306"
+  environment:
+         MYSQL_ROOT_PASSWORD: password
+  privileged: true
+web:
+  build: .
+  # command: /bin/bash -c "nginx && uwsgi --socket :8001 --module composeexample.wsgi && while true; do sleep 100000; done"
+  command: /bin/bash -c "nginx && uwsgi --ini /code/mysite_uwsgi.ini && while true; do sleep 100000; done"
+  volumes:
+         - .:/code
+  ports:
+         - "8000:8000"
+  links:
+         - db
+  privileged: true

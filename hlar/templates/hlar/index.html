@@ -1,0 +1,58 @@
+{% load bootstrap3 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% bootstrap_messages %}
+
+{% block title %}書籍の一覧{% endblock title %}
+
+<form action="/url/to/submit/" method="post" class="form">
+{% csrf_token %}
+
+{{ form.as_p }}
+
+
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "star" %} Submit
+    </button>
+  {% endbuttons %}
+</form>
+
+
+<!--
+{% block bootstrap3_content %}
+    <div class="container">
+        <h1>{% block title %}テスト{% endblock %}</h1>
+
+        <p>
+            <a href="ç">home</a>
+            <a href="#">formset</a>
+        </p>
+
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+
+        {% block content %}(no content){% endblock %}
+    </div>
+
+{% endblock %} -->
+
+
+
+
+
+
+{% load static %}
+
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" /> -->
+
+{% if latest_target_list %}
+    <ul>
+    {% for target in latest_target_list %}
+        <li>{{ target.vuforia_target_id }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No HLAR are available.</p>
+{% endif %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}ターゲットの一覧{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3 class="page-header">書籍の一覧</h3>
+    <a href="{% url 'hlar:target_add' %}" class="btn btn-default btn-sm">追加</a>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Vuforia ID</th>
+          <th>コンテンツ名</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for target in targets %}
+        <tr>
+          <td>{{ target.id }}</td>
+          <td>{{ target.vuforia_target_id }}</td>
+          <td>{{ target.content_name }}</td>
+          <td>
+            <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+            <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-default btn-sm">削除</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock content %}
