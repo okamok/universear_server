@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}ターゲットの一覧{% endblock title %}
 
 {% block extrahead %}
@@ -28,13 +30,16 @@ table {
         {% for target in targets %}
         <tr>
             <td>{{ target.id }}</td>
-            <td>{{ target.name }}</td>
+            <td>
+                <img src="{% static "hlar/images/a0329965_23202416.jpg" %}"  width="100" height="100"/>
+                {{ target.name }}
+            </td>
             <td>{{ target.target_id }}</td>
             <td>{{ target.view_count }}</td>
             <td>{{ target.view_count_limit }}</td>
             <td>
-                <a href="{% url 'hlar:target_mod' target_id=1 %}" class="btn btn-default btn-sm">修正</a>
-                <a href="{% url 'hlar:target_del' target_id=5 %}" class="btn btn-default btn-sm">削除</a>
+                <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+                <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-default btn-sm">削除</a>
             </td>
         </tr>
         {% endfor %}

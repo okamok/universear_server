@@ -21,6 +21,7 @@ import pytz
 import json
 import requests
 import binascii
+import hlar.views
 
 from wsgiref.handlers import format_date_time
 from datetime import datetime, timedelta, tzinfo
@@ -38,6 +39,45 @@ CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
 SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
+    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail']
+
+
+class VuforiaBaseError(Exception):
+    def __init__(self, exc, response):
+        self.transaction_id = response['transaction_id']
+        self.result_code = response['result_code']
+        self.exc = exc
+
+class VuforiaRequestQuotaReached(VuforiaBaseError):
+    pass
+
+class VuforiaAuthenticationFailure(VuforiaBaseError):
+    pass
+
+class VuforiaRequestTimeTooSkewed(VuforiaBaseError):
+    pass
+
+class VuforiaTargetNameExist(VuforiaBaseError):
+    pass
+
+class VuforiaUnknownTarget(VuforiaBaseError):
+    pass
+
+class VuforiaBadImage(VuforiaBaseError):
+    pass
+
+class VuforiaImageTooLarge(VuforiaBaseError):
+    pass
+
+class VuforiaMetadataTooLarge(VuforiaBaseError):
+    pass
+
+class VuforiaDateRangeError(VuforiaBaseError):
+    pass
+
+class VuforiaFail(VuforiaBaseError):
+    pass
 
 
 def compute_md5_hex(data):
@@ -114,7 +154,7 @@ def add_target(max_num_results, include_target_data, image, target_name):
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     req = requests.Request(method='POST', url=url, data=data,
                            headers=headers)
-    response = _get_authenticated_response(req, SERVER_SECRET_KEYS, SERVER_ACCESS_KEYS)
+    response = _get_authenticated_response(req)
 
     # print('33333')
     # print (response)
@@ -164,6 +204,14 @@ def get_target_ids():
     response = _get_authenticated_response(req)
     return json.loads(response.content.decode())['results']
 
+def get_target_id_from_name(name):
+    targets = get_targets()
+
+    for target in targets:
+        if target.name == name:
+            return target.target_id
+
+    return False
 
 def _get_authenticated_response(req):
     rfc1123_date = _get_rfc1123_date()
@@ -278,3 +326,16 @@ def _send(url, method, data=None, headers=None, type=None):
             return requests.delete(url=url, headers=headers, data=data)
     except requests.exceptions.ConnectionError:
         return None
+
+def judge_vws_result(result_code):
+    """
+    :param str result_code
+    :return: result bool / true=エラーなし、false=エラー
+    """
+
+    if result_code in VWS_ERROR_MSG:
+        ret = False
+    else:
+        ret = True
+
+    return ret

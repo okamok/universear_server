@@ -203,3 +203,14 @@ BOOTSTRAP3 = {
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 INTERNAL_IPS = ('127.0.0.1', '122.212.33.66')
+
+
+# BASE_PATH = os.path.abspath(os.path.split(__file__)[0])
+# MEDIA_ROOT = os.path.join(BASE_PATH, 'tmp')
+# MEDIA_URL = '/tmp/'
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/code/static/',
+]

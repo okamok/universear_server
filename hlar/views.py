@@ -12,17 +12,17 @@ from django.utils import timezone
 
 from hlar.models import User, Target
 from hlar.forms import TargetForm
-from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id
+from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name
 
 SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
-
+TARGET_FILE_PATH = './tmp/'
 
 def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
     # targets = Target.objects.all().order_by('id')
 
-    # ToDo user_idを動的に入れる
+    # @ToDo user_idを動的に入れる
     targets = get_targets_user_id(1)
 
 
@@ -42,7 +42,7 @@ def target_edit(request, target_id=None):
         # POST 時
 
         ######## ターゲットファイル
-        filePath = './tmp/' + request.POST['target_file_name']
+        filePath = TARGET_FILE_PATH + request.POST['target_file_name']
 
         # file読み込み
         with open(filePath, 'rb') as f:
@@ -55,7 +55,8 @@ def target_edit(request, target_id=None):
 
         ######## meta テキスト
         #### テキスト作成
-        metaPath = './tmp/meta.txt'
+        meta_file_name = request.POST['target_file_name'].replace('.','') + '.txt'
+        metaPath = TARGET_FILE_PATH + meta_file_name
 
         metaContent = "{\n" \
                         '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
@@ -82,13 +83,18 @@ def target_edit(request, target_id=None):
         target_name = request.POST['target_name']
 
 
-        ######## Vuforia API へアクセス
+        ######## Vuforia API で登録
         response_content = add_target(max_num_results='',
                                  include_target_data=encMetaFile,
                                  image=encTargetFile,
                                  target_name=target_name)
 
+        print('4444')
         print(response_content)
+
+        # if response_content['result_code'] == 'TargetNameExist'
+        #
+        # else :
 
         # if status == 200:
         #     print(query_response)
@@ -98,10 +104,21 @@ def target_edit(request, target_id=None):
         #     print(query_response)
         #     # sys.exit(status)
 
+        if judge_vws_result(response_content['result_code']):
+            ######## DBに登録
+            target.content_name = request.POST['target_file_name']
+            target.user_id = 1 #@ToDo 決め打ち
+            target.vuforia_target_id = response_content['target_id']
+
+            # target = form.save(commit=False)
+
+            target.save()
+
+            return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
+        else:
+            return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
 
 
-
-        return render(request, 'hlar/target_edit.html')
 
         # form = TargetForm(request.POST, instance=target)  # POST された request データからフォームを作成
         # if form.is_valid():    # フォームのバリデーション

@@ -6,6 +6,11 @@
     <h3 class="page-header">ターゲットの編集</h3>
     <div class="container">
 
+    {% if msg %}
+        {{ msg }}<br><br>
+    {% endif %}
+
+
     {% if target_id %}
     <form id="uploadForm" action="{% url 'hlar:target_mod' target_id=target_id %}" enctype="multipart/form-data" method="post" class="form-horizontal" role="form">
     {% else %}
