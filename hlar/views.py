@@ -12,10 +12,20 @@ from django.utils import timezone
 
 from hlar.models import User, Target
 from hlar.forms import TargetForm
+from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id
+
+SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
 
 def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
-    targets = Target.objects.all().order_by('id')
+    # targets = Target.objects.all().order_by('id')
+
+    # ToDo user_idを動的に入れる
+    targets = get_targets_user_id(1)
+
+
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
                   {'targets': targets})         # テンプレートに渡すデータ
@@ -31,21 +41,17 @@ def target_edit(request, target_id=None):
     if request.method == 'POST':
         # POST 時
 
-        print('deeeee')
-
-
         ######## ターゲットファイル
         filePath = './tmp/' + request.POST['target_file_name']
-        print(filePath)
 
         # file読み込み
         with open(filePath, 'rb') as f:
             contents = f.read()
 
         # base64でencode
-        enc_file = base64.b64encode(contents)
+        encTargetFileBase64 = base64.b64encode(contents)
+        encTargetFile = encTargetFileBase64.decode('utf-8')
 
-        # print(enc_file)
 
         ######## meta テキスト
         #### テキスト作成
@@ -62,6 +68,35 @@ def target_edit(request, target_id=None):
 
         # ファイル保存
         default_storage.save(metaPath, ContentFile(metaContent))
+
+        # file読み込み
+        with open(metaPath, 'rb') as f:
+            contents = f.read()
+
+        # base64でencode
+        encMetaFileBase64 = base64.b64encode(contents)
+        encMetaFile = encMetaFileBase64.decode('utf-8')
+
+
+        ######## ターゲット名
+        target_name = request.POST['target_name']
+
+
+        ######## Vuforia API へアクセス
+        response_content = add_target(max_num_results='',
+                                 include_target_data=encMetaFile,
+                                 image=encTargetFile,
+                                 target_name=target_name)
+
+        print(response_content)
+
+        # if status == 200:
+        #     print(query_response)
+        #     # sys.exit(0)
+        # else:
+        #     print(status)
+        #     print(query_response)
+        #     # sys.exit(status)
 
 
 
