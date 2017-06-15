@@ -54,61 +54,6 @@ $(function() {
 
     $("input[name='target']").change(function(){
 
-        // var formData = new FormData($('#uploadForm')[0]);
-        // formData.append('other_data', 999);
-        // $.ajax({
-        //     url: '/upload',
-        //     type: 'post',
-        //     data: formData,
-        //     processData: false,
-        //     contentType: false,
-        //     timeout: 10000
-        // }).done(function () {
-        //     console.log('done');
-        // }).fail(function () {
-        //     console.log('fail');
-        // }).then(function () {
-        //     $('#uploadForm').remove();
-        // });
-
-        // var fd = new FormData();
-        // if ($("input[name='target']").val()!== '') {
-        //   fd.append( "file", $("input[name='target']").prop("files")[0] );
-        // }
-        // //fd.append("dir",$("#hoge").val());
-        // var postData = {
-        //   type : "POST",
-        //   dataType : "text",
-        //   data : fd,
-        //   processData : false,
-        //   contentType : false
-        // };
-        // $.ajax(
-        //   "file_upload", postData
-        // ).done(function( text ){
-        //   console.log(text);
-        // });
-        //
-
-
-        // ajaxData = {file : $("input[name='target']").prop("files")[0]};
-        //
-        // $.ajax({
-        //     url: '../upload',
-        //     type: 'post',
-        //     data: ajaxData,
-        //     // processData: false,
-        //     // contentType: false,
-        //     // timeout: 10000
-        // }).done(function () {
-        //     console.log('done');
-        // }).fail(function () {
-        //     console.log('fail');
-        // }).then(function () {
-        //     $('#uploadForm').remove();
-        // });
-
-
         var formData = new FormData($('#uploadForm')[0]);
         formData.append('other_data', 999);
 
@@ -130,26 +75,6 @@ $(function() {
             //$('#uploadForm').remove();
          });
     });
-    //
-    // $(document).on('change','input[name="target"]',function(){
-    //   var fd = new FormData();
-    //   if ($("input[name='target']").val()!== '') {
-    //     fd.append( "file", $("input[name='target']").prop("files")[0] );
-    //   }
-    //   //fd.append("dir",$("#hoge").val());
-    //   var postData = {
-    //     type : "POST",
-    //     dataType : "text",
-    //     data : fd,
-    //     processData : false,
-    //     contentType : false
-    //   };
-    //   $.ajax(
-    //     "file_upload", postData
-    //   ).done(function( text ){
-    //     console.log(text);
-    //   });
-    // });
 });
 </script>
 

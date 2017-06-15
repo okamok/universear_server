@@ -165,25 +165,34 @@ def add_target(max_num_results, include_target_data, image, target_name):
 def get_targets_user_id(user_id):
     print('user_id =' + str(user_id))
 
+    #### pythonのDBからデータ取得
     # targets_object = Target.objects.all()
     targets_object = Target.objects.filter(user_id=str(user_id))
 
 
     print('targets_object')
-    print(targets_object)
+    # print(targets_object)
+    pprint(vars(targets_object))
+
 
     targets = []
     for target in targets_object:
-        # Vuforia のデータを取得
+        #### Vuforia のデータを取得
         v_target = get_target_by_id(target.vuforia_target_id)
 
-        # 取得したデータに独自のデータをマージ
+        #### 取得したデータに独自のデータをマージ
         v_target['id'] = target.id
         v_target['view_count'] = target.view_count
         v_target['view_count_limit'] = target.view_count_limit
         v_target['view_state'] = target.view_state
+        v_target['content_name'] = target.content_name
 
         targets.append(v_target)
+
+    print('targets')
+    # pprint(vars(targets))
+    print(targets)
+
     return targets
 
 def get_targets():
@@ -196,6 +205,7 @@ def get_target_by_id(target_id):
     url = '%s/targets/%s' % (HOST, target_id)
     req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
+    print(response)
     return json.loads(response.content.decode())['target_record']
 
 def get_target_ids():

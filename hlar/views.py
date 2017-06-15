@@ -16,7 +16,8 @@ from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_
 
 SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
-TARGET_FILE_PATH = './tmp/'
+# TARGET_FILE_PATH = './tmp/'
+TARGET_FILE_PATH = './static/images/'
 
 def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
@@ -140,7 +141,10 @@ def target_upload(request):
     targetFile = request.FILES['target']
 
     # 保存パス(ファイル名含む)
-    filePath = './tmp/' + targetFile.name
+    filePath = TARGET_FILE_PATH + targetFile.name
+
+    print("filePath")
+    print(filePath)
 
     # ファイルが存在していれば削除
     if default_storage.exists(filePath):
@@ -149,6 +153,8 @@ def target_upload(request):
     # ファイルを保存
     path = default_storage.save(filePath, ContentFile(targetFile.read()))
 
+    print("path")
+    print(path)
 
     dictData = {'filename':targetFile.name, "filelength":82}
     return HttpResponse(json.dumps(dictData))
