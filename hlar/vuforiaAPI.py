@@ -186,6 +186,7 @@ def get_targets_user_id(user_id):
         v_target['view_count_limit'] = target.view_count_limit
         v_target['view_state'] = target.view_state
         v_target['content_name'] = target.content_name
+        v_target['img_name'] = target.img_name
 
         targets.append(v_target)
 

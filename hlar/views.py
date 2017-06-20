@@ -14,6 +14,14 @@ from hlar.models import User, Target
 from hlar.forms import TargetForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name
 
+# from boto3.s3.key import Key
+# from boto3.s3.connection import S3Connection
+import boto3
+
+S3_USER = 's3user'
+S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
+S3_SECRET_KEY = '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'
+
 SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
 # TARGET_FILE_PATH = './tmp/'
@@ -59,10 +67,20 @@ def target_edit(request, target_id=None):
         meta_file_name = request.POST['target_file_name'].replace('.','') + '.txt'
         metaPath = TARGET_FILE_PATH + meta_file_name
 
+        # metaContent = "{\n" \
+        #                 '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
+        #                 '\t"url" : "http://zine.hiliberate.biz/movie/deathro_crazy_for_you.mp4"\n' \
+        #                '}'
+
+        contentsFile = request.FILES['contents']
+
         metaContent = "{\n" \
                         '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
-                        '\t"url" : "http://zine.hiliberate.biz/movie/deathro_crazy_for_you.mp4"\n' \
+                        '\t"url" : "https://test-hlar.s3.amazonaws.com/' + contentsFile.name + '"\n' \
                        '}'
+
+
+
 
         # ファイルが存在していれば削除
         if default_storage.exists(metaPath):
@@ -106,14 +124,53 @@ def target_edit(request, target_id=None):
         #     # sys.exit(status)
 
         if judge_vws_result(response_content['result_code']):
+            ######## S3に動画を保存
+
+            #### まず一時的にサーバーに保存
+            # 保存パス(ファイル名含む)
+            filePath = TARGET_FILE_PATH + contentsFile.name
+
+            print("filePath")
+            print(filePath)
+
+            # ファイルが存在していれば削除
+            if default_storage.exists(filePath):
+                default_storage.delete(filePath)
+
+            # ファイルを保存
+            path = default_storage.save(filePath, ContentFile(contentsFile.read()))
+
+            bucket_name = 'test-hlar'
+            key_name = contentsFile.name
+
+            print("key_name")
+            print(key_name)
+
+            client = boto3.client('s3')
+            client.upload_file(filePath, bucket_name, key_name)
+
+            #s3にアップした動画を公開する
+            # s3 = boto3.resource('s3')
+            # bucket = s3.Bucket(bucket_name)
+            # obj = bucket.Object(key_name)
+            # obj.
+
+            s3 = boto3.resource('s3')
+            object_acl = s3.ObjectAcl(bucket_name, key_name)
+            response = object_acl.put(ACL='public-read')
+
             ######## DBに登録
-            target.content_name = request.POST['target_file_name']
+            target.content_name = key_name
+            target.img_name = request.POST['target_file_name']
             target.user_id = 1 #@ToDo 決め打ち
             target.vuforia_target_id = response_content['target_id']
 
             # target = form.save(commit=False)
 
             target.save()
+
+            ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
+            default_storage.delete(filePath)    #contents
 
             return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:

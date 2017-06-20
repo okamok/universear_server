@@ -31,8 +31,9 @@ table {
         <tr>
             <td>{{ target.id }}</td>
             <td>
-                <img src="{% static "images/" %}{{target.content_name}}"  width="100"/>
-                {{ target.name }}
+                <img src="{% static "images/" %}{{target.img_name}}"  width="100"/><br>
+                {{ target.name }}<br>
+                <a href="https://test-hlar.s3.amazonaws.com/{{target.content_name}}">コンテンツ動画はこちら</a>
             </td>
             <td>{{ target.target_id }}</td>
             <td>{{ target.view_count }}</td>

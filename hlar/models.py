@@ -16,7 +16,8 @@ class User(models.Model):
 class Target(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     vuforia_target_id = models.CharField(max_length=200, null=True)
-    content_name = models.CharField(max_length=100)
+    img_name = models.CharField(max_length=100, null=True)
+    content_name = models.CharField(max_length=100, null=True)
     view_count = models.IntegerField(null=True)
     view_count_limit = models.IntegerField(null=True)
     view_state = models.PositiveSmallIntegerField(null=True)
