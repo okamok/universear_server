@@ -18,10 +18,14 @@ from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from django.conf import settings
 
+from hlar.urls import router as hlar_router
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hlar/', include('hlar.urls')),
+    url(r'^api/', include(hlar_router.urls)),
 ]
 
 if settings.DEBUG:

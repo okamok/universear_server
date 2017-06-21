@@ -10,9 +10,16 @@ from django.template import loader
 from django.views import generic
 from django.utils import timezone
 
+from pprint import pprint
+
 from hlar.models import User, Target
 from hlar.forms import TargetForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name
+
+import django_filters
+from rest_framework import viewsets, filters
+from rest_framework.response import Response
+from hlar.serializer import UserSerializer, TargetSerializer
 
 # from boto3.s3.key import Key
 # from boto3.s3.connection import S3Connection
@@ -231,10 +238,39 @@ def target_upload(request):
 #         return Target.objects.all()
 
 
-
-
-
-
-
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class TargetViewSet(viewsets.ModelViewSet):
+    queryset = Target.objects.all()
+    serializer_class = TargetSerializer
+
+    def list(self, request):
+        # print('asdf')
+        # print(self)
+        # print(request)
+        queryset = Target.objects.all()
+        serializer = TargetSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+
+        print('pk')
+        print(pk)
+
+        queryset = Target.objects.all()
+        target_object = get_object_or_404(queryset, vuforia_target_id=str(pk))
+
+        pprint(vars(target_object))
+        serializer = TargetSerializer(target_object)
+        return Response(serializer.data)
+
+        # queryset = Target.objects.all()
+        # target = get_object_or_404(queryset, pk=pk)
+        # serializer = TargetSerializer(target)
+        # return Response(serializer.data)
