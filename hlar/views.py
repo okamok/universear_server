@@ -18,6 +18,7 @@ from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_
 
 import django_filters
 from rest_framework import viewsets, filters
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from hlar.serializer import UserSerializer, TargetSerializer
 
@@ -274,3 +275,47 @@ class TargetViewSet(viewsets.ModelViewSet):
         # target = get_object_or_404(queryset, pk=pk)
         # serializer = TargetSerializer(target)
         # return Response(serializer.data)
+
+
+    @detail_route(methods=['post'])
+    def set_count_up_and_inactive(self, request, pk=None):
+
+        queryset = Target.objects.all()
+
+        # targetを取得
+        target_object = get_object_or_404(queryset, vuforia_target_id=str(pk))
+
+        # カウントアップしてセット
+        now_count = target_object.view_count + 1
+        target_object.view_count = now_count
+
+        print('now_count')
+        print(now_count)
+
+        # 保存
+        target_object.save()
+
+        # リミット回数に達していたらvuforiaのtargetをinactiveにする
+        if target_object.view_count_limit <= now_count:
+            print('start inactive vuforia')
+        else:
+            print('still active vuforia')
+
+        # pprint(vars(target_object))
+        print(target_object.view_count)
+
+
+        serializer = TargetSerializer(target_object)
+        return Response(serializer.data)
+
+
+
+        # user = self.get_object()
+        # serializer = PasswordSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     user.set_password(serializer.data['password'])
+        #     user.save()
+        #     return Response({'status': 'password set'})
+        # else:
+        #     return Response(serializer.errors,
+        #                     status=status.HTTP_400_BAD_REQUEST)
