@@ -161,6 +161,26 @@ def add_target(max_num_results, include_target_data, image, target_name):
 
     return json.loads(response.content.decode())
 
+
+def update_target(target_id, data):
+
+    # data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
+    # url = '%s/targets' % HOST
+    url = '%s/targets/%s' % (HOST, target_id)
+
+    data = json.dumps(data)
+
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    req = requests.Request(method='PUT', url=url, data=data,
+                           headers=headers)
+    response = _get_authenticated_response(req)
+
+    # print('33333')
+    # print (response)
+
+    return json.loads(response.content.decode())
+
+
 # hlar_target.user_id を指定してターゲットを取得
 def get_targets_user_id(user_id):
     print('user_id =' + str(user_id))

@@ -14,7 +14,7 @@ from pprint import pprint
 
 from hlar.models import User, Target
 from hlar.forms import TargetForm
-from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name
+from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target
 
 import django_filters
 from rest_framework import viewsets, filters
@@ -298,6 +298,8 @@ class TargetViewSet(viewsets.ModelViewSet):
         # リミット回数に達していたらvuforiaのtargetをinactiveにする
         if target_object.view_count_limit <= now_count:
             print('start inactive vuforia')
+            data = {"active_flag": 0}
+            update_target(str(pk), data)
         else:
             print('still active vuforia')
 
