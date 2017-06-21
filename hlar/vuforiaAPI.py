@@ -171,12 +171,16 @@ def update_target(target_id, data):
     data = json.dumps(data)
 
     headers = {'Content-Type': 'application/json; charset=utf-8'}
+
+    print(url)
+    print(data)
+
     req = requests.Request(method='PUT', url=url, data=data,
                            headers=headers)
     response = _get_authenticated_response(req)
 
-    # print('33333')
-    # print (response)
+    print('33333')
+    print (response)
 
     return json.loads(response.content.decode())
 
