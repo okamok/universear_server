@@ -12,6 +12,7 @@ app_name = 'hlar'
 
 urlpatterns = [
     # 書籍
+    url(r'^$', views.hlar_top, name='hlar_top'),   # 一覧
     url(r'^target/$', views.target_list, name='target_list'),   # 一覧
     url(r'^target/add/$', views.target_edit, name='target_add'),  # 登録
     url(r'^target/upload/$', views.target_upload, name='target_upload'),  # 登録

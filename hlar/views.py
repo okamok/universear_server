@@ -35,6 +35,15 @@ SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
 # TARGET_FILE_PATH = './tmp/'
 TARGET_FILE_PATH = './static/images/'
 
+def hlar_top(request):
+
+
+    return render(request,
+                  'hlar/hlar_top.html',     # 使用するテンプレート
+                  {'targets': 'aaaa'}         # テンプレートに渡すデータ
+                  )
+
+
 def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
     # targets = Target.objects.all().order_by('id')
