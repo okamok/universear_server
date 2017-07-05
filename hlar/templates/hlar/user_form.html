@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}ユーザー登録{% endblock title %}
+
+{% block content %}
+<div style="margin-top: 70px;margin-left:20px">
+    <h3 class="page-header">ユーザー登録</h3>
+    <div class="container" style="margin-left: 0px;">
+
+    {% if msg %}
+        {% if 'success_msg' in msg %}
+            <p style="color:blue">{{ msg.success_msg }}</p>
+        {% elif 'error_msg' in msg %}
+            <p style="color:red">{{ msg.error_msg }}</p>
+        {% endif %}
+    {% endif %}
+
+
+    {% if user_id %}
+    <form id="uploadForm" action="{% url 'hlar:user_add' user_id=user_id %}" enctype="multipart/form-data" method="post" class="form-horizontal" role="form">
+    {% else %}
+    <form id="uploadForm" action="{% url 'hlar:user_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+    {% endif %}
+      {% csrf_token %}
+
+      {# {{ form|bootstrap_horizontal }} #}
+      {# {{ form }} #}
+
+        <div class="form-group">
+          <label>メールアドレス</label>
+          <input type="text" name="user_mail" value="{{ user.mail }}" class="form-control" style="width:250px">
+        </div>
+
+        <div class="form-group">
+            <label>ユーザー名</label>
+            <input type="text" name="user_name" value="{{ user.name }}" class="form-control" style="width:150px">
+        </div>
+
+        <div class="form-group">
+            <label>パスワード</label>
+            <input type="password" name="user_password" class="form-control" style="width:150px">
+        </div>
+
+        <div class="form-group">
+            <label>パスワード(確認用)</label>
+            <input type="password" name="user_password_confirm" class="form-control" style="width:150px">
+        </div>
+
+        <input type="hidden" name="user_oauth_id" value="{{ user.oauth_id }}" />
+
+      <div class="form-group">
+        <!-- <div class="col-sm-offset-2 col-sm-10"> -->
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">登録</button>
+        </div>
+      </div>
+    </form>
+    <a href="{% url 'hlar:target_list' %}" class="btn btn-default btn-sm">戻る</a>
+
+    </div>
+
+<script>
+// $(function() {
+//
+//     $("input[name='target']").change(function(){
+//
+//         var formData = new FormData($('#uploadForm')[0]);
+//         formData.append('other_data', 999);
+//
+//         $.ajax({
+//              url: '../upload/',
+//              type: 'post',
+//              data: formData,
+//              processData: false,
+//              contentType: false,
+//              timeout: 10000
+//          }).done(function (json, statusText, jqXHR) {
+//             console.log('done');
+//             ret = JSON.parse(json);
+//             $("input[name='target_file_name']").val(ret.filename);
+//
+//          }).fail(function (jqXHR, statusText, errorThrown) {
+//              console.log('fail');
+//          }).then(function () {
+//             //$('#uploadForm').remove();
+//          });
+//     });
+// });
+</script>
+
+</div>
+
+{% endblock content %}

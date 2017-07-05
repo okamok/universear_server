@@ -11,13 +11,24 @@ from hlar.views import UserViewSet, TargetViewSet
 app_name = 'hlar'
 
 urlpatterns = [
-    # 書籍
-    url(r'^$', views.hlar_top, name='hlar_top'),   # 一覧
+    url(r'^$', views.hlar_top, name='hlar_top'),   # TOP画面
+    url(r'^index$', views.hlar_top, name='hlar_top'),   # TOP画面
+
+    # target
     url(r'^target/$', views.target_list, name='target_list'),   # 一覧
     url(r'^target/add/$', views.target_edit, name='target_add'),  # 登録
     url(r'^target/upload/$', views.target_upload, name='target_upload'),  # 登録
     url(r'^target/mod/(?P<target_id>\d+)/$', views.target_edit, name='target_mod'),  # 修正
     url(r'^target/del/(?P<target_id>\d+)/$', views.target_del, name='target_del'),   # 削除
+
+    # user
+    url(r'^user/add/$', views.user_add, name='user_add'),
+
+    url(r'^user/edit/(?P<user_id>\d+)/$', views.user_edit, name='user_edit'),
+
+    # url(r'^login/twitter/$', views.twitter_login, name='twitter_login'),   # twitter ログイン
+
+    url(r'^user/manage/$', views.hlar_user_manage, name='hlar_user_manage'),   # oauth callback
 
 
 

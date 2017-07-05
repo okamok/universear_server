@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -41,7 +42,42 @@ INSTALLED_APPS = [
     'bootstrap3',
     'debug_toolbar',
     'rest_framework',
+    'social_django',
+    'social.apps.django_app.default',
 ]
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.create_user', # 認証情報チェック時にユーザーが作成されないようにしたい場合はコメントアウトコメントアウト
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.contrib.auth.context_processors.auth',
+#     'django.core.context_processors.debug',
+#     'django.core.context_processors.i18n',
+#     'django.core.context_processors.media',
+#     'django.core.context_processors.static',
+#     'django.core.context_processors.tz',
+#     'django.contrib.messages.context_processors.messages',
+#     'social.apps.django_app.context_processors.backends',
+#     'social.apps.django_app.context_processors.login_redirect',
+# )
+
+
+AUTHENTICATION_BACKENDS = (
+    # 'social.backends.facebook.FacebookAppOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+
+)
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -215,3 +251,17 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/code/static/',
 ]
+
+
+LOGIN_ERROR_URL = '/login/'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/hlar/'
+
+AUTH_USER_MODEL = 'hlar.User'
+
+
+SOCIAL_AUTH_TWITTER_KEY = '05WxUGIG4paZZZWj22cZJR6qC'
+SOCIAL_AUTH_TWITTER_SECRET = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '110344682483-fqpd4fkdb42gtc0pf172f61s3gh2lid2.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pxJBS6A7F5qgiavEQNbr0qU8'

@@ -19,13 +19,24 @@ from django.contrib import admin
 from django.conf import settings
 
 from hlar.urls import router as hlar_router
-
-
+from django.contrib.auth import views as auth_views
+from hlar import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hlar/', include('hlar.urls')),
     url(r'^api/', include(hlar_router.urls)),
+
+    url(r'^login/$', auth_views.login, {'template_name': 'hlar/login.html'}),
+
+    url('', include('social.apps.django_app.urls', namespace='social')),    # oauth用
+    # url('', include('django.contrib.auth.urls', namespace='auth')),
+
+    url(r'^logout/$', auth_views.logout, {'template_name': 'hlar/logged_out.html'}),
+    url(r'^signup/$', views.signup, name='signup'),
+
+
+    # url('', include('django.contrib.auth.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:

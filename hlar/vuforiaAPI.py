@@ -33,7 +33,6 @@ from pprint import pprint
 from hlar.models import User, Target
 
 
-
 # The hostname of the Cloud Recognition Web API
 CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
@@ -189,14 +188,18 @@ def update_target(target_id, data):
 def get_targets_user_id(user_id):
     print('user_id =' + str(user_id))
 
+    print('tbl_target')
+    pprint(vars(Target))
+
+
     #### pythonのDBからデータ取得
     # targets_object = Target.objects.all()
     targets_object = Target.objects.filter(user_id=str(user_id))
 
 
-    print('targets_object')
+    # print('targets_object')
     # print(targets_object)
-    pprint(vars(targets_object))
+    # pprint(vars(targets_object))
 
 
     targets = []
