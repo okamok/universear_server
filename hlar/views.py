@@ -656,11 +656,30 @@ def target_edit(request, target_id=None):
             if default_storage.exists(filePath):
                 default_storage.delete(filePath)
 
-            print("contentsFile")
-            print(contentsFile)
+            # print("contentsFile.read()")
+            # print(contentsFile.read())
+            #
+            # print("ContentFile(contentsFile.read())")
+            # print(ContentFile(contentsFile.read()))
 
-            # ファイルを保存
-            path = default_storage.save(filePath, ContentFile(contentsFile.read()))
+            try:
+                # ファイルを保存
+                # path = default_storage.save(filePath, ContentFile(contentsFile.read()))
+
+                # ファイルを保存
+                destination = open(filePath, 'wb+')
+                for chunk in contentsFile.chunks():
+                    destination.write(chunk)
+                destination.close()
+
+            except Exception as e:
+                print ('=== エラー内容 ===')
+                print ('type:' + str(type(e)))
+                print ('args:' + str(e.args))
+                print ('message:' + e.message)
+                print ('e自身:' + str(e))
+
+
 
             bucket_name = 'test-hlar'
             key_name = contentsFile.name
