@@ -160,6 +160,22 @@ def add_target(max_num_results, include_target_data, image, target_name):
 
     return json.loads(response.content.decode())
 
+def del_target(target_id):
+    data = {"name": 'dummy'}
+    # data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
+    url = '%s/targets/%s' % (HOST, target_id)
+    data = json.dumps(data)
+
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    req = requests.Request(method='DELETE', url=url)
+    response = _get_authenticated_response(req)
+
+    print('response1234')
+
+    pprint(vars(response))
+
+    return json.loads(response.content.decode())
+
 
 def update_target(target_id, data):
 
@@ -183,6 +199,29 @@ def update_target(target_id, data):
 
     return json.loads(response.content.decode())
 
+# def update_target(target_id, include_target_data, image, target_name):
+#
+#     data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
+#     url = '%s/targets/%s' % (HOST, target_id)
+#
+#     data = json.dumps(data)
+#
+#     headers = {'Content-Type': 'application/json; charset=utf-8'}
+#
+#     print(url)
+#     print(data)
+#
+#     req = requests.Request(method='PUT', url=url, data=data,
+#                            headers=headers)
+#     response = _get_authenticated_response(req)
+#
+#     print('33333')
+#     print (response)
+#
+#     return json.loads(response.content.decode())
+
+
+
 
 # hlar_target.user_id を指定してターゲットを取得
 def get_targets_user_id(user_id):
@@ -191,6 +230,7 @@ def get_targets_user_id(user_id):
     print('tbl_target')
     pprint(vars(Target))
 
+    print(user_id)
 
     #### pythonのDBからデータ取得
     # targets_object = Target.objects.all()
@@ -207,15 +247,16 @@ def get_targets_user_id(user_id):
         #### Vuforia のデータを取得
         v_target = get_target_by_id(target.vuforia_target_id)
 
-        #### 取得したデータに独自のデータをマージ
-        v_target['id'] = target.id
-        v_target['view_count'] = target.view_count
-        v_target['view_count_limit'] = target.view_count_limit
-        v_target['view_state'] = target.view_state
-        v_target['content_name'] = target.content_name
-        v_target['img_name'] = target.img_name
+        if v_target != None:
+            #### 取得したデータに独自のデータをマージ
+            v_target['id'] = target.id
+            v_target['view_count'] = target.view_count
+            v_target['view_count_limit'] = target.view_count_limit
+            v_target['view_state'] = target.view_state
+            v_target['content_name'] = target.content_name
+            v_target['img_name'] = target.img_name
 
-        targets.append(v_target)
+            targets.append(v_target)
 
     print('targets')
     # pprint(vars(targets))
@@ -233,8 +274,13 @@ def get_target_by_id(target_id):
     url = '%s/targets/%s' % (HOST, target_id)
     req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
+    print('1234')
     print(response)
-    return json.loads(response.content.decode())['target_record']
+
+    if 'target_record' in json.loads(response.content.decode()):
+        return json.loads(response.content.decode())['target_record']
+    else:
+        return None
 
 def get_target_ids():
     url = '%s/targets' % HOST

@@ -3,9 +3,13 @@ from hlar.models import Target
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserChangeForm
 # from django.contrib.auth.models import User
 from hlar.models import User
+# from django.contrib.auth.hashers import make_password
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.forms.widgets import PasswordInput, TextInput
 
 class TargetForm(ModelForm):
     """ターゲットのフォーム"""
@@ -25,14 +29,21 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2' )
 
 
-class UserForm(ModelForm):
+class UserForm(UserChangeForm):
     """user form"""
 
     password = forms.CharField(
         widget=forms.PasswordInput(),
         min_length=8,
         label="パスワード",
+        required=False,
         )
+
+    # is_active = forms.ModelChoiceField(
+    #     queryset={'all':'all', 'key':'value'},
+    #     widget=forms.RadioSelect,
+    #     label="アクティブ",
+    # )
 
 
     # license = forms.ModelMultipleChoiceField(
@@ -63,7 +74,7 @@ class UserForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', )
+        fields = ('id','email', 'username', 'password', )
 
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -77,3 +88,14 @@ class UserForm(ModelForm):
     #         user = self.cleaned_data['user']
     #         user.email =
     #         user.save()
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label="ユーザー名", max_length=30,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
+    password = forms.CharField(label="パスワード", max_length=30,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password'}))
+
+# class RFPAuthForm(AuthenticationForm):
+#     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))
+#     password = forms.CharField(widget=PasswordInput(attrs={'class': 'span2','placeholder':'Password'}))

@@ -16,8 +16,10 @@ from pprint import pprint
 from hlar.models import User, Target, Oauth as OauthTbl
 from django.db.models import Count
 from hlar.forms import TargetForm, UserForm
-from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target
+from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
 from hlar.twitterAPI import get_twitter_account
+
+from hlar.models import DEFAULT_PASS
 
 
 import oauth2 as oauth
@@ -93,15 +95,25 @@ def hlar_top(request):
     #     print(request.session._session_cache['_auth_user_id'])  #idが取れてる。
 
     # user = authenticate(username='aaa@test.jp', password='masahi0205')
-    print('aaaaaa')
     # pprint(vars(user))
     # print(type(user))
     #
 
+
     if request.user.is_authenticated() == False:
         try:
+            # oauth で返ってきた時はsessionにid が入っているのでそれを取得する。
             user = User.objects.filter(id=request.session._session_cache['_auth_user_id'])[0]
-            request.user = user
+
+            print(user.email)
+            print(DEFAULT_PASS)
+
+            user_auth = authenticate(username=user.email, password=DEFAULT_PASS)
+            login(request, user_auth)
+
+            # これで一応nameは取れたが根本的にログインが出来ていない。
+            # user = User.objects.filter(id=request.session._session_cache['_auth_user_id'])[0]
+            # request.user = user
         except Exception as e:
             print('error')
 
@@ -418,20 +430,43 @@ def user_edit(request, user_id=None):
     print(user_id)
 
     if request.method == "POST":
+        mode = request.POST["mode"]
+
+        if mode == 'add':
             form = UserForm(data=request.POST)  # ← 受け取ったPOSTデータを渡す
-            if form.is_valid():  # ← 受け取ったデータの正当性確認
-                form.save()
-                # form.user_edit()
-                pass  # ← 正しいデータを受け取った場合の処理
-            else:
-                pass
+
+            print('11111111')
+            print(form)
+        elif mode == 'edit':
+            # blog = Blog.objects.get(hogehoge)
+            user = get_object_or_404(User, pk=user_id)
+            print('asdf')
+            print(user)
+            # form = UserForm(request, user)
+            form = UserForm(request.POST or None, instance=user)
+            print(form)
+
+        # user_entity.clean()
+        # form.clean()
+
+        if form.is_valid():  # ← 受け取ったデータの正当性確認
+            print('save_ok')
+            form.save()
+            msg['success_msg'] = '更新が完了しました。'
+
+            # form = form.save(commit = False)
+            # form.password = make_password(form.cleaned_data['password'])
+
+            # form.user_edit()
+            # pass  # ← 正しいデータを受け取った場合の処理
+        else:
+            pass
     else:         # target_id が指定されていない (追加時)
         if user_id:   # target_id が指定されている (修正時)
             user = get_object_or_404(User, pk=user_id)
         else:
             user = User()
         form = UserForm(instance=user)  # target インスタンスからフォームを作成
-
 
     return render(
         request,
@@ -440,6 +475,7 @@ def user_edit(request, user_id=None):
             'form':form,
             'user_id':user_id,
             'user': request.user,
+            'msg': msg,
         }
     )
 
@@ -491,17 +527,23 @@ def user_edit(request, user_id=None):
 
 
 
-
 @login_required
 def target_list(request):
+
+    # if not request.user:
+    #         return HttpResponseRedirect('/login/?next=%s' % request.path)
+
     # if not request.user.is_authenticated():
     #         return HttpResponseRedirect('/login/?next=%s' % request.path)
 
 #    return HttpResponse('ターゲットの一覧')
     # targets = Target.objects.all().order_by('id')
 
+    print('req_id')
+    print(request.user)
+
     # @ToDo user_idを動的に入れる
-    targets = get_targets_user_id(1)
+    targets = get_targets_user_id(request.user.id)
 
 
     return render(request,
@@ -509,10 +551,13 @@ def target_list(request):
                   {'targets': targets})         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
-    # return HttpResponse('ターゲットの編集')
+    msg = ''
 
     if target_id:   # target_id が指定されている (修正時)
         target = get_object_or_404(Target, pk=target_id)
+
+        print('edit1')
+        pprint(vars(target))
     else:         # target_id が指定されていない (追加時)
         target = Target()
 
@@ -536,20 +581,12 @@ def target_edit(request, target_id=None):
         meta_file_name = request.POST['target_file_name'].replace('.','') + '.txt'
         metaPath = TARGET_FILE_PATH + meta_file_name
 
-        # metaContent = "{\n" \
-        #                 '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
-        #                 '\t"url" : "http://zine.hiliberate.biz/movie/deathro_crazy_for_you.mp4"\n' \
-        #                '}'
-
         contentsFile = request.FILES['contents']
 
         metaContent = "{\n" \
                         '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
                         '\t"url" : "https://test-hlar.s3.amazonaws.com/' + contentsFile.name + '"\n' \
                        '}'
-
-
-
 
         # ファイルが存在していれば削除
         if default_storage.exists(metaPath):
@@ -570,12 +607,25 @@ def target_edit(request, target_id=None):
         ######## ターゲット名
         target_name = request.POST['target_name']
 
-
         ######## Vuforia API で登録
-        response_content = add_target(max_num_results='',
-                                 include_target_data=encMetaFile,
-                                 image=encTargetFile,
-                                 target_name=target_name)
+        if target_id:   # target_id が指定されている (修正時)
+            data = {
+                "name": target_name,
+                "width": 320,
+                "image": encTargetFile,
+                "application_metadata": encMetaFile,
+                "active_flag": 1
+            }
+
+            response_content = update_target(target.vuforia_target_id, data)
+
+        else:         # target_id が指定されていない (追加時)
+            response_content = add_target(max_num_results='',
+                                     include_target_data=encMetaFile,
+                                     image=encTargetFile,
+                                     target_name=target_name)
+
+
 
         print('4444')
         print(response_content)
@@ -631,8 +681,15 @@ def target_edit(request, target_id=None):
             ######## DBに登録
             target.content_name = key_name
             target.img_name = request.POST['target_file_name']
-            target.user_id = 1 #@ToDo 決め打ち
-            target.vuforia_target_id = response_content['target_id']
+
+            if target_id:   # target_id が指定されている (修正時)
+                print('test')
+            else:
+                target.user_id = request.user.id
+                target.view_count = 0
+                target.view_count_limit = 100 #とりあえず100回にしておく @ToDo ここは選べるようにするか？そうなると課金？
+                target.vuforia_target_id = response_content['target_id']
+
 
             # target = form.save(commit=False)
 
@@ -641,7 +698,8 @@ def target_edit(request, target_id=None):
             ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
             default_storage.delete(filePath)    #contents
 
-            return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
+            return redirect('hlar:target_list')
+            # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
             return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
 
@@ -656,11 +714,36 @@ def target_edit(request, target_id=None):
         # GET 時
         form = TargetForm(instance=target)  # target インスタンスからフォームを作成
 
-#    c = Context({"my_name": "Adrian"})
+        if target.vuforia_target_id:
+            vuforia_target = get_target_by_id(target.vuforia_target_id)
+            target.name = vuforia_target['name']
 
-    return render(request, 'hlar/target_edit.html', dict(form=form, target_id=target_id))
+#    c = Context({"my_name": "Adrian"})
+    # print('target.img_name')
+    # print(target.img_name)
+
+    return render(request, 'hlar/target_edit.html', dict(form=form, target_id=target_id, target=target))
 
 def target_del(request, target_id):
+
+    if target_id:   # target_id が指定されている (修正時)
+        target = get_object_or_404(Target, pk=target_id)
+        # pprint(vars(target))
+    else:         # target_id が指定されていない (追加時)
+        return HttpResponse('エラー')
+
+    print('target.vuforia_target_id')
+    print(target.vuforia_target_id)
+    response_content = del_target(target.vuforia_target_id)
+
+    print('response_content')
+    print(response_content)
+
+    if judge_vws_result(response_content['result_code']):
+        return redirect('hlar:target_list')
+    else:
+        return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
+
     return HttpResponse('ターゲットの削除')
 
 def target_upload(request):

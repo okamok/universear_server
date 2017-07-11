@@ -21,13 +21,14 @@ from django.conf import settings
 from hlar.urls import router as hlar_router
 from django.contrib.auth import views as auth_views
 from hlar import views
+from hlar.forms import LoginForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^hlar/', include('hlar.urls')),
+    url(r'^hlar/', include('hlar.urls'), name='hlar_index'),
     url(r'^api/', include(hlar_router.urls)),
 
-    url(r'^login/$', auth_views.login, {'template_name': 'hlar/login.html'}),
+    url(r'^login/$', auth_views.login, {'template_name': 'hlar/login.html', 'authentication_form': LoginForm}),
 
     url('', include('social.apps.django_app.urls', namespace='social')),    # oauth用
     # url('', include('django.contrib.auth.urls', namespace='auth')),

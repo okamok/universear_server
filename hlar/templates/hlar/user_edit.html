@@ -1,13 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}ターゲットの編集{% endblock title %}
+{% block title %}アカウント編集{% endblock title %}
 
 {% block content %}
     <div style="margin-top: 70px;margin-left:20px">
+
+        {% if msg %}
+            {% if 'success_msg' in msg %}
+                <p style="color:blue">{{ msg.success_msg }}</p>
+            {% elif 'error_msg' in msg %}
+                <p style="color:red">{{ msg.error_msg }}</p>
+            {% endif %}
+        {% endif %}
+
         <form action="" method="POST">
             {% csrf_token %}
             {{ form }}
-            <input type="submit" value="送信"/>
+            <input type="submit" value="登録" class="form-control btn-primary" style="width:150px;margin-top:5px"/>
+            <input id="mode" name="mode" type="hidden" value="edit">
         </form>
     </div>
 {% endblock content %}

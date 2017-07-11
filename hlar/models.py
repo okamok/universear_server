@@ -15,6 +15,7 @@ from django.core.validators import validate_email
 
 
 # Create your models here.
+DEFAULT_PASS = 'A2v5BKe8'
 
 
 class Oauth(models.Model):
@@ -72,6 +73,10 @@ class UserManager(BaseUserManager):
         #     raise ValueError('Users must have an email')
         # if not username:
         #     raise ValueError('Users must have an username')
+
+        # passwordが入力されていない場合はデフォルトを設定
+        if not password:
+            password = DEFAULT_PASS
 
         # email = 'test-oka@aaa.com'
         # password = 'masahi0205'
