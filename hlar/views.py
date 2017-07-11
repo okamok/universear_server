@@ -656,6 +656,9 @@ def target_edit(request, target_id=None):
             if default_storage.exists(filePath):
                 default_storage.delete(filePath)
 
+            print("contentsFile")
+            print(contentsFile)
+
             # ファイルを保存
             path = default_storage.save(filePath, ContentFile(contentsFile.read()))
 

@@ -1,4 +1,0 @@
-{
-	"title": "DEATHRO -CRAZY FOR YOU- music video",
-	"url" : "https://test-hlar.s3.amazonaws.com/lowvision.mp4"
-}
