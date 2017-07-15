@@ -29,7 +29,6 @@ python-social-auth==0.3.6
 python-twitter==3.3
 python3-openid==3.1.0
 pytz==2017.2
-PyYAML==3.12
 requests==2.17.3
 requests-oauthlib==0.8.0
 s3transfer==0.1.10
@@ -37,6 +36,5 @@ six==1.10.0
 social-auth-app-django==1.2.0
 social-auth-core==1.4.0
 sqlparse==0.2.3
-twitter-ads==1.2.2
 urllib3==1.21.1
 uWSGI==2.0.15
