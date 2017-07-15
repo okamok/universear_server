@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=tt9c92xn=ddsk05zx!q89wd3+qsgc$l(_d8%aflq$&%&b8#lt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+# DEBUG = False
+#
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -122,16 +122,16 @@ WSGI_APPLICATION = 'composeexample.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_python',
-        'USER': 'root',
-        'PASSWORD':'password',
-        'HOST': 'db',
-        'PORT': 3306,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'test_python',
+#         'USER': 'root',
+#         'PASSWORD':'password',
+#         'HOST': 'db',
+#         'PORT': 3306,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -260,10 +260,31 @@ LOGIN_REDIRECT_URL = '/hlar/'
 AUTH_USER_MODEL = 'hlar.User'
 
 
-SOCIAL_AUTH_TWITTER_KEY = '05WxUGIG4paZZZWj22cZJR6qC'
-SOCIAL_AUTH_TWITTER_SECRET = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '110344682483-fqpd4fkdb42gtc0pf172f61s3gh2lid2.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pxJBS6A7F5qgiavEQNbr0qU8'
+# SOCIAL_AUTH_TWITTER_KEY = '05WxUGIG4paZZZWj22cZJR6qC'
+# SOCIAL_AUTH_TWITTER_SECRET = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
+#
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '110344682483-fqpd4fkdb42gtc0pf172f61s3gh2lid2.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pxJBS6A7F5qgiavEQNbr0qU8'
 
 # FILE_UPLOAD_PERMISSIONS = '0755'
+
+print(os.environ['PYENV'])
+
+if os.environ['PYENV']:
+    if os.environ['PYENV'] == 'develop':
+        try:
+            print('develop settings')
+            from composeexample.dev_settings import *
+        except ImportError:
+            print('develop settings error')
+            pass
+
+    elif os.environ['PYENV'] == 'production':
+        try:
+            print('production settings')
+            from composeexample.production_settings import *
+        except ImportError:
+            print('production settings error')
+            pass
+else:
+    print('elseです')
