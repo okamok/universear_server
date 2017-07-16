@@ -92,7 +92,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 .slider-d{
     display: block;
     width: 100%;
-    height: 550px;
+    height: 500px;
     /*overflow: hidden;*/
 }
 
@@ -300,58 +300,28 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 }
 
-.carousel-fade > .carousel-inner > .item {
-    transition-property: opacity;
+
+
+.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
 }
-
-.carousel-fade > .carousel-inner > .item .active.left .active.right{
-    opacity: 0;
+.carousel-fade .carousel-inner .active {
+  opacity: 1;
 }
-
-.carousel-fade > .carousel-inner > .active .next.left .prev.right{
-    opacity: 1;
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
 }
-
-.carousel-fade > .carousel-inner > .next .prev .active.left .active.right{
-    left: 0;
-    transform: translate3d(0, 0, 0);
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
 }
-
-.carousel-fade > .carousel-control {
-    z-index: 2;
+.carousel-fade .carousel-control {
+  z-index: 2;
 }
-
-
-
-
-/*.carousel-fade {
-    .carousel-inner {
-        .item {
-            transition-property: opacity;
-        }
-
-        .item,
-        .active.left,
-        .active.right {
-            opacity: 0;
-        }
-
-        .active,
-        .next.left,
-        .prev.right {
-            opacity: 1;
-        }
-
-        .next,
-        .prev,
-        .active.left,
-        .active.right {
-            left: 0;
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-    .carousel-control {
-        z-index: 2;
-    }
-}*/
