@@ -287,4 +287,4 @@ if os.environ['PYENV']:
             print('production settings error')
             pass
 else:
-    print('elseです')
+    print('環境変数が設定されていません')
