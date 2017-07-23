@@ -1,3 +1,5 @@
+# import sys
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
@@ -13,6 +15,11 @@ from django.core.validators import EmailValidator
 from django.core.validators import validate_email
 # from hlar.models import JapaneseEmailValidator
 
+from django.contrib import messages
+
+from django.http import HttpResponseRedirect, HttpResponse
+
+from django.db import IntegrityError
 
 # Create your models here.
 DEFAULT_PASS = 'A2v5BKe8'
@@ -87,8 +94,39 @@ class UserManager(BaseUserManager):
                           )
         user.is_active = True
         user.set_password(password)
-        user.save(using=self._db)
-        return user
+
+        print('UserManager')
+        #
+        # user.save(using=self._db)
+
+
+        # user.save(using=self._db)
+        # print('UserManager -1-')
+        # return user
+
+
+        # validation
+        try:
+            user.save(using=self._db)
+            print('UserManager -1-')
+            return user
+        except Exception as e:
+            # print(sys.exc_info()[0])
+
+            # print(e.message)
+            # print(type(e))
+
+            # msg['error_msg'] = e.message
+            #messages.error(request, 'ユーザー登録を完了出来ませんでした。既に登録済の可能性があります。')
+            # return HttpResponseRedirect('/login')
+
+            # raise IntegrityError('エラー')
+
+            return None
+            # return user
+
+
+
 
     def create_superuser(self, username, email, password):
         """
@@ -154,7 +192,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     email = models.EmailField(verbose_name='メールアドレス',
-                            #   unique=True,
+                              unique=True,
                               null=True,
                               default=None)
 

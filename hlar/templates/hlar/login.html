@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
 
+{% if messages %}
+<div style="margin-left:20px">
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+<div style="margin-top: 70px;margin-left:20px">
+{% endif %}
 
 {% if form.errors %}
 <p style="color:red;">メールアドレスとパスワードが一致しません。</p>
@@ -36,5 +45,9 @@
 
 </form>
 
+
+{% if not messages %}
 </div>
+{% endif %}
+
 {% endblock %}

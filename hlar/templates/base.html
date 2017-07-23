@@ -40,6 +40,9 @@
         {% block extrahead %}{% endblock %}
     </head>
     <body>
+        {% load i18n %}
+
+
         <!-- <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -74,18 +77,21 @@
                     <a class="navbar-brand" href="{% url 'hlar:hlar_top' %}">UNIVERSE</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="{% url 'hlar:target_list' %}">how to use</a></li>
+                    <!-- <ul class="nav navbar-nav">
+                        <li class="active"><a href="{% url 'hlar:target_list' %}">{% trans "使い方" %}</a></li>
                         <li ><a href="{% url 'hlar:target_list' %}">about us</a></li>
-                    </ul>
+                    </ul> -->
                     <ul class="nav navbar-nav nav-menu-1">
+                        <li class="active"><a href="{% url 'hlar:target_list' %}">{% trans "使い方" %}</a></li>
+                        <li><a href="{% url 'hlar:target_list' %}">{% trans "このサイトについて" %}</a></li>
+
                         {% if user.is_authenticated %}
 
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} 様<span class="caret"></span></a>
                           <ul class="dropdown-menu menu-down">
-                            <li><a href="{% url 'hlar:user_edit' user_id=user.id %}">アカウント設定</a></li>
-                            <li><a href="{% url 'hlar:target_list' %}">ターゲット管理</a></li>
+                            <li><a href="{% url 'hlar:user_edit' user_id=user.id %}">{% trans "アカウント設定" %}</a></li>
+                            <li><a href="{% url 'hlar:target_list' %}">{% trans "ターゲット管理" %}</a></li>
                           </ul>
                         </li>
 
@@ -94,16 +100,35 @@
                         </li> -->
 
                         <li>
-                            <a href="/logout">logout</a>
+                            <a href="/logout">{% trans "ログアウト" %}</a>
                         </li>
                         {% else %}
                         <li>
-                            <a href="/login">login</a>
+                            <a href="/login">{% trans "ログイン" %}</a>
                         </li>
                         <li>
-                            <a href="/signup">sign up</a>
+                            <a href="/signup">{% trans "サインアップ" %}</a>
                         </li>
                         {% endif %}
+
+                        <li style="padding-top:8px">
+                            <span>
+                              <form id="form_lang" name="form_lang" action="{% url 'hlar:set_language' %}" method="post">
+                            	{% csrf_token %}
+                            	<input name="next" type="hidden" value="{{ redirect_to }}" />
+                            	<select name="language"  class="form-control" style="width:100px" id="lang_sel">
+                            	{% get_available_languages as LANGUAGES %}
+                            	{% get_language_info_list for LANGUAGES as languages %}
+                            	{% for language in languages %}
+                                {% if language.code == 'ja' or language.code == 'en' %}
+                            	<option value="{{ language.code }}" {% if request.LANGUAGE_CODE == language.code %}selected{% endif%}>{{ language.name_local }} ({{ language.code }})</option>
+                                {% endif%}
+                            	{% endfor %}
+                            	</select>
+                            	<!-- <input type="submit" value="Go" style="block:inline;width:70px" class="form-control" /> -->
+                              </form>
+                            </span>
+                        </li>
 
                         <!-- <li style="padding-top:10px">
                             <input type="text" class="form-control input-sm" style="width:200px;float:left">
@@ -179,7 +204,14 @@
             </div>
           </div>
         </div>
-
-
     </body>
+
+    <script>
+    $(function(){
+        // ここにプログラムを記述
+        $('#lang_sel').change(function() {
+            document.form_lang.submit();
+        });
+    });
+    </script>
 </html>

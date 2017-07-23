@@ -1,4 +1,7 @@
-DEBUG = True
+# DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ["*"]
+
 
 DATABASES = {
     'default': {

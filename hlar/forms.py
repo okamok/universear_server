@@ -35,7 +35,7 @@ class UserForm(UserChangeForm):
     password = forms.CharField(
         widget=forms.PasswordInput(),
         min_length=8,
-        label="パスワード",
+        label="パスワード(変更時のみ入力して下さい)",
         required=False,
         )
 
@@ -94,7 +94,7 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(label="ユーザー名", max_length=30,
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="パスワード", max_length=30,
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password'}))
+                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
 
 # class RFPAuthForm(AuthenticationForm):
 #     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))

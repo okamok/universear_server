@@ -32,6 +32,7 @@ from hlar.serializer import UserSerializer, TargetSerializer
 # from boto3.s3.key import Key
 # from boto3.s3.connection import S3Connection
 import boto3
+from boto3.s3.transfer import S3Transfer
 
 import urllib
 import twitter
@@ -49,6 +50,15 @@ from django.contrib.auth.forms import UserCreationForm
 # from django.shortcuts import render, redirect
 from hlar.forms import SignUpForm
 
+import social_django
+
+from django.contrib.auth.hashers import make_password
+
+from django.contrib import messages
+
+from django.utils.translation import ugettext as _
+
+from django.core.mail import EmailMessage
 
 S3_USER = 's3user'
 S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
@@ -76,6 +86,8 @@ consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
 
 
 def hlar_top(request):
+
+    # EmailMessage(u'件名', u'本文', to = ['hiliberate2013@gmail.com']).send()
 
     # access_token, access_token_secret = callback(request)
     #
@@ -136,6 +148,7 @@ def hlar_top(request):
                   'hlar/hlar_top.html',     # 使用するテンプレート
                   {
                     'user': request.user,
+                    'msg': _("使い方")
                   }         # テンプレートに渡すデータ
                   )
 
@@ -440,7 +453,7 @@ def user_edit(request, user_id=None):
         elif mode == 'edit':
             # blog = Blog.objects.get(hogehoge)
             user = get_object_or_404(User, pk=user_id)
-            print('asdf')
+            print('123456')
             print(user)
             # form = UserForm(request, user)
             form = UserForm(request.POST or None, instance=user)
@@ -451,15 +464,39 @@ def user_edit(request, user_id=None):
 
         if form.is_valid():  # ← 受け取ったデータの正当性確認
             print('save_ok')
-            form.save()
-            msg['success_msg'] = '更新が完了しました。'
 
-            # form = form.save(commit = False)
-            # form.password = make_password(form.cleaned_data['password'])
+            if mode == 'add':
+                form.save()
+                msg['success_msg'] = '更新が完了しました。'
+
+            elif mode == 'edit':
+                print('password')
+                print(request.POST['password'])
+                if request.POST['password']:
+                    user.set_password(request.POST['password'])
+
+                form = form.save()
+
+                if request.POST['password']:
+                    # msg['success_msg'] = 'パスワードを変更したので改めてログインして下さい。'
+
+                    messages.success(request, 'パスワードを変更したので改めてログインして下さい。')
+
+                    print('messages')
+                    pprint(vars(messages))
+
+                    return HttpResponseRedirect('/login')
+                else:
+                    msg['success_msg'] = '更新が完了しました。'
+
+                user = get_object_or_404(User, pk=user_id)
+                form = UserForm(instance=user)  # target インスタンスからフォームを作成
+
 
             # form.user_edit()
             # pass  # ← 正しいデータを受け取った場合の処理
         else:
+            print('save_error')
             pass
     else:         # target_id が指定されていない (追加時)
         if user_id:   # target_id が指定されている (修正時)
@@ -688,7 +725,8 @@ def target_edit(request, target_id=None):
             print(key_name)
 
             client = boto3.client('s3')
-            client.upload_file(filePath, bucket_name, key_name)
+            transfer = S3Transfer(client)
+            transfer.upload_file(filePath, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
 
             #s3にアップした動画を公開する
             # s3 = boto3.resource('s3')
@@ -699,6 +737,12 @@ def target_edit(request, target_id=None):
             s3 = boto3.resource('s3')
             object_acl = s3.ObjectAcl(bucket_name, key_name)
             response = object_acl.put(ACL='public-read')
+
+            # #s3の動画のcontent-type をセットする
+            # s3 = boto3.resource('s3')
+            # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
+            # response = s3_object.put(ContentType='string')
+
 
             ######## DBに登録
             target.content_name = key_name
@@ -969,3 +1013,40 @@ class TargetViewSet(viewsets.ModelViewSet):
         # else:
         #     return Response(serializer.errors,
         #                     status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+# package のoverrideテスト
+@classmethod
+def create_user(cls, *args, **kwargs):
+
+    print('override!!!!')
+
+    username_field = cls.username_field()
+    if 'username' in kwargs and username_field not in kwargs:
+        kwargs[username_field] = kwargs.pop('username')
+    try:
+        if hasattr(transaction, 'atomic'):
+            # In Django versions that have an "atomic" transaction decorator / context
+            # manager, there's a transaction wrapped around this call.
+            # If the create fails below due to an IntegrityError, ensure that the transaction
+            # stays undamaged by wrapping the create in an atomic.
+            with transaction.atomic():
+                user = cls.user_model().objects.create_user(*args, **kwargs)
+        else:
+            user = cls.user_model().objects.create_user(*args, **kwargs)
+    except IntegrityError:
+        # User might have been created on a different thread, try and find them.
+        # If we don't, re-raise the IntegrityError.
+        exc_info = sys.exc_info()
+        # If email comes in as None it won't get found in the get
+        if kwargs.get('email', True) is None:
+            kwargs['email'] = ''
+        try:
+            user = cls.user_model().objects.get(*args, **kwargs)
+        except cls.user_model().DoesNotExist:
+            six.reraise(*exc_info)
+    return user
+
+social_django.storage.DjangoUserMixin.create_user = create_user

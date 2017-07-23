@@ -9,6 +9,8 @@
 
 {% block content %}
 
+{% load i18n %}
+
 <div class="content-wrap" style="margin-top: 20px;">
 
 <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
@@ -27,9 +29,8 @@
                 <h2>welcome to UNIVERSE</h2>
 
                 <p style="color:white;font-size:20px;">
-                    this is revolution of AR app.<br>
-                    you can start very soon.
-                    please push button belowe.
+                    {% trans '新しいARアプリ「UNIVERSE」へようこそ' %}<br>
+                    {% trans 'すぐに無料であなただけのARコンテンツが作成できます。' %}
                 </p>
                 <button type="button" class="btn btn-primary">get start</button>
             </div>
@@ -99,15 +100,15 @@
 
     <h3 class="page-header">TOP TARGETS</h3>
 
-    <img src="{% static "images/" %}deathro_crazy_for_you.jpg" class="target-list" />
-    <img src="{% static "images/" %}lowvision.jpg" class="target-list" />
-    <img src="{% static "images/" %}nlos_hishatai.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
-    <img src="{% static "images/" %}4_use.jpg" class="target-list" />
+    <div class="step-box"><img src="{% static "images/" %}deathro_crazy_for_you.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}lowvision.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}nlos_hishatai.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
 
     <div style="clear:both"></div>
 

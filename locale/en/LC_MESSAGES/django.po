@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-18 09:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: hlar/models.py:253 hlar/models.py:264
+#, python-format
+msgid "%(value)s is not an even number"
+msgstr ""
+
+msgid "使い方"
+msgstr "How To Use"
+
+msgid "このサイトについて"
+msgstr "About Us"
+
+msgid "ログイン"
+msgstr "Login"
+
+msgid "ログアウト"
+msgstr "LogOut"
+
+msgid "サインアップ"
+msgstr "Sign Up"
+
+msgid "新しいARアプリ「UNIVERSE」へようこそ"
+msgstr "this is revolution of AR app."
+
+msgid "すぐに無料であなただけのARコンテンツが作成できます。"
+msgstr "you can start very soon.please push button belowe."

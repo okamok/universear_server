@@ -1,8 +1,7 @@
 from django.conf.urls import url
-
 from . import views
-
 from django.conf import settings
+from django.conf.urls import url, include
 
 from rest_framework import routers
 from hlar.views import UserViewSet, TargetViewSet
@@ -30,6 +29,8 @@ urlpatterns = [
 
     url(r'^user/manage/$', views.hlar_user_manage, name='hlar_user_manage'),   # oauth callback
 
+
+    url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
 
 
     # url(r'^$', views.index, name='index'),

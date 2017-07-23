@@ -28,7 +28,15 @@ SECRET_KEY = '=tt9c92xn=ddsk05zx!q89wd3+qsgc$l(_d8%aflq$&%&b8#lt'
 #
 # ALLOWED_HOSTS = []
 
+ADMINS = [('universe_admin', 'okamok108@gmail.com'),]
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'okamok108@gmail.com'
+EMAIL_HOST_PASSWORD = 'Break!0205'
+EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+SERVER_EMAIL = 'error_info@universe.com'
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,6 +59,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
+    'social.pipeline.mail.mail_validation', # これを入れるとメールアドレスが重複していてもエラーとはならずTOPに飛ぶようになる。
+    'social.pipeline.social_auth.associate_by_email', # これを入れるとメールアドレスが重複していてもエラーとはならずTOPに飛ぶようになる。
     'social.pipeline.user.create_user', # 認証情報チェック時にユーザーが作成されないようにしたい場合はコメントアウトコメントアウト
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
@@ -79,9 +89,21 @@ AUTHENTICATION_BACKENDS = (
 
 )
 
+# locale
+# LOCALE_PATHS = (
+#     os.path.join(FILE_DIR, 'locale'),
+# )
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+print('LOCALE_PATHS')
+print(LOCALE_PATHS)
+
+
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -288,3 +310,6 @@ if os.environ['PYENV']:
             pass
 else:
     print('環境変数が設定されていません')
+
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

@@ -39,10 +39,20 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
  .bottom_ul li a { color:#FFF;  font-size:12px;}
 
 
+/**** 全体 start ****/
+ .content-wrap {
+     width:100%;
+ }
+
+ .content-wrap .content-top{
+     width:80%;
+     margin:0 auto;
+ }
+/**** 全体 end ****/
 
 
 
-
+/**** top page start ****/
  .step-box {
      float:left;
      width:90%;
@@ -51,7 +61,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
  }
 
  .step-box img {
-     width:80%;
+     width:100%;
      display: block;
      margin-left: auto;
      margin-right: auto;
@@ -67,8 +77,35 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
      margin-right: auto;
  }
 
- /**** nav関連 start ****/
 
+/*PC用の設定*/
+@media screen and (min-width: 768px) {
+     .step-box {
+         /*float:left;*/
+         /*width:250px;*/
+         width:23%;
+         padding:5px;
+         margin-left:10px;
+     }
+
+     .step-box img {
+         width:100%;
+         /*width:250px;
+         height:180px*/
+     }
+
+     .target-list {
+         width:100%;
+         /*float:left;*/
+         margin-left:10px;
+     }
+
+}
+ /**** top page end ****/
+
+
+
+ /**** nav関連 start ****/
 .nav-menu-1 {
 }
 
@@ -95,21 +132,11 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
     }
 
 }
-
 /**** nav関連 end ****/
 
 
 
 /**** slider関連 start ****/
-
-.content-wrap {
-    width:100%;
-}
-
-.content-wrap .content-top{
-    width:90%;
-    margin:0 auto;
-}
 
 .slider-p {
     left:10%;
@@ -232,24 +259,6 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
       margin-bottom:150px;
       text-align:left;
       text-shadow: -2px 2px 3px #808080;
-  }
-
-  .step-box {
-      float:left;
-      width:250px;
-      padding:5px;
-      margin-left:10px;
-  }
-
-  .step-box img {
-      width:250px;
-      height:180px
-  }
-
-  .target-list {
-      width:250px;
-      float:left;
-      margin-left:10px;
   }
 
   .slider-page-l {
