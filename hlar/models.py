@@ -2,26 +2,18 @@
 
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-
-
-from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-import re
-from django.core.validators import EmailValidator
-from django.core.validators import validate_email
-# from hlar.models import JapaneseEmailValidator
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email, EmailValidator
 from django.contrib import messages
-
 from django.http import HttpResponseRedirect, HttpResponse
-
 from django.db import IntegrityError
 
-# Create your models here.
+import re
+
 DEFAULT_PASS = 'A2v5BKe8'
 
 
@@ -76,8 +68,8 @@ class UserManager(BaseUserManager):
         :param password: パスワード
         :return: Userオブジェクト
         """
-        # if not email:
-        #     raise ValueError('Users must have an email')
+        if not email:
+            raise ValueError('Users must have an email')
         # if not username:
         #     raise ValueError('Users must have an username')
 
@@ -96,10 +88,6 @@ class UserManager(BaseUserManager):
         user.set_password(password)
 
         print('UserManager')
-        #
-        # user.save(using=self._db)
-
-
         # user.save(using=self._db)
         # print('UserManager -1-')
         # return user
@@ -153,7 +141,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     class Meta:
         verbose_name = 'ユーザ'
-        verbose_name_plural = 'ユーザ'
+        verbose_name_plural = 'ユーザ達'
 
     def get_short_name(self):
         """
@@ -172,9 +160,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     #     return self.last_name + self.first_name
 
 
+    ######## DB カラム定義
     username = models.CharField(verbose_name='ユーザー名',
                                 # unique=True,
                                 max_length=30)
+
+    email = models.EmailField(verbose_name='メールアドレス',
+                              unique=True,
+                              null=True,
+                              default=None)
+
+    date_joined = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(verbose_name='有効フラグ',
+                                    default=True)
+    is_staff = models.BooleanField(verbose_name='管理サイトアクセス権限',
+                                   default=False)
+
     # username = models.CharField(verbose_name='ユーザID',
     #                             unique=True,
     #                             max_length=30)
@@ -191,19 +192,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     #                           max_length=128)
 
 
-    email = models.EmailField(verbose_name='メールアドレス',
-                              unique=True,
-                              null=True,
-                              default=None)
-
-    date_joined = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(verbose_name='有効フラグ',
-                                    default=True)
-    is_staff = models.BooleanField(verbose_name='管理サイトアクセス権限',
-                                   default=False)
-
-    # USERNAME_FIELD = 'username'
+    ######## ユーザー認証時のIDとなるカラム
     USERNAME_FIELD = 'email'
+
+
     REQUIRED_FIELDS = ['username']
     objects = UserManager()
 
@@ -246,28 +238,31 @@ class Target(models.Model):
     #     abstract = True
 
 
-######## validation
-def validate_even(value):
-    if value % 2 != 0:
-        raise ValidationError(
-            _('%(value)s is not an even number'),
-            params={'value': value},
-        )
-
-def validate_my_email(value):
-    try:
-        # validate_email("foo.bar@baz.qux")
-        validate_email(value)
-    except ValidationError as e:
-        print("oops! wrong email")
-        # raise ValidationError(_('%(value)s is not an even number'),params={'value': value},)
-        raise ValidationError(_('%(value)s is not an even number'),params={'value': value},)
-    else:
-        print("hooray! email is valid")
 
 
-class JapaneseEmailValidator(EmailValidator):
-    user_regex = re.compile(
-        r"(^[-.!#$%&'*+/=?^_`{}|~0-9A-Z]+$"  # dot-atom (\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*を省略
-        r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$)',  # quoted-string
-        re.IGNORECASE)
+
+# ######## validation
+# def validate_even(value):
+#     if value % 2 != 0:
+#         raise ValidationError(
+#             _('%(value)s is not an even number'),
+#             params={'value': value},
+#         )
+#
+# def validate_my_email(value):
+#     try:
+#         # validate_email("foo.bar@baz.qux")
+#         validate_email(value)
+#     except ValidationError as e:
+#         print("oops! wrong email")
+#         # raise ValidationError(_('%(value)s is not an even number'),params={'value': value},)
+#         raise ValidationError(_('%(value)s is not an even number'),params={'value': value},)
+#     else:
+#         print("hooray! email is valid")
+#
+#
+# class JapaneseEmailValidator(EmailValidator):
+#     user_regex = re.compile(
+#         r"(^[-.!#$%&'*+/=?^_`{}|~0-9A-Z]+$"  # dot-atom (\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*を省略
+#         r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$)',  # quoted-string
+#         re.IGNORECASE)

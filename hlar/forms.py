@@ -10,12 +10,24 @@ from hlar.models import User
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
+from registration.forms import RegistrationForm, RegistrationFormTermsOfService, RegistrationFormUniqueEmail
+
 
 class TargetForm(ModelForm):
     """ターゲットのフォーム"""
     class Meta:
         model = Target
         fields = ('content_name', 'vuforia_target_id', 'view_count', )
+
+
+
+class CustomRegistrationForm(RegistrationForm):
+    email = forms.EmailField(max_length=254, help_text='必須項目')
+    # username = forms.CharField(max_length=30, required=True, help_text='Optional.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2' )
 
 
 # class SignUpForm(UserCreationForm):
@@ -35,7 +47,7 @@ class UserForm(UserChangeForm):
     password = forms.CharField(
         widget=forms.PasswordInput(),
         min_length=8,
-        label="パスワード(変更時のみ入力して下さい)",
+        label="パスワード",
         required=False,
         )
 

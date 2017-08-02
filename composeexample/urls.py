@@ -23,6 +23,12 @@ from django.contrib.auth import views as auth_views
 from hlar import views
 from hlar.forms import LoginForm
 
+from hlar.views import UserProfileRegistration
+
+# from registration.views import RegistrationView
+from registration.backends.default.views import RegistrationView
+from hlar.forms import CustomRegistrationForm
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hlar/', include('hlar.urls'), name='hlar_index'),
@@ -37,7 +43,29 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name='signup'),
 
 
-    # url('', include('django.contrib.auth.urls', namespace='auth')),
+    # url(r'^accounts/register/$', UserProfileRegistration.as_view(), name='registration_register'),
+
+    # サインアップ
+    url(r'^accounts/register/$', RegistrationView.as_view(form_class=CustomRegistrationForm), name='registration_register',),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+
+    # パスワードリセット
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
+    url(r'^password/reset/complete/$', auth_views.password_reset_complete, name='password_reset_complete'),
+
+    # パスワード変更
+    url(r'^password/change/$', auth_views.password_change, name='password_change'),
+    url(r'^password/change/done/$', auth_views.password_change_done, name='password_change_done'),
+
+    # url(r'^password/change/$',
+    #     auth_views.PasswordChangeView.as_view(
+    #         success_url=reverse_lazy('auth_password_change_done')),
+    #     name='auth_password_change'),
+
+    # url(r'^password/change/done/$',
+    #     auth_views.PasswordChangeDoneView.as_view(),
+    #     name='auth_password_change_done'),
+
 ]
 
 if settings.DEBUG:

@@ -29,7 +29,6 @@ SECRET_KEY = '=tt9c92xn=ddsk05zx!q89wd3+qsgc$l(_d8%aflq$&%&b8#lt'
 # ALLOWED_HOSTS = []
 
 ADMINS = [('universe_admin', 'okamok108@gmail.com'),]
-
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'okamok108@gmail.com'
@@ -42,6 +41,8 @@ SERVER_EMAIL = 'error_info@universe.com'
 INSTALLED_APPS = [
     'hlar.apps.HlarConfig',
     'django.contrib.admin',
+    'django.contrib.sites', # アクティベーションメール実装時に追加
+    'registration',         # アクティベーションメール実装時に追加
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -126,6 +127,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
@@ -192,10 +194,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-
-STATIC_URL = '/static/'
 
 
 # Default settings
@@ -269,14 +267,10 @@ INTERNAL_IPS = ('127.0.0.1', '122.212.33.66')
 # MEDIA_URL = '/tmp/'
 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/code/static/',
-]
 
 
-LOGIN_ERROR_URL = '/login/'
-LOGIN_URL = '/login/'
+LOGIN_ERROR_URL = '/accounts/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/hlar/'
 
 AUTH_USER_MODEL = 'hlar.User'
@@ -313,3 +307,20 @@ else:
 
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+# staticフォルダ 設定
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/code/static/',
+]
+
+
+# アクティベーションメール実装時に追加
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.

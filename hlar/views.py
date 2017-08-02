@@ -15,7 +15,7 @@ from pprint import pprint
 
 from hlar.models import User, Target, Oauth as OauthTbl
 from django.db.models import Count
-from hlar.forms import TargetForm, UserForm
+from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
 from hlar.twitterAPI import get_twitter_account
 
@@ -60,6 +60,12 @@ from django.utils.translation import ugettext as _
 
 from django.core.mail import EmailMessage
 
+from registration.views import RegistrationView
+from django.contrib.sites.shortcuts import get_current_site
+
+from django.db import IntegrityError
+
+
 S3_USER = 's3user'
 S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
 S3_SECRET_KEY = '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'
@@ -86,6 +92,8 @@ consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
 
 
 def hlar_top(request):
+    current_site = get_current_site(request)
+    print(current_site.domain)
 
     # EmailMessage(u'件名', u'本文', to = ['hiliberate2013@gmail.com']).send()
 
@@ -504,6 +512,13 @@ def user_edit(request, user_id=None):
         else:
             user = User()
         form = UserForm(instance=user)  # target インスタンスからフォームを作成
+
+    # print('aa11')
+    # print(form)
+    #
+    # for field in form:
+    #     print(field.name)
+
 
     return render(
         request,
@@ -1017,36 +1032,94 @@ class TargetViewSet(viewsets.ModelViewSet):
 
 
 
-# package のoverrideテスト
-@classmethod
-def create_user(cls, *args, **kwargs):
+# package のoverrideテスト(これで一応 こっちが実行されるがtransaction がundefinedなどエラーが出るのでコメントアウト)
+# @classmethod
+# def create_user(cls, *args, **kwargs):
+#
+#     print('override!!!!')
+#
+#     username_field = cls.username_field()
+#     if 'username' in kwargs and username_field not in kwargs:
+#         kwargs[username_field] = kwargs.pop('username')
+#     try:
+#         if hasattr(transaction, 'atomic'):
+#             # In Django versions that have an "atomic" transaction decorator / context
+#             # manager, there's a transaction wrapped around this call.
+#             # If the create fails below due to an IntegrityError, ensure that the transaction
+#             # stays undamaged by wrapping the create in an atomic.
+#             with transaction.atomic():
+#                 user = cls.user_model().objects.create_user(*args, **kwargs)
+#         else:
+#             user = cls.user_model().objects.create_user(*args, **kwargs)
+#     except IntegrityError:
+#         # User might have been created on a different thread, try and find them.
+#         # If we don't, re-raise the IntegrityError.
+#         exc_info = sys.exc_info()
+#         # If email comes in as None it won't get found in the get
+#         if kwargs.get('email', True) is None:
+#             kwargs['email'] = ''
+#         try:
+#             user = cls.user_model().objects.get(*args, **kwargs)
+#         except cls.user_model().DoesNotExist:
+#             six.reraise(*exc_info)
+#     return user
+# #これでoverrideを紐付ける。(これが無いoverirdeされない)
+# social_django.storage.DjangoUserMixin.create_user = create_user
 
-    print('override!!!!')
 
-    username_field = cls.username_field()
-    if 'username' in kwargs and username_field not in kwargs:
-        kwargs[username_field] = kwargs.pop('username')
-    try:
-        if hasattr(transaction, 'atomic'):
-            # In Django versions that have an "atomic" transaction decorator / context
-            # manager, there's a transaction wrapped around this call.
-            # If the create fails below due to an IntegrityError, ensure that the transaction
-            # stays undamaged by wrapping the create in an atomic.
-            with transaction.atomic():
-                user = cls.user_model().objects.create_user(*args, **kwargs)
+
+class UserProfileRegistration(RegistrationView):
+    success_url = '/hlar'
+    form_class = RegistrationForm
+
+    def register(self, form):
+        """
+        Implement user-registration logic here.
+
+        """
+        # # UserModel = User()
+        # user = User.objects.create_user(
+        #     username = form.cleaned_data['username'],
+        #     # first_name = form.cleaned_data['first_name'],
+        #     # last_name = form.cleaned_data['last_name'],
+        #     email=form.cleaned_data['email'],
+        #     password=form.cleaned_data['password1']
+        # )
+
+        """
+        Given a username, email address and password, register a new
+        user account, which will initially be inactive.
+        Along with the new ``User`` object, a new
+        ``registration.models.RegistrationProfile`` will be created,
+        tied to that ``User``, containing the activation key which
+        will be used for this account.
+        An email will be sent to the supplied email address; this
+        email should contain an activation link. The email will be
+        rendered using two templates. See the documentation for
+        ``RegistrationProfile.send_activation_email()`` for
+        information about these templates and the contexts provided to
+        them.
+        After the ``User`` and ``RegistrationProfile`` are created and
+        the activation email is sent, the signal
+        ``registration.signals.user_registered`` will be sent, with
+        the new ``User`` as the keyword argument ``user`` and the
+        class of this backend as the sender.
+        """
+        site = get_current_site(self.request)
+
+        if hasattr(form, 'save'):
+            new_user_instance = form.save()
         else:
-            user = cls.user_model().objects.create_user(*args, **kwargs)
-    except IntegrityError:
-        # User might have been created on a different thread, try and find them.
-        # If we don't, re-raise the IntegrityError.
-        exc_info = sys.exc_info()
-        # If email comes in as None it won't get found in the get
-        if kwargs.get('email', True) is None:
-            kwargs['email'] = ''
-        try:
-            user = cls.user_model().objects.get(*args, **kwargs)
-        except cls.user_model().DoesNotExist:
-            six.reraise(*exc_info)
-    return user
+            new_user_instance = (UserModel().objects
+                                 .create_user(**form.cleaned_data))
 
-social_django.storage.DjangoUserMixin.create_user = create_user
+        new_user = self.registration_profile.objects.create_inactive_user(
+            new_user=new_user_instance,
+            site=site,
+            send_email=self.SEND_ACTIVATION_EMAIL,
+            request=self.request,
+        )
+        signals.user_registered.send(sender=self.__class__,
+                                     user=new_user,
+                                     request=self.request)
+        return new_user

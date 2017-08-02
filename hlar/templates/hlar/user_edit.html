@@ -15,7 +15,25 @@
 
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form }}
+
+            {% for field in form %}
+
+                {# パスワードはこのページでは操作不可とする #}
+                {% if field.name != 'password' %}
+                <div class="fieldWrapper">
+                    {{ field.label_tag }} {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% else %}
+                <div class="fieldWrapper">
+                    {{ field.label_tag }} 変更は<a href="/password/change/">こちら</a>
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+
+            {% endfor %}
+
+
             <input type="submit" value="登録" class="form-control btn-primary" style="width:150px;margin-top:5px"/>
             <input id="mode" name="mode" type="hidden" value="edit">
         </form>

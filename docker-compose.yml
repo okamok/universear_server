@@ -16,3 +16,15 @@ web:
   links:
          - db
   privileged: true
+
+# これなら毎回コンテナ削除しても大丈夫だと思われる。
+# web:
+#   build: okamok108/django:1.0.0
+#   command: /bin/bash -c "mkdir /var/log/uwsgi && sudo pip install --no-cache-dir -r requirements.txt && nginx && uwsgi --ini /code/mysite_uwsgi.ini && while true; do date; done"
+#   volumes:
+#          - .:/code
+#   ports:
+#          - "8000:8000"
+#   links:
+#          - db
+#   privileged: true
