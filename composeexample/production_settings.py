@@ -17,3 +17,6 @@ SOCIAL_AUTH_TWITTER_SECRET = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '110344682483-j6lbc554or0gnq3rd17o3k48i3cpbti6.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'C9Qj9F_sy0J0LNwNrnTVha5V'
+
+# エラー「Site matching query does not exist. 」を解消する為
+SITE_ID=2
