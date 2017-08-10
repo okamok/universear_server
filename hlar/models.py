@@ -11,7 +11,7 @@ from django.core.validators import validate_email, EmailValidator
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db import IntegrityError
-
+from django.contrib import admin
 import re
 
 DEFAULT_PASS = 'A2v5BKe8'
@@ -149,7 +149,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         :return: 苗字
         """
-        return self.last_name
+        return self.username
 
     # def get_full_name(self):
     #     """
@@ -204,8 +204,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
-
-
+# 
+# class UserAdmin(admin.ModelAdmin):
+#     list_display = ('username', 'email')
 
 
 
