@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from .models import User, Target
+from .models import User, Target, AccessLog
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -32,3 +32,8 @@ class TargetSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Entry
 #         fields = ('title', 'body', 'created_at', 'status', 'author')
+
+class AccessLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccessLog
+        fields = ('target', 'access_date', 'operating_system', 'device_unique_identifier')

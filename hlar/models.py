@@ -264,13 +264,23 @@ class Payment(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
 
-    # img_name = models.CharField(max_length=100, null=True)
-    # content_name = models.CharField(max_length=100, null=True)
-    # view_count_limit = models.IntegerField(null=True)
-    # view_state = models.PositiveSmallIntegerField(null=True)
-    # created_date = models.DateTimeField(auto_now_add=True)
-    # modified_date = models.DateTimeField(auto_now=True)
 
+class AccessLog(models.Model):
+
+    # ターゲットID target_id
+    target = models.ForeignKey(Target, on_delete=models.DO_NOTHING)
+
+    # アクセス日時 access_date
+    access_date = models.DateTimeField(auto_now_add=True)
+
+    # オペレーションシステム operating_system
+    operating_system = models.CharField(max_length=300, null=True)
+
+    # デバイスID device_unique_identifier
+    device_unique_identifier = models.CharField(max_length=300, null=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
 
 
 
