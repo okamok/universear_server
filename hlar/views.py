@@ -13,7 +13,7 @@ from django.utils import timezone
 
 from pprint import pprint
 
-from hlar.models import User, Target, Oauth as OauthTbl
+from hlar.models import User, Target, Payment, Oauth as OauthTbl
 from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
@@ -65,6 +65,9 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from django.db import IntegrityError
 
+from django.conf import settings
+
+import stripe
 
 S3_USER = 's3user'
 S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
@@ -604,14 +607,24 @@ def target_list(request):
 
 def target_edit(request, target_id=None):
     msg = ''
+    buy_history = 0
 
     if target_id:   # target_id が指定されている (修正時)
         target = get_object_or_404(Target, pk=target_id)
 
-        print('edit1')
-        pprint(vars(target))
+        # 300回の購入履歴があるか確認
+        payments_object = Payment.objects.filter(target_id=str(target_id), brought_view_count=300)
+        print('------payments-------')
+        print(len(payments_object))
+
+        buy_history = len(payments_object)
+        # print('edit1')
+        # pprint(vars(target))
     else:         # target_id が指定されていない (追加時)
         target = Target()
+
+    # buy_history = 0
+
 
     if request.method == 'POST':
         # POST 時
@@ -666,7 +679,7 @@ def target_edit(request, target_id=None):
                 "width": 320,
                 "image": encTargetFile,
                 "application_metadata": encMetaFile,
-                "active_flag": 1
+                "active_flag": 1,
             }
 
             response_content = update_target(target.vuforia_target_id, data)
@@ -768,7 +781,7 @@ def target_edit(request, target_id=None):
             else:
                 target.user_id = request.user.id
                 target.view_count = 0
-                target.view_count_limit = 100 #とりあえず100回にしておく @ToDo ここは選べるようにするか？そうなると課金？
+                target.view_count_limit = 50 #とりあえずデフォルトを50回にしておく @ToDo ここは選べるようにするか？そうなると課金？
                 target.vuforia_target_id = response_content['target_id']
 
 
@@ -803,7 +816,16 @@ def target_edit(request, target_id=None):
     # print('target.img_name')
     # print(target.img_name)
 
-    return render(request, 'hlar/target_edit.html', dict(form=form, target_id=target_id, target=target))
+    # print("-----stripe_pulishable_key-----")
+    # print(settings.STRIPE_PUBLISHABLE_KEY)
+
+    return render(request, 'hlar/target_edit.html', dict(
+        form=form,
+        target_id=target_id,
+        target=target,
+        stripe_pulishable_key=settings.STRIPE_PUBLISHABLE_KEY,
+        buy_history = buy_history,
+    ))
 
 def target_del(request, target_id):
 
@@ -827,6 +849,7 @@ def target_del(request, target_id):
 
     return HttpResponse('ターゲットの削除')
 
+
 def target_upload(request):
     targetFile = request.FILES['target']
 
@@ -848,6 +871,96 @@ def target_upload(request):
 
     dictData = {'filename':targetFile.name, "filelength":82}
     return HttpResponse(json.dumps(dictData))
+
+def target_payment(request):
+    # print('target_payment----1------')
+    # print(request.POST)
+    # pprint(vars(request))
+
+    print(request.POST['targetId'])
+    print(request.POST['amount'])
+    print(request.POST['tokenId'])
+
+    ######## STRIPE の処理
+
+    # Set your secret key: remember to change this to your live secret key in production
+    # See your keys here: https://dashboard.stripe.com/account/apikeys
+    # stripe.api_key = "sk_test_TwoBPzByKz7FZ35aoeBlbuTl"
+    # stripe.api_key = "sk_test_Po5fLfcGq5FnakXbyvB7IIO9"
+    stripe.api_key = settings.STRIPE_API_KEY
+
+
+    # Token is created using Stripe.js or Checkout!
+    # Get the payment token ID submitted by the form:
+    #token = request.form['stripeToken'] # Using Flask
+
+    # Charge the user's card:
+    try:
+        charge = stripe.Charge.create(
+            amount=request.POST['amount'],
+            currency="jpy",
+            description="Example charge",
+            source=request.POST['tokenId'],
+        )
+    except stripe.error.CardError as e:
+        dictData = {'ret':False, 'msg': '決済処理の途中でエラーが発生しました。'}
+        return HttpResponse(json.dumps(dictData))
+
+    # print('----charge----')
+    # print(charge.amount)
+    # print(charge['_previous']['amount'])
+    # pprint(vars(charge))
+
+
+    ######## hlarのDBへINSERT
+    payment = Payment()
+    payment.user_id = request.user.id
+    payment.target_id = request.POST['targetId']
+    payment.amount = request.POST['amount']
+    payment.brought_view_count = request.POST['broughtViewCount']
+    payment.token_id = request.POST['tokenId']
+
+    payment.save()
+
+
+    ######## target.view_count_limit を増やす
+    # 2980/29800 の所定の金額以外では処理しない。
+    target = get_object_or_404(Target, pk=request.POST['targetId'])
+
+    if charge.amount == 2980 or charge.amount == 29800:
+        print("-----target.save------")
+        target.view_count_limit = int(target.view_count_limit) + int(request.POST['broughtViewCount'])
+        print(target.view_count_limit)
+        target.save()
+
+        dictData = {'ret':True}
+        return HttpResponse(json.dumps(dictData))
+    else:
+        dictData = {'ret':False, 'msg': '金額でエラーが発生しました。'}
+        return HttpResponse(json.dumps(dictData))
+
+
+
+    # targetFile = request.FILES['target']
+    #
+    # # 保存パス(ファイル名含む)
+    # filePath = TARGET_FILE_PATH + targetFile.name
+    #
+    # print("filePath")
+    # print(filePath)
+    #
+    # # ファイルが存在していれば削除
+    # if default_storage.exists(filePath):
+    #     default_storage.delete(filePath)
+    #
+    # # ファイルを保存
+    # path = default_storage.save(filePath, ContentFile(targetFile.read()))
+    #
+    # print("path")
+    # print(path)
+    #
+    # dictData = {'filename':targetFile.name, "filelength":82}
+    # return HttpResponse(json.dumps(dictData))
 
 
 def twitter_login(request):

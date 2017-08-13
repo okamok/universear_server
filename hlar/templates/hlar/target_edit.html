@@ -43,8 +43,6 @@
                   Your browser does not support the <code>video</code> element.
                 </video>
             {% endif %}
-
-
             <input type="hidden" name="contents_file_name" value="">
         </div>
 
@@ -54,25 +52,106 @@
         </div>
 
         <div class="form-group">
-        <button type="submit" class="btn btn-primary" style="width:150px">送信</button>
+            <label>再生回数上限</label>
+            <br>
+            {% if target_id %}
+                {{target.view_count_limit}}回
+                <br>
+                <br>
 
-        {% if target_id %}
-        <br><a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:150px;margin-top:5px">削除</a>
-        {% endif %}
+                300回(2,980円)クーポンを購入(一回のみ)<br>
+                {% if buy_history > 0 %}
+                    <button id="btnParchase300_dummey" class="btn btn-primary" style="width:150px" disabled>購入する(300回)</button>
+                {% else %}
+                    <button id="btnParchase300" class="btn btn-primary" style="width:150px">購入する(300回)</button>
+                {% endif %}
 
-        <br><a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:5px">戻る</a>
+                <!-- <form action="/your-server-side-code" method="POST">
+                  <script
+                    src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
+                    data-zip-code = "true"
+                    data-amount="2980"
+                    data-name="UNIVERSE"
+                    data-description="300回再生可能です"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-currency="jpy">
+                  </script>
+                </form> -->
+
+                <br>
+                <br>
+                1,000回(29,800円)クーポンを購入<br>
+                <button id="btnParchase1000" class="btn btn-primary" style="width:150px">購入する(1000回)</button>
+
+                <!-- <form action="/your-server-side-code" method="POST">
+                  <script
+                    src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
+                    data-zip-code = "true"
+                    data-amount="29800"
+                    data-name="UNIVERSE"
+                    data-description="1000回再生可能です"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-currency="jpy">
+                  </script>
+                </form> -->
+                <br>
+                ※ 10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。
+            {% else %}
+                <span id='span_view_count_limit'>50回(free)</span>
+                <br>
+                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンを購入下さい。
+            {% endif %}
+            <input type="hidden" name="hid_view_count_limit" value="50">
+
+            <!-- <input type="radio" name="view_count_limit" value="50"> 50回
+            <input type="radio" name="view_count_limit" value="1000"> 1,000回 -->
 
         </div>
+
+        {% if target_id %}
+        <div class="form-group">
+            <label>現在の再生済回数</label><br>
+            {{target.view_count}}回
+        </div>
+        {% endif %}
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" style="width:150px">送信</button>
+
+            {% if target_id %}
+            <br><a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:150px;margin-top:5px">削除</a>
+            {% endif %}
+
+            <br><a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:5px">戻る</a>
+        </div>
+
+
+
     </form>
 
     </div>
 </div>
 
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+
+
+
 <script>
+
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
 $(function() {
 
     $("input[name='target']").change(function(){
-
         var formData = new FormData($('#uploadForm')[0]);
         formData.append('other_data', 999);
 
@@ -96,6 +175,125 @@ $(function() {
          });
     });
 });
+
+var targetId = {{ target_id }};
+var amount = 0;
+var userId = {{ user.id }};
+var brought_view_count = 0;
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+var handler = StripeCheckout.configure({
+  // key: 'pk_test_kq2QUHQQbfbIiz6RdJEbj9DU',
+  // key: 'pk_test_Qf9hdfU6fy6sKc09jZ4hKH5T',
+  key: "{{stripe_pulishable_key}}",
+
+  // image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  image: '{% static "images/" %}hl_icon.jpg',
+  locale: 'auto',
+  token: function(token) {
+    // You can access the token ID with `token.id`.
+    // Get the token ID to your server-side code for use.
+    var formData = {};
+    formData['targetId'] = targetId;
+    formData['amount'] = amount;
+    formData['tokenId'] = token.id;
+
+
+    // $.ajaxSetup({
+    //     beforeSend: function(xhr, settings) {
+    //         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    //             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    //         }
+    //     }
+    // });
+
+    $.ajax({
+         url: "{% url 'hlar:target_payment' %}",
+         type: 'post',
+         data: {
+                'targetId':targetId,
+                'amount':amount,
+                'tokenId':token.id,
+                'broughtViewCount':brought_view_count,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+        },
+        //  processData: false,
+        //  contentType: false,
+         timeout: 10000
+     }).done(function (json, statusText, jqXHR) {
+        console.log('done');
+        ret = JSON.parse(json);
+
+        if (ret.ret) {
+            alert('正常に処理が完了しました。');
+            location.reload();
+        } else {
+            alert(ret.msg);
+        }
+
+        $("input[name='target_file_name']").val(ret.filename);
+
+     }).fail(function (jqXHR, statusText, errorThrown) {
+         console.log('fail');
+     }).then(function () {
+        //$('#uploadForm').remove();
+     });
+
+  }
+});
+
+{% if buy_history == 0 %}
+
+document.getElementById('btnParchase300').addEventListener('click', function(e) {
+  // Open Checkout with further options:
+  handler.open({
+    name: 'UNIVERSE',
+    description: '300回再生可能です。',
+    currency: 'jpy',
+    amount: 2980,
+    opened: function() {
+    	amount = 2980;
+        brought_view_count = 300;
+    },
+  });
+  e.preventDefault();
+});
+
+{% endif %}
+
+
+document.getElementById('btnParchase1000').addEventListener('click', function(e) {
+  // Open Checkout with further options:
+  handler.open({
+    name: 'UNIVERSE',
+    description: '1000回再生可能です。',
+    currency: 'jpy',
+    amount: 29800,
+    opened: function() {
+    	amount = 29800;
+        brought_view_count = 1000;
+    },
+  });
+  e.preventDefault();
+});
+
+
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  handler.close();
+});
+
+
+
+function setStripeExtraParam (){
+
+}
+
 </script>
 
 

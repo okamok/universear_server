@@ -22,15 +22,17 @@ urlpatterns = [
 
     # user
     url(r'^user/add/$', views.user_add, name='user_add'),
-
     url(r'^user/edit/(?P<user_id>\d+)/$', views.user_edit, name='user_edit'),
 
     # url(r'^login/twitter/$', views.twitter_login, name='twitter_login'),   # twitter ログイン
 
     url(r'^user/manage/$', views.hlar_user_manage, name='hlar_user_manage'),   # oauth callback
 
-
+    # 多言語対応
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
+
+    # 決済用
+    url(r'^target/payment/$', views.target_payment, name='target_payment'),  # 登録
 
 
     # url(r'^$', views.index, name='index'),
