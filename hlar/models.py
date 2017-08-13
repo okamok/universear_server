@@ -204,7 +204,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
-# 
+#
 # class UserAdmin(admin.ModelAdmin):
 #     list_display = ('username', 'email')
 
@@ -237,6 +237,39 @@ class Target(models.Model):
 
     # class Meta:
     #     abstract = True
+
+
+
+
+class Payment(models.Model):
+    # ユーザーID user_id
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # 決済日時 payment_date
+    payment_date = models.DateTimeField(auto_now_add=True)
+
+    # ターゲットID target_id
+    target = models.ForeignKey(Target, on_delete=models.CASCADE)
+
+    # 金額 amount
+    amount = models.IntegerField(null=True)
+
+    # 購入回数 brought_view_count
+    brought_view_count = models.IntegerField(null=True)
+
+    # トークンID token_id
+    token_id = models.CharField(max_length=200, null=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+
+    # img_name = models.CharField(max_length=100, null=True)
+    # content_name = models.CharField(max_length=100, null=True)
+    # view_count_limit = models.IntegerField(null=True)
+    # view_state = models.PositiveSmallIntegerField(null=True)
+    # created_date = models.DateTimeField(auto_now_add=True)
+    # modified_date = models.DateTimeField(auto_now=True)
 
 
 
