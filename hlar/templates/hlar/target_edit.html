@@ -29,7 +29,7 @@
             <label>ターゲット画像</label>
             <input type="file" name="target" class="form-control" style="width:300px">
             {% if target.img_name %}
-                <img src="{% static "images/" %}{{target.img_name}}"  width="200px"/>
+                <img src="{{s3_FQDN}}{{target.img_name}}"  width="200px"/>
             {% endif %}
 
             <input type="hidden" name="target_file_name" value="">
@@ -39,7 +39,7 @@
             <label>CONTENTS</label>
             <input type="file" name="contents" class="form-control" style="width:300px">
             {% if target.content_name %}
-                <video style="width:300px" src="https://test-hlar.s3.amazonaws.com/{{target.content_name}}" controls>
+                <video style="width:300px" src="{{s3_FQDN}}{{target.content_name}}" controls>
                   Your browser does not support the <code>video</code> element.
                 </video>
             {% endif %}
@@ -175,6 +175,11 @@ $(function() {
          });
     });
 });
+
+
+
+
+
 
 var targetId = {{ target_id }};
 var amount = 0;
