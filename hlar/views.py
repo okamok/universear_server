@@ -634,10 +634,39 @@ def target_edit(request, target_id=None):
         # POST 時
 
         ######## ターゲットファイル
-        filePath = TARGET_FILE_PATH + request.POST['target_file_name']
+        #### まず一時的にサーバーに保存
+        # 保存パス(ファイル名含む)
+        targetFile = request.FILES['target']
+        filePathTarget = TARGET_FILE_PATH + targetFile.name
+
+        print("filePathTarget")
+        print(filePathTarget)
+
+        # ファイルが存在していれば削除
+        if default_storage.exists(filePathTarget):
+            default_storage.delete(filePathTarget)
+
+        try:
+            # ファイルを保存
+            destination = open(filePathTarget, 'wb+')
+            for chunk in targetFile.chunks():
+                destination.write(chunk)
+            destination.close()
+
+        except Exception as e:
+            print ('=== エラー内容 ===')
+            print ('type:' + str(type(e)))
+            print ('args:' + str(e.args))
+            print ('message:' + e.message)
+            print ('e自身:' + str(e))
+
+
+
+
+        # filePath = TARGET_FILE_PATH + request.POST['target_file_name']
 
         # file読み込み
-        with open(filePath, 'rb') as f:
+        with open(filePathTarget, 'rb') as f:
             contents = f.read()
 
         # base64でencode
@@ -647,7 +676,7 @@ def target_edit(request, target_id=None):
 
         ######## meta テキスト
         #### テキスト作成
-        meta_file_name = request.POST['target_file_name'].replace('.','') + '.txt'
+        meta_file_name = targetFile.name.replace('.','') + '.txt'
         metaPath = TARGET_FILE_PATH + meta_file_name
 
         contentsFile = request.FILES['contents']
@@ -755,15 +784,15 @@ def target_edit(request, target_id=None):
 
 
             ######## S3にターゲット(image)を保存
-            key_name_target = request.POST['target_file_name']
-            transfer.upload_file(filePath, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+            key_name_target = targetFile.name
+            transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
             object_acl = s3.ObjectAcl(bucket_name, key_name_target)
             response = object_acl.put(ACL='public-read')
 
 
             ######## DBに登録
             target.content_name = key_name
-            target.img_name = request.POST['target_file_name']
+            target.img_name = targetFile.name
 
             if target_id:   # target_id が指定されている (修正時)
                 print('test')
@@ -779,7 +808,7 @@ def target_edit(request, target_id=None):
             target.save()
 
             ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-            default_storage.delete(filePath)            #target(image)
+            default_storage.delete(filePathTarget)      #target(image)
             default_storage.delete(metaPath)            #meta
             default_storage.delete(filePathContents)    #contents
 
