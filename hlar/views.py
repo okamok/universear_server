@@ -69,9 +69,9 @@ from django.conf import settings
 
 import stripe
 
-S3_USER = 's3user'
-S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
-S3_SECRET_KEY = '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'
+# S3_USER = 's3user'
+# S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
+# S3_SECRET_KEY = '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'
 
 SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
@@ -92,6 +92,10 @@ authenticate_url = 'http://twitter.com/oauth/authenticate'
 consumer_key = '05WxUGIG4paZZZWj22cZJR6qC'
 consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
 
+
+# bucket_name = 'test-hlar'
+bucket_name = 'hlar-test'
+s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
 
 def hlar_top(request):
@@ -603,7 +607,9 @@ def target_list(request):
 
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
-                  {'targets': targets})         # テンプレートに渡すデータ
+                  {'targets': targets,
+                   's3_FQDN': s3_FQDN
+                  })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
     msg = ''
@@ -622,8 +628,6 @@ def target_edit(request, target_id=None):
         # pprint(vars(target))
     else:         # target_id が指定されていない (追加時)
         target = Target()
-
-    # buy_history = 0
 
 
     if request.method == 'POST':
@@ -650,7 +654,7 @@ def target_edit(request, target_id=None):
 
         metaContent = "{\n" \
                         '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
-                        '\t"url" : "https://test-hlar.s3.amazonaws.com/' + contentsFile.name + '"\n' \
+                        '\t"url" : "' + s3_FQDN + contentsFile.name + '"\n' \
                        '}'
 
         # ファイルが存在していれば削除
@@ -690,49 +694,27 @@ def target_edit(request, target_id=None):
                                      image=encTargetFile,
                                      target_name=target_name)
 
-
-
         print('4444')
         print(response_content)
 
-        # if response_content['result_code'] == 'TargetNameExist'
-        #
-        # else :
-
-        # if status == 200:
-        #     print(query_response)
-        #     # sys.exit(0)
-        # else:
-        #     print(status)
-        #     print(query_response)
-        #     # sys.exit(status)
-
         if judge_vws_result(response_content['result_code']):
-            ######## S3に動画を保存
+
+            ######## S3にコンテンツ(動画)を保存
 
             #### まず一時的にサーバーに保存
             # 保存パス(ファイル名含む)
-            filePath = TARGET_FILE_PATH + contentsFile.name
+            filePathContents = TARGET_FILE_PATH + contentsFile.name
 
-            print("filePath")
-            print(filePath)
+            print("filePathContents")
+            print(filePathContents)
 
             # ファイルが存在していれば削除
-            if default_storage.exists(filePath):
-                default_storage.delete(filePath)
-
-            # print("contentsFile.read()")
-            # print(contentsFile.read())
-            #
-            # print("ContentFile(contentsFile.read())")
-            # print(ContentFile(contentsFile.read()))
+            if default_storage.exists(filePathContents):
+                default_storage.delete(filePathContents)
 
             try:
                 # ファイルを保存
-                # path = default_storage.save(filePath, ContentFile(contentsFile.read()))
-
-                # ファイルを保存
-                destination = open(filePath, 'wb+')
+                destination = open(filePathContents, 'wb+')
                 for chunk in contentsFile.chunks():
                     destination.write(chunk)
                 destination.close()
@@ -744,17 +726,15 @@ def target_edit(request, target_id=None):
                 print ('message:' + e.message)
                 print ('e自身:' + str(e))
 
-
-
-            bucket_name = 'test-hlar'
             key_name = contentsFile.name
 
             print("key_name")
             print(key_name)
 
+            #### S3にアップロード
             client = boto3.client('s3')
             transfer = S3Transfer(client)
-            transfer.upload_file(filePath, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
+            transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
 
             #s3にアップした動画を公開する
             # s3 = boto3.resource('s3')
@@ -762,6 +742,7 @@ def target_edit(request, target_id=None):
             # obj = bucket.Object(key_name)
             # obj.
 
+            # アップしたコンテンツを公開状態にする
             s3 = boto3.resource('s3')
             object_acl = s3.ObjectAcl(bucket_name, key_name)
             response = object_acl.put(ACL='public-read')
@@ -770,6 +751,14 @@ def target_edit(request, target_id=None):
             # s3 = boto3.resource('s3')
             # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
             # response = s3_object.put(ContentType='string')
+
+
+
+            ######## S3にターゲット(image)を保存
+            key_name_target = request.POST['target_file_name']
+            transfer.upload_file(filePath, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+            object_acl = s3.ObjectAcl(bucket_name, key_name_target)
+            response = object_acl.put(ACL='public-read')
 
 
             ######## DBに登録
@@ -790,11 +779,14 @@ def target_edit(request, target_id=None):
             target.save()
 
             ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-            default_storage.delete(filePath)    #contents
+            default_storage.delete(filePath)            #target(image)
+            default_storage.delete(metaPath)            #meta
+            default_storage.delete(filePathContents)    #contents
 
             return redirect('hlar:target_list')
             # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
+            # エラー時
             return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
 
 
@@ -819,13 +811,17 @@ def target_edit(request, target_id=None):
     # print("-----stripe_pulishable_key-----")
     # print(settings.STRIPE_PUBLISHABLE_KEY)
 
-    return render(request, 'hlar/target_edit.html', dict(
-        form=form,
-        target_id=target_id,
-        target=target,
-        stripe_pulishable_key=settings.STRIPE_PUBLISHABLE_KEY,
-        buy_history = buy_history,
-    ))
+    return render(
+        request,
+        'hlar/target_edit.html',
+        dict(
+            form = form,
+            target_id = target_id,
+            target = target,
+            stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+            buy_history = buy_history,
+            s3_FQDN = s3_FQDN,
+        ))
 
 def target_del(request, target_id):
 

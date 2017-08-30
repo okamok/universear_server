@@ -37,9 +37,9 @@ table {
             <td>
                 {{ target.name }}<br>
 
-                <img src="{% static "images/" %}{{target.img_name}}" style="margin-bottom:5px" width="100px"/><br>
+                <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-bottom:5px" width="100px"/><br>
 
-                <video style="width:200px" src="https://test-hlar.s3.amazonaws.com/{{target.content_name}}" controls>
+                <video style="width:200px" src="{{s3_FQDN}}{{target.content_name}}" controls>
                   Your browser does not support the <code>video</code> element.
                 </video>
             </td>
