@@ -13,7 +13,7 @@ from django.utils import timezone
 
 from pprint import pprint
 
-from hlar.models import User, Target, Payment, Oauth as OauthTbl
+from hlar.models import User, Target, Payment, AccessLog, Oauth as OauthTbl
 from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
@@ -27,7 +27,7 @@ import django_filters
 from rest_framework import viewsets, filters
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
-from hlar.serializer import UserSerializer, TargetSerializer
+from hlar.serializer import UserSerializer, TargetSerializer, AccessLogSerializer
 
 # from boto3.s3.key import Key
 # from boto3.s3.connection import S3Connection
@@ -1129,6 +1129,75 @@ class TargetViewSet(viewsets.ModelViewSet):
 
         serializer = TargetSerializer(target_object)
         return Response(serializer.data)
+
+
+    @detail_route(methods=['post'])
+    def ins_access_log(self, request, pk=None):
+
+        ui = request.GET.get(key="ui", default="")
+        os = request.GET.get(key="os", default="")
+
+        print("------ui---------")
+        print(ui)
+
+        queryset = Target.objects.all()
+
+        # targetを取得
+        target_object = get_object_or_404(queryset, vuforia_target_id=str(pk))
+
+        access_log_entity = AccessLog()
+        access_log_entity.target_id = target_object.id
+        access_log_entity.operating_system = os
+        access_log_entity.device_unique_identifier = ui
+
+
+        # validation
+        try:
+            # user.full_clean()
+            access_log_entity.clean()
+
+            # save
+            access_log_entity.save()
+
+        except ValidationError as e:
+            # non_field_errors = e.message_dict[NON_FIELD_ERRORS]
+            pprint(vars(e))
+            print(e.message)
+            msg['error_msg'] = e.message
+
+        serializer = AccessLogSerializer(access_log_entity)
+        return Response(serializer.data)
+
+
+
+
+
+        # # カウントアップしてセット
+        # now_count = target_object.view_count + 1
+        # target_object.view_count = now_count
+        #
+        # print('now_count')
+        # print(now_count)
+        #
+        # # 保存
+        # target_object.save()
+        #
+        # # リミット回数に達していたらvuforiaのtargetをinactiveにする
+        # if target_object.view_count_limit <= now_count:
+        #     print('start inactive vuforia')
+        #     data = {"active_flag": 0}
+        #     update_target(str(pk), data)
+        # else:
+        #     print('still active vuforia')
+        #
+        # # pprint(vars(target_object))
+        # print(target_object.view_count)
+        #
+        #
+        # serializer = TargetSerializer(target_object)
+        # return Response(serializer.data)
+
+
 
 
 
