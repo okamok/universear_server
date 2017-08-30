@@ -151,29 +151,29 @@ var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
 $(function() {
 
-    $("input[name='target']").change(function(){
-        var formData = new FormData($('#uploadForm')[0]);
-        formData.append('other_data', 999);
-
-        $.ajax({
-             //url: '../upload/',
-             url: "{% url 'hlar:target_upload' %}",
-             type: 'post',
-             data: formData,
-             processData: false,
-             contentType: false,
-             timeout: 10000
-         }).done(function (json, statusText, jqXHR) {
-            console.log('done');
-            ret = JSON.parse(json);
-            $("input[name='target_file_name']").val(ret.filename);
-
-         }).fail(function (jqXHR, statusText, errorThrown) {
-             console.log('fail');
-         }).then(function () {
-            //$('#uploadForm').remove();
-         });
-    });
+    // $("input[name='target']").change(function(){
+    //     var formData = new FormData($('#uploadForm')[0]);
+    //     formData.append('other_data', 999);
+    //
+    //     $.ajax({
+    //          //url: '../upload/',
+    //          url: "{% url 'hlar:target_upload' %}",
+    //          type: 'post',
+    //          data: formData,
+    //          processData: false,
+    //          contentType: false,
+    //          timeout: 10000
+    //      }).done(function (json, statusText, jqXHR) {
+    //         console.log('done');
+    //         ret = JSON.parse(json);
+    //         $("input[name='target_file_name']").val(ret.filename);
+    //
+    //      }).fail(function (jqXHR, statusText, errorThrown) {
+    //          console.log('fail');
+    //      }).then(function () {
+    //         //$('#uploadForm').remove();
+    //      });
+    // });
 });
 
 
