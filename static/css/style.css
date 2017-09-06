@@ -225,6 +225,15 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 
 
+.cLogoPosition {
+    width:180px;
+    margin-top: -9px;
+    margin-left: -25px;
+}
+
+
+
+
 /*PC用の設定*/
 @media screen and (min-width: 768px) {
   .carousel-caption-lo {
@@ -256,7 +265,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
       left:10%;
       padding:10px;
       width:200px;
-      margin-bottom:150px;
+      margin-bottom:100px;
       text-align:left;
       text-shadow: -2px 2px 3px #808080;
   }
@@ -302,6 +311,14 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
       text-align: center;
       list-style: none;
   }
+
+
+  .cLogoPosition {
+      width:180px;
+      margin-top: -9px;
+      margin-right: 7px;
+  }
+
 
 }
 
