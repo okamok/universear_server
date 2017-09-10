@@ -13,16 +13,47 @@
 
 <div class="content-wrap" style="margin-top: 20px;">
 
+    <div style="width:100%;height:600px;background-color:#50c6db; padding-top:100px">
+        <div style='float:left'>
+
+            <div class="content-wrap fontShrik " style="width:450px;margin-top:40px;margin-left:70px;color:white; font-size:20pt;">
+                <img src="{% static "images/" %}okera_logo2.png" class="cLogoPosition " style="margin-left:-5px" /><br>
+                <hr style="border: 1px solid white;margin:0px;">
+                {% trans 'welcome to UNIVERSE' %}<br>
+                {% trans '新しいARアプリ「UNIVERSE」へようこそ' %}<br>
+                {% trans 'すぐに無料であなただけのARコンテンツが作成できます。' %}<br>
+                <div  style="margin-top:30px">
+                    <button type="button" class="btn btn-primary">{% trans 'サインアップ' %}</button>
+                    <button type="button" class="btn btn-primary">{% trans '使い方' %}</button>
+                </div>
+            </div>
+
+            <!-- <p class="content-wrap" style="width:450px;margin-top:80px;margin-left:70px;color:white; font-size:20pt;font-family: 'Shrikhand', cursive;">
+                {% trans 'welcome to UNIVERSE' %}<br>
+                {% trans '新しいARアプリ「UNIVERSE」へようこそ' %}<br>
+                {% trans 'すぐに無料であなただけのARコンテンツが作成できます。' %}<br>
+                <button type="button" class="btn btn-primary" >{% trans 'サインアップ' %}</button>
+                <button type="button" class="btn btn-primary">{% trans '使い方' %}</button>
+            </p> -->
+        </div>
+        <div style='float:left;margin-left:70px'>
+            <img src="{% static "images/" %}iPhone_pc.png" style="width:600px" />
+        </div>
+    </div>
+</div>
+
+
 <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
+
       <!-- Indicators -->
-      <ol class="carousel-indicators">
+      <!-- <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
         <li data-target="#carousel-example-generic" data-slide-to="1"></li>
         <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-      </ol>
+      </ol> -->
 
       <!-- Wrapper for slides -->
-      <div class="carousel-inner">
+      <!-- <div class="carousel-inner">
         <div class="item active slider-d">
             <img src="{% static "images/" %}top_re_3_dark.jpg" class="slider-img" /><br>
             <div class="carousel-caption-lo slider-p">
@@ -60,20 +91,22 @@
                 <button type="button" class="btn btn-primary">get start</button>
             </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Controls -->
-      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev" style="width:5%;">
+      <!-- <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev" style="width:5%;">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
       <a class="right carousel-control" href="#carousel-example-generic" data-slide="next" style="width:5%;">
         <span class="glyphicon glyphicon-chevron-right"></span>
-      </a>
+      </a> -->
 </div>
 
 
-<div class="content-top" >
-    <h3 class="page-header">welcome to UNIVERSE</h3>
+<div class="content-top fontShrik" style="background-color:white;color:#3878BC;padding-top:50px;text-align:center">
+<!-- <div class="content-top" style="background-color:white;color:#3878BC;padding-top:50px;font-family:'Lucida Grande', 'ヒラギノ角ゴ Pro W3';text-align:center"> -->
+
+    <h2 style="margin:0px">{% trans '使い方' %} UNIVERSE</h2>
     簡単な数ステップであなたのオリジナルARを作成可能です。<br>
     <br>
     <div class="step-box">
@@ -97,23 +130,21 @@
     </div>
 
     <div style="clear:both"></div>
-
-    <h3 class="page-header">TOP TARGETS</h3>
-
-    <div class="step-box"><img src="{% static "images/" %}deathro_crazy_for_you.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}lowvision.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}nlos_hishatai.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-    <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-
-    <div style="clear:both"></div>
-
-
   </div>
+
+  <!-- <div style="width:100%;height:600px;background-color:white;color:#e0368c;padding-top:20px;font-family: 'Shrikhand', cursive;text-align:center"> -->
+
+  <img src="{% static "images/" %}top_re_1_dark.jpg" style="width:100%" />
+
+  <div class="fontShrik" style="width:100%;height:600px;background-color:#5ABB73;color:white;padding-top:20px;text-align:center">
+  <h2 style="margin:0px">TOP TARGETS</h2>
+
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+  <div class="step-box"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
 </div>
 
 <script type="text/javascript">
