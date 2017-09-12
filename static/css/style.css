@@ -23,25 +23,25 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 
 
- .icon-ul { list-style-type:none !important; margin:0px; padding:0px;}
- .icon-ul li { line-height:75px; width:100%; float:left;}
- .icon { float:left; margin-right:5px;}
+.icon-ul { list-style-type:none !important; margin:0px; padding:0px;}
+.icon-ul li { line-height:75px; width:100%; float:left;}
+.icon { float:left; margin-right:5px;}
 
 
- .copyright { min-height:40px; background-color:#000000;}
- .copyright p { text-align:left; color:#FFF; padding:10px 0; margin-bottom:0px;}
- .heading7 { font-size:21px; font-weight:700; color:#d9d6d6; margin-bottom:22px;}
- .post p { font-size:12px; color:#FFF; line-height:20px;}
- .post p span { display:block; color:#8f8f8f;}
- .bottom_ul { list-style-type:none; float:right; margin-bottom:0px;}
- .bottom_ul li { float:left; line-height:40px;}
- .bottom_ul li:after { content:"/"; color:#FFF; margin-right:8px; margin-left:8px;}
- .bottom_ul li a { color:#FFF;  font-size:12px;}
+.copyright { min-height:40px; background-color:#000000;}
+.copyright p { text-align:left; color:#FFF; padding:10px 0; margin-bottom:0px;}
+.heading7 { font-size:21px; font-weight:700; color:#d9d6d6; margin-bottom:22px;}
+.post p { font-size:12px; color:#FFF; line-height:20px;}
+.post p span { display:block; color:#8f8f8f;}
+.bottom_ul { list-style-type:none; float:right; margin-bottom:0px;}
+.bottom_ul li { float:left; line-height:40px;}
+.bottom_ul li:after { content:"/"; color:#FFF; margin-right:8px; margin-left:8px;}
+.bottom_ul li a { color:#FFF;  font-size:12px;}
 
 
- body {
-   -webkit-font-smoothing: antialiased;
- }
+body {
+    -webkit-font-smoothing: antialiased;
+}
 
 
 /**** 全体 start ****/
@@ -60,9 +60,9 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 /**** top page start ****/
  .step-box {
      float:left;
-     width:90%;
-     padding:5px;
-     margin-left:10px;
+     width:100%;
+     padding:2.5px 10px 2.5px 10px;
+     /*margin-left:10px;*/
  }
 
  .step-box img {
@@ -73,7 +73,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
  }
 
  .target-list {
-     width:80%;
+     width:100%;
      /*float:left;*/
      margin-top:10px;
 
@@ -81,31 +81,6 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
      margin-left: auto;
      margin-right: auto;
  }
-
-
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-     .step-box {
-         /*float:left;*/
-         /*width:250px;*/
-         width:23%;
-         padding:5px;
-         margin-left:10px;
-     }
-
-     .step-box img {
-         width:100%;
-         /*width:250px;
-         height:180px*/
-     }
-
-     .target-list {
-         width:100%;
-         /*float:left;*/
-         margin-left:10px;
-     }
-
-}
  /**** top page end ****/
 
 
@@ -122,21 +97,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
     text-align: center;
 }
 
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-    .nav-menu-1 {
-        float:right;
-    }
 
-    .navbar-nav {
-        text-align: left;
-    }
-
-    .menu-down {
-        text-align: left;
-    }
-
-}
 /**** nav関連 end ****/
 
 
@@ -232,78 +193,10 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 .cLogoPosition {
     width:200px;
-    margin-top: -9px;
+    margin-top: -4px;
     margin-left: -25px;
 }
 
-
-
-
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-  .carousel-caption-lo {
-    right: 20%;
-    /*left: 20%;*/
-    padding-bottom: 30px;
-  }
-
-  .slider-d{
-  }
-
-  .slider-d img{
-      margin-top:0px;
-      max-width: 100%;
-  }
-
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-    /*display: block;*/
-    max-width: 200%;
-    height: auto;
-  }
-
-  .slider-img {
-      width:100%;
-  }
-
-  .slider-p {
-      left:10%;
-      padding:10px;
-      width:200px;
-      margin-bottom:100px;
-      text-align:left;
-      text-shadow: -2px 2px 3px #808080;
-  }
-
-  .slider-page-l {
-  }
-
-  .slider-page-r {
-  }
-
-  .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
-      position: absolute;
-      top: 50%;
-      z-index: 5;
-      display: inline-block;
-      margin-top: -10px;
-  }
-
-  .carousel-control {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 15%;
-    font-size: 20px;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(0,0,0,.6);
-    background-color: rgba(0,0,0,0);
-    filter: alpha(opacity=50);
-    opacity: .5;
-    height:100%;
-}
 
   .carousel-indicators {
       position: absolute;
@@ -320,7 +213,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
   .cLogoPosition {
       width:200px;
-      margin-top: -9px;
+      margin-top: -4px;
       margin-right: 7px;
   }
 
@@ -376,4 +269,164 @@ margin:-20px 0px 30px 100px;
 .wf-mplus1p {
     font-family: "Mplus 1p";
     font-weight: bold;
+}
+
+.basicBox{
+    width:100%;
+    height:auto;
+    overflow:hidden;
+    padding:50px 0px 50px 0px;
+}
+
+.welcomeDiv {
+    text-align:center;
+    width:100%;
+    margin-top:10px;
+    margin-left:0px;
+    padding:10px;
+    color:white;
+    font-size:20pt;
+}
+
+.topLeft {
+    width:100%;
+}
+
+.topRight {
+    width:100%;
+}
+
+
+/*PC用の設定*/
+@media screen and (min-width: 768px) {
+    .carousel-caption-lo {
+        right: 20%;
+        /*left: 20%;*/
+        padding-bottom: 30px;
+    }
+
+    .slider-d{
+    }
+
+    .slider-d img{
+        margin-top:0px;
+        max-width: 100%;
+    }
+
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+        /*display: block;*/
+        max-width: 200%;
+        height: auto;
+    }
+
+    .slider-img {
+        width:100%;
+    }
+
+    .slider-p {
+        left:10%;
+        padding:10px;
+        width:200px;
+        margin-bottom:100px;
+        text-align:left;
+        text-shadow: -2px 2px 3px #808080;
+    }
+
+    .slider-page-l {
+    }
+
+    .slider-page-r {
+    }
+
+    .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
+        position: absolute;
+        top: 50%;
+        z-index: 5;
+        display: inline-block;
+        margin-top: -10px;
+    }
+
+    .carousel-control {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 15%;
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 1px 2px rgba(0,0,0,.6);
+        background-color: rgba(0,0,0,0);
+        filter: alpha(opacity=50);
+        opacity: .5;
+        height:100%;
+    }
+
+    .step-box {
+        /*float:left;*/
+        /*width:250px;*/
+        width:23%;
+        padding:5px;
+        margin-left:10px;
+    }
+
+    .step-box img {
+        width:100%;
+        /*width:250px;
+        height:180px*/
+    }
+
+    .target-list {
+        width:100%;
+        /*float:left;*/
+        margin-left:10px;
+    }
+
+    .nav-menu-1 {
+        float:right;
+    }
+
+    .navbar-nav {
+        text-align: left;
+    }
+
+    .menu-down {
+        text-align: left;
+    }
+
+    .bgGradation {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #0960d7), color-stop(0.00, #8ac5e0));
+        background: -webkit-linear-gradient(#8ac5e0, #0960d7);
+        background: -moz-linear-gradient(#8ac5e0, #0960d7);
+        background: -o-linear-gradient(#8ac5e0, #0960d7);
+        background: -ms-linear-gradient(#8ac5e0, #0960d7);
+        background: linear-gradient(#8ac5e0, #0960d7);
+    }
+
+    .basicBox{
+        width:100%;
+        height:auto;
+        overflow:hidden;
+        padding:50px 0px 50px 0px;
+    }
+
+    .welcomeDiv {
+        text-align:center;
+        width:100%;
+        margin-top:40px;
+        margin-left:40px;
+        color:white;
+        font-size:20pt;
+    }
+
+    .topLeft {
+        width:48%;
+    }
+
+    .topRight {
+        width:45%;
+        margin-left:50px;
+    }
+
 }
