@@ -7,7 +7,7 @@
 <!-- <div style="margin-top: 70px;margin-left:20px"> -->
 <div class="baseDiv nomalFont" style="text-align:center">
 
-    <div>
+    <div class="fontShrik">
         <h2>ログイン</h2>
     </div>
 
@@ -15,9 +15,10 @@
         <div id="inputP">
             {% csrf_token %}
             {{ form.as_p }}
+
             <input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px;display: inline-block;" value="{% trans 'Log in' %}" />
             <input type="hidden" name="next" value="{{ next }}" />
-        <div>
+        </div>
     </form>
 
     <hr>

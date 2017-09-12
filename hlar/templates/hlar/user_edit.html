@@ -3,7 +3,12 @@
 {% block title %}アカウント編集{% endblock title %}
 
 {% block content %}
-    <div style="margin-top: 70px;margin-left:20px">
+    <!-- <div style="margin-top: 70px;margin-left:20px"> -->
+    <div class="baseDiv nomalFont" style="text-align:center">
+
+        <div  class="fontShrik">
+            <h2>ユーザー情報変更</h2>
+        </div>
 
         {% if msg %}
             {% if 'success_msg' in msg %}
@@ -13,7 +18,10 @@
             {% endif %}
         {% endif %}
 
-        <form action="" method="POST">
+        <!-- <form action="" method="POST"> -->
+        <form method="post" action="" class="basicForm" >
+            <div style="text-align:left">
+
             {% csrf_token %}
 
             {% for field in form %}
@@ -34,8 +42,9 @@
             {% endfor %}
 
 
-            <input type="submit" value="登録" class="form-control btn-primary" style="width:150px;margin-top:5px"/>
-            <input id="mode" name="mode" type="hidden" value="edit">
+                <input type="submit" value="登録" class="form-control btn-primary" style="width:150px;margin-top:5px"/>
+                <input id="mode" name="mode" type="hidden" value="edit">
+            </div>
         </form>
     </div>
 {% endblock content %}
