@@ -262,7 +262,7 @@ margin:-20px 0px 30px 100px;
 
 .fontShrik {
     /*font-family: 'Shrikhand', "Mplus 1p", cursive;*/
-    font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN','Hiragino Kaku Gothic StdN', cursive;
+    font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;
     font-weight: bold,
 }
 
@@ -294,6 +294,13 @@ margin:-20px 0px 30px 100px;
 
 .topRight {
     width:100%;
+}
+
+.contactDiv {
+    width:100%;
+    text-align:center;
+    margin-top:20px;
+    font-size:15pt;
 }
 
 
@@ -429,4 +436,10 @@ margin:-20px 0px 30px 100px;
         margin-left:50px;
     }
 
+    .contactDiv {
+        width:100%;
+        text-align:center;
+        margin-top:20px;
+        font-size:20pt;
+    }
 }
