@@ -22,8 +22,19 @@ class TargetForm(ModelForm):
 
 
 class CustomRegistrationForm(RegistrationForm):
-    email = forms.EmailField(max_length=254, help_text='必須項目')
+    email = forms.EmailField(
+        max_length=254,
+        # help_text='必須項目'
+    )
+
     # username = forms.CharField(max_length=30, required=True, help_text='Optional.')
+
+    password2 = forms.CharField(
+        max_length=254,
+        widget=forms.PasswordInput(),
+        # help_text='必須項目!',
+        label = 'パスワードの確認'
+    )
 
     class Meta:
         model = User
@@ -34,7 +45,7 @@ class CustomRegistrationForm(RegistrationForm):
 class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     # last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='必須項目')
+    email = forms.EmailField(max_length=254, help_text='必須項目!!!')
 
     class Meta:
         model = User

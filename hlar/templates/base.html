@@ -72,7 +72,7 @@
         </nav> -->
 
         {% load tags %}
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-inverse navbar-fixed-top nomalFont">
             <div class="container" style="margin-left:10px;margin-right:10px;width:98%">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -93,17 +93,25 @@
                     </ul> -->
                     <ul class="nav navbar-nav nav-menu-1">
                         <li class="active"><a href="{% url 'hlar:target_list' %}">{% trans "使い方" %}</a></li>
-                        <li><a href="{% url 'hlar:target_list' %}">{% trans "このサイトについて" %}</a></li>
+                        <!-- <li><a href="{% url 'hlar:target_list' %}">{% trans "このサイトについて" %}</a></li> -->
 
                         {% if user.is_authenticated %}
 
-                        <li class="dropdown">
+                        <li>
+                            <a href="{% url 'hlar:user_edit' user_id=user.id %}">{{ user.username }}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'hlar:target_list' %}">{% trans "ターゲット管理" %}</a>
+                        </li>
+
+
+                        <!-- <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} 様<span class="caret"></span></a>
                           <ul class="dropdown-menu menu-down">
                             <li><a href="{% url 'hlar:user_edit' user_id=user.id %}">{% trans "アカウント設定" %}</a></li>
                             <li><a href="{% url 'hlar:target_list' %}">{% trans "ターゲット管理" %}</a></li>
                           </ul>
-                        </li>
+                        </li> -->
 
                         <!-- <li>
                             <a href="{% url 'hlar:user_edit' user_id=user.id %}">{{ user.username }} 様</a>
@@ -121,9 +129,9 @@
                         </li>
                         {% endif %}
 
-                        <li style="padding-top:8px">
+                        <li style="padding-top:8px; text-align:center;">
                             <span>
-                              <form id="form_lang" name="form_lang" action="{% url 'hlar:set_language' %}" method="post">
+                              <form id="form_lang" style="display: inline-block;" name="form_lang" action="{% url 'hlar:set_language' %}" method="post">
                             	{% csrf_token %}
                             	<input name="next" type="hidden" value="{{ redirect_to }}" />
                             	<select name="language"  class="form-control" style="width:100px" id="lang_sel">

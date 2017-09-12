@@ -43,6 +43,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.nomalFont {
+    font-family:'Bookman Old Style', 'serif', sans-serif;
+}
+
 
 /**** 全体 start ****/
  .content-wrap {
@@ -306,6 +310,18 @@ margin:-20px 0px 30px 100px;
     margin-left: -25px;*/
 }
 
+.registerForm {
+    width:100%;
+    padding:10px;
+    display:inline-block;
+}
+
+.baseDiv {
+    margin-top: 10px;
+    /*margin-left:20px;*/
+    padding:50px 0px 50px 0px;
+}
+
 
 /*PC用の設定*/
 @media screen and (min-width: 768px) {
@@ -452,4 +468,13 @@ margin:-20px 0px 30px 100px;
         margin-left: -25px;*/
     }
 
+    .baseDiv {
+        margin-top: 50px;
+        /*margin-left:20px;*/
+        padding:50px 0px 50px 0px;
+    }
+
+    .registerForm {
+        display:inline-block;
+    }
 }

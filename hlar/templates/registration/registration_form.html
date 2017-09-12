@@ -4,30 +4,36 @@
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
+<div class="baseDiv nomalFont" style="text-align:center">
 
-    <form method="post" action="">
+    <div>
+        <h2>アカウント作成</h2>
+    </div>
+
+    <form method="post" action="" class="registerForm" >
         {% csrf_token %}
          <!-- {{ form.as_p }} -->
 
-        {% for field in form %}
-          <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-              <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
+        <div style="text-align:left">
+            {% for field in form %}
+              <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                  <br><small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                {% endfor %}
+              </p>
             {% endfor %}
-          </p>
-        {% endfor %}
 
-        <input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="{% trans 'Submit' %}" />
+            <!-- <input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="{% trans 'Submit' %}" /> -->
+            <input type="submit" class="form-control btn-primary" style="width:150px;margin-top:5px" value="{% trans '登録' %}" />
+        </div>
     </form>
     <hr>
     登録メールを再送信する場合は<a href="/accounts/activate/resend/">こちら</a><br>
-
 </div>
 {% endblock %}
 
