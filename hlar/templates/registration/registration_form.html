@@ -10,13 +10,13 @@
         <h2>アカウント作成</h2>
     </div>
 
-    <form method="post" action="" class="registerForm" >
+    <form method="post" action="" class="basicForm" >
         {% csrf_token %}
          <!-- {{ form.as_p }} -->
 
         <div style="text-align:left">
             {% for field in form %}
-              <p>
+              <p id="inputP">
                 {{ field.label_tag }}<br>
                 {{ field }}
                 {% if field.help_text %}

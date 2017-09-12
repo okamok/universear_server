@@ -310,7 +310,7 @@ margin:-20px 0px 30px 100px;
     margin-left: -25px;*/
 }
 
-.registerForm {
+.basicForm {
     width:100%;
     padding:10px;
     display:inline-block;
@@ -320,6 +320,14 @@ margin:-20px 0px 30px 100px;
     margin-top: 10px;
     /*margin-left:20px;*/
     padding:50px 0px 50px 0px;
+}
+
+#inputP input {
+    border: 1px solid #ccc;
+    border-radius:10px;
+    box-shadow: none;
+    padding: 2px 8px;
+    height:35px;
 }
 
 
@@ -469,12 +477,14 @@ margin:-20px 0px 30px 100px;
     }
 
     .baseDiv {
-        margin-top: 50px;
+        margin-top: 20px;
         /*margin-left:20px;*/
         padding:50px 0px 50px 0px;
     }
 
-    .registerForm {
+    .basicForm {
+        width:auto;
         display:inline-block;
     }
+
 }
