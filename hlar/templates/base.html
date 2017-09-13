@@ -101,7 +101,7 @@
                             <a href="{% url 'hlar:user_edit' user_id=user.id %}">{{ user.username }}</a>
                         </li>
                         <li>
-                            <a href="{% url 'hlar:target_list' %}">{% trans "ターゲット管理" %}</a>
+                            <a id="aTargetList" href="#">{% trans "ターゲット管理" %}</a>
                         </li>
 
 
@@ -157,9 +157,22 @@
             </div>
         </nav>
 
+        <div id="loader-bg">
+          <div id="loader">
+            <img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />
+            <p>Now Loading...</p>
+          </div>
+        </div>
+
+        <div id="wrap">
+
+
         {% block content %}
+
         {{ content }}
         {% endblock %}
+
+        </div>
 
 
         <footer style="margin-top:0px">
@@ -235,6 +248,40 @@
         $('#lang_sel').change(function() {
             document.form_lang.submit();
         });
+
+        // リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
+        $('#aTargetList').click(function(){
+            var url = "{% url 'hlar:target_list' %}"; // クリックされたリンクのURLを取得
+
+            // $('#js-loader').fadeIn(600);    // ローディング画面をフェードイン
+
+            var h = $(window).height();
+            $('#wrap').css('display','none');
+            $('#loader-bg ,#loader').height(h).css('display','block');
+
+            setTimeout(function(){ location.href = url; }, 800); // URLにリンクする
+            return false;
+        });
+
     });
+
+    $(window).load(function () { //全ての読み込みが完了したら実行
+      $('#loader-bg').delay(900).fadeOut(800);
+      $('#loader').delay(600).fadeOut(300);
+      $('#wrap').css('display', 'block');
+    });
+
+    //10秒たったら強制的にロード画面を非表示
+    $(function(){
+      setTimeout('stopload()',10000);
+    });
+
+    function stopload(){
+      $('#wrap').css('display','block');
+      $('#loader-bg').delay(900).fadeOut(800);
+      $('#loader').delay(600).fadeOut(300);
+    }
+
+
     </script>
 </html>
