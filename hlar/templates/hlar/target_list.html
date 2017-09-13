@@ -13,49 +13,142 @@ table {
 {% endblock %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
-    <h3 class="page-header">ターゲット一覧</h3>
-    <a href="{% url 'hlar:target_add' %}" class="btn btn-default btn-sm">追加</a>
+<div class="baseDiv nomalFont" style="text-align:center">
 
-    {% if targets|length > 0 %}
+    <div class="contentsLargeDiv">
 
-    <table class="table table-striped table-bordered" style="width:98%">
-      <thead>
-        <tr>
-            <th>ID</th>
-            <th>コンテンツ名</th>
-            <th>VUFORIA ID</th>
-            <th>トラッキング回数</th>
-            <th>トラッキング回数上限</th>
-            <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for target in targets %}
-        <tr>
-            <td>{{ target.id }}</td>
-            <td>
-                {{ target.name }}<br>
+        <div class="fontShrik">
+            <h4>ターゲット一覧</h4>
+        </div>
 
-                <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-bottom:5px" width="100px"/><br>
+        <div class="targetAddButton">
+            <a href="{% url 'hlar:target_add' %}" class="btn btn-default btn-sm" style="200px">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                ターゲット追加
+            </a>
+        </div>
 
-                <video style="width:200px" src="{{s3_FQDN}}{{target.content_name}}" controls>
-                  Your browser does not support the <code>video</code> element.
-                </video>
-            </td>
-            <td>{{ target.target_id }}</td>
-            <td>{{ target.view_count }}</td>
-            <td>{{ target.view_count_limit }}</td>
-            <td>
-                <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
-                <!-- <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-default btn-sm">削除</a> -->
-            </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-        <div style="margin-top:10px">登録されているターゲットがありません。</div>
-    {% endif %}
+        {% if request.mobile %}
+            cell phone
+        {% else %}
+            pc
+        {% endif %}
+
+        {% if targets|length > 0 %}
+
+        <div class="targetList">
+            <div>
+    				<div class="targetListHead__id">ID</div>
+    				<div class="targetListHead__target">ターゲット</div>
+    				<div class="targetListHead__contents">コンテンツ</div>
+    				<div class="targetListHead__view_count">再生回数</div>
+    				<div class="targetListHead__view_count_limit">再生回数上限</div>
+    				<div class="targetListHead__control">操作</div>
+            </div>
+            <hr style="margin-bottom:5px;">
+
+            {% for target in targets %}
+            <div style="clear:both"></div>
+
+            <div>
+                    <div class="targetListHead__id">
+                        {{ target.id }}
+                    </div>
+
+                    <div class="targetListHead__target">
+                        <img src="{{s3_FQDN}}{{target.img_name}}" style="" height="100px"/><br>
+                        {{ target.name }}
+                    </div>
+
+    				<div class="targetListHead__contents">
+                        <video style="height:100px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                          Your browser does not support the <code>video</code> element.
+                        </video>
+                    </div>
+
+                    <div class="targetListHead__view_count">
+                        {{ target.view_count }}
+                    </div>
+
+                    <div class="targetListHead__view_count_limit">
+                        {{ target.view_count_limit }}
+                    </div>
+
+                    <div class="targetListHead__control">
+                        <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+                    </div>
+            </div>
+
+            <div style="clear:both"></div>
+
+            <hr style="margin-top:10px;margin-bottom:5px;">
+
+
+
+<!--
+                <tr>
+                    <td>{{ target.id }}</td>
+                    <td>
+                        {{ target.name }}<br>
+
+                        <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-bottom:5px" width="100px"/><br>
+
+                        <video style="width:200px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                          Your browser does not support the <code>video</code> element.
+                        </video>
+                    </td>
+                    <td>{{ target.target_id }}</td>
+                    <td>{{ target.view_count }}</td>
+                    <td>{{ target.view_count_limit }}</td>
+                    <td>
+                        <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+                    </td>
+                </tr> -->
+            {% endfor %}
+
+        <div>
+
+        <!-- <table class="table table-striped table-bordered" style="width:98%;text-align:left">
+          <thead>
+            <tr>
+                <th>ID</th>
+                <th>コンテンツ名</th>
+                <th>VUFORIA ID</th>
+                <th>トラッキング回数</th>
+                <th>トラッキング回数上限</th>
+                <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for target in targets %}
+            <tr>
+                <td>{{ target.id }}</td>
+                <td>
+                    {{ target.name }}<br>
+
+                    <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-bottom:5px" width="100px"/><br>
+
+                    <video style="width:200px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                      Your browser does not support the <code>video</code> element.
+                    </video>
+                </td>
+                <td>{{ target.target_id }}</td>
+                <td>{{ target.view_count }}</td>
+                <td>{{ target.view_count_limit }}</td>
+                <td>
+                    <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+                </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table> -->
+
+
+        {% else %}
+                <div style="margin-top:10px">登録されているターゲットがありません。</div>
+        {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

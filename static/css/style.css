@@ -316,23 +316,78 @@ margin:-20px 0px 30px 100px;
     display:inline-block;
 }
 
-.baseDiv {
-    margin-top: 10px;
-    /*margin-left:20px;*/
-    padding:50px 0px 50px 0px;
-}
-
 #inputP input {
     border: 1px solid #ccc;
     border-radius:10px;
     box-shadow: none;
     padding: 2px 8px;
+    width:100%;
     height:35px;
 }
+
+.contentsDiv {
+    width:90%;
+    height:auto;
+    overflow:hidden;
+    background-color: white;
+    padding:20px 0px 20px 0px;
+    border-radius:20px;
+    display: inline-block;
+}
+
+/*600px以下(スマホ用)*/
+@media screen and (max-width:600px) {
+
+    .baseDiv {
+        margin-top: 10px;
+        /*margin-left:20px;*/
+        padding:50px 0px 50px 0px;
+        width:100%;
+    }
+
+
+    .resposiveTable {
+        display: block;
+        width: 100%;
+    }
+
+    .resposiveTable td th{
+        display: block;
+        width: 100%;
+    }
+
+
+    .resposiveTable tr {
+        border-bottom: 1px solid #C6C6C6;
+    }
+
+    .responsiveTableHeader{
+        display: block;
+        width: 100%;
+        /*width:30%;*/
+        padding:15px;
+    }
+
+    .responsiveTableContents{
+        display: block;
+        width: 100%;
+        /*width:70%;*/
+        padding:15px;
+    }
+
+}
+
+
 
 
 /*PC用の設定*/
 @media screen and (min-width: 768px) {
+    .baseDiv {
+        margin-top: 10px;
+        /*margin-left:20px;*/
+        padding:50px 0px 50px 0px;
+    }
+
     .carousel-caption-lo {
         right: 20%;
         /*left: 20%;*/
@@ -480,11 +535,133 @@ margin:-20px 0px 30px 100px;
         margin-top: 20px;
         /*margin-left:20px;*/
         padding:50px 0px 50px 0px;
+        background-color: #F0F1F4;
     }
 
     .basicForm {
-        width:auto;
+        /*width:auto;*/
+        width:90%;
         display:inline-block;
     }
+
+    .contentsDiv {
+        width:40%;
+        height:auto;
+        overflow:hidden;
+        background-color: white;
+        padding:20px 0px 20px 0px;
+        border-radius:20px;
+        display: inline-block;
+    }
+
+    .contentsLargeDiv {
+        width:80%;
+        height:auto;
+        overflow:hidden;
+        background-color: white;
+        padding:20px 0px 20px 0px;
+        border-radius:20px;
+        display: inline-block;
+    }
+
+    /*.resposiveTable tbody, tr, th, td {
+        display: block;
+        width: 100%;
+    }*/
+
+    .resposiveTable{
+        /*display:inline;*/
+        width: 100%; /*スマホ画面ほぼ一杯に広がる感じ*/
+    }
+
+    .resposiveTable tbody{
+        /*display:inline;*/
+        width: 100%; /*スマホ画面ほぼ一杯に広がる感じ*/
+    }
+
+    .resposiveTable tr {
+        width:100%;
+        border-bottom: 1px solid #C6C6C6;
+    }
+
+    .responsiveTableHeader{
+        width:30%;
+        padding:15px;
+    }
+
+    .responsiveTableContents{
+        width:70%;
+        padding:15px;
+    }
+
+    .itemlistSort {
+        width: 100%;
+        box-sizing: border-box;
+        counter-reset: sort;
+    }
+
+    .targetList {
+        display: inline-block;
+        width:90%;
+    }
+
+    .targetListHead {
+        list-style:none;
+        padding-left: 0px;
+
+        box-sizing: border-box;
+        width: 100%;
+        background-color: #fff;
+        line-height: 50px;
+        border-bottom: solid 1px #e5e8ed;
+        color: #b2bcca;
+        font-size: 11px;
+    }
+
+    .targetListHead__id {
+        float:left;
+        width:10px;
+/*
+        background: #fff;
+        display: table;
+        position: relative;
+        width: 100%;
+        vertical-align: middle;
+        padding: 15px 0;
+        font-size: 14px;
+        margin: 0 0 1px 0;
+        box-sizing: border-box;*/
+    }
+
+    .targetListHead__target {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__contents {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count {
+        float:left;
+        width:60px;
+    }
+
+    .targetListHead__view_count_limit {
+        float:left;
+        width:100px;
+    }
+
+    .targetListHead__control {
+        float:left;
+        width:50px;
+    }
+
+    .targetAddButton {
+        text-align:left;
+        margin: 10px 0px 10px 40px;
+    }
+
 
 }

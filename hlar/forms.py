@@ -25,7 +25,11 @@ class CustomRegistrationForm(RegistrationForm):
     email = forms.EmailField(
         max_length=254,
         # help_text='必須項目'
+        widget=TextInput(attrs={'class': '','placeholder': 'Email'})
     )
+
+#     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))
+
 
     # username = forms.CharField(max_length=30, required=True, help_text='Optional.')
 
@@ -38,6 +42,13 @@ class CustomRegistrationForm(RegistrationForm):
 
     class Meta:
         model = User
+
+        widgets = {
+            'username' : forms.TextInput(attrs = {'placeholder': 'Username'}),
+            # 'password1' : forms.TextInput(attrs = {'placeholder': 'password'}),
+            # 'email'    : forms.TextInput(attrs = {'placeholder': 'E-Mail'}),
+        }
+
         fields = ('username', 'email', 'password1', 'password2' )
 
 
@@ -46,10 +57,18 @@ class SignUpForm(UserCreationForm):
     # first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     # last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     email = forms.EmailField(max_length=254, help_text='必須項目!!!')
+    # email = forms.Field(widget=forms.EmailInput(attrs={'class':'form-control'}))
 
     class Meta:
         model = User
+
+        widgets = {
+            'username' : forms.TextInput(attrs = {'placeholder': 'Username'}),
+            'email'    : forms.TextInput(attrs = {'placeholder': 'E-Mail'}),
+        }
+
         fields = ('username', 'email', 'password1', 'password2' )
+
 
 
 class UserForm(UserChangeForm):
@@ -103,7 +122,7 @@ class UserForm(UserChangeForm):
             super().__init__(*args, **kwargs)
             for field in self.fields.values():
                 field.widget.attrs["class"] = "form-control"
-                field.widget.attrs["style"] = "width:200px"
+                field.widget.attrs["style"] = "width:100%"
 
 
     # def user_edit(self):
@@ -118,6 +137,17 @@ class LoginForm(AuthenticationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="パスワード", max_length=30,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
+
+    # class Meta:
+        # model = User
+
+        # widgets = {
+        #     'username' : forms.TextInput(attrs = {'placeholder': 'Username'}),
+        #     'email'    : forms.TextInput(attrs = {'placeholder': 'E-Mail'}),
+        # }
+        #
+        # fields = ('username', 'email', 'password1', 'password2' )
+
 
 # class RFPAuthForm(AuthenticationForm):
 #     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))

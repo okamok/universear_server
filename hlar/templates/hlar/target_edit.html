@@ -4,138 +4,204 @@
 {% block title %}ターゲットの編集{% endblock title %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
+<!-- <div style="margin-top: 70px;margin-left:20px"> -->
+<div class="baseDiv nomalFont" style="text-align:center">
 
-
-    <h3 class="page-header">ターゲットの編集</h3>
-    <div style="margin-left:20px">
-
-    {% if msg %}
-        {{ msg }}<br><br>
-    {% endif %}
-
-
-    {% if target_id %}
-    <form id="uploadForm" action="{% url 'hlar:target_mod' target_id=target_id %}" enctype="multipart/form-data" method="post" class="form-horizontal" role="form">
-    {% else %}
-    <form id="uploadForm" action="{% url 'hlar:target_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
-    {% endif %}
-      {% csrf_token %}
-
-      {# {{ form|bootstrap_horizontal }} #}
-      {# {{ form }} #}
-
-        <div class="form-group">
-            <label>ターゲット画像</label>
-            <input type="file" name="target" class="form-control" style="width:300px">
-            {% if target.img_name %}
-                <img src="{{s3_FQDN}}{{target.img_name}}"  width="200px"/>
-            {% endif %}
-
-            <input type="hidden" name="target_file_name" value="">
+    <div class="contentsLargeDiv">
+        <!-- <h4 class="page-header">ターゲットの編集</h4> -->
+        <div class="fontShrik">
+            <h4>ターゲットの編集</h4>
         </div>
 
-        <div class="form-group">
-            <label>CONTENTS</label>
-            <input type="file" name="contents" class="form-control" style="width:300px">
-            {% if target.content_name %}
-                <video style="width:300px" src="{{s3_FQDN}}{{target.content_name}}" controls>
-                  Your browser does not support the <code>video</code> element.
-                </video>
-            {% endif %}
-            <input type="hidden" name="contents_file_name" value="">
-        </div>
 
-        <div class="form-group">
-            <label>NAME</label>
-            <input type="text" name="target_name" class="form-control" style="width:200px" value="{{target.name}}">
-        </div>
 
-        <div class="form-group">
-            <label>再生回数上限</label>
-            <br>
-            {% if target_id %}
-                {{target.view_count_limit}}回
-                <br>
-                <br>
+        <!-- <div style="margin-left:20px"> -->
 
-                300回(2,980円)クーポンを購入(一回のみ)<br>
-                {% if buy_history > 0 %}
-                    <button id="btnParchase300_dummey" class="btn btn-primary" style="width:150px" disabled>購入する(300回)</button>
-                {% else %}
-                    <button id="btnParchase300" class="btn btn-primary" style="width:150px">購入する(300回)</button>
-                {% endif %}
-
-                <!-- <form action="/your-server-side-code" method="POST">
-                  <script
-                    src="https://checkout.stripe.com/checkout.js"
-                    class="stripe-button"
-                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
-                    data-zip-code = "true"
-                    data-amount="2980"
-                    data-name="UNIVERSE"
-                    data-description="300回再生可能です"
-                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                    data-locale="auto"
-                    data-currency="jpy">
-                  </script>
-                </form> -->
-
-                <br>
-                <br>
-                1,000回(29,800円)クーポンを購入<br>
-                <button id="btnParchase1000" class="btn btn-primary" style="width:150px">購入する(1000回)</button>
-
-                <!-- <form action="/your-server-side-code" method="POST">
-                  <script
-                    src="https://checkout.stripe.com/checkout.js"
-                    class="stripe-button"
-                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
-                    data-zip-code = "true"
-                    data-amount="29800"
-                    data-name="UNIVERSE"
-                    data-description="1000回再生可能です"
-                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                    data-locale="auto"
-                    data-currency="jpy">
-                  </script>
-                </form> -->
-                <br>
-                ※ 10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。
-            {% else %}
-                <span id='span_view_count_limit'>50回(free)</span>
-                <br>
-                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンを購入下さい。
-            {% endif %}
-            <input type="hidden" name="hid_view_count_limit" value="50">
-
-            <!-- <input type="radio" name="view_count_limit" value="50"> 50回
-            <input type="radio" name="view_count_limit" value="1000"> 1,000回 -->
-
-        </div>
-
-        {% if target_id %}
-        <div class="form-group">
-            <label>現在の再生済回数</label><br>
-            {{target.view_count}}回
-        </div>
+        {% if msg %}
+            {{ msg }}<br><br>
         {% endif %}
 
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" style="width:150px">送信</button>
+        {% if target_id %}
+        <form id="uploadForm" action="{% url 'hlar:target_mod' target_id=target_id %}" enctype="multipart/form-data" method="post" class="form-horizontal basicForm" role="form" style="text-align:left">
+        {% else %}
+        <form id="uploadForm" action="{% url 'hlar:target_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal basicForm" role="form" style="text-align:left">
+        {% endif %}
+          {% csrf_token %}
 
-            {% if target_id %}
-            <br><a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:150px;margin-top:5px">削除</a>
-            {% endif %}
+          {# {{ form|bootstrap_horizontal }} #}
+          {# {{ form }} #}
 
-            <br><a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:5px">戻る</a>
-        </div>
+            <table class="resposiveTable">
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>ターゲット画像</b>
+                    </td>
+
+                    <td class="responsiveTableContents">
+                        <input type="file" name="target" style="width:100%; margin-top:5px;">
+                        {% if target.img_name %}
+                            <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-top:5px" width="200px"/>
+                        {% endif %}
+
+                        <input type="hidden" name="target_file_name" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>CONTENTS</b>
+                    </td>
+
+                    <td class="responsiveTableContents">
+                        <input type="file" name="contents" style="width:100%; margin-top:5px;">
+                        {% if target.content_name %}
+                            <video style="width:300px; margin-top:5px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                              Your browser does not support the <code>video</code> element.
+                            </video>
+                        {% endif %}
+                        <input type="hidden" name="contents_file_name" value="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>NAME</b>
+                    </td>
+
+                    <td  class="responsiveTableContents">
+                        <div id="inputP" class="form-group">
+                            <input type="text" name="target_name" class="form-control" style="width:100%" value="{{target.name}}">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>再生回数上限</b>
+                    </td>
+
+                    <td  class="responsiveTableContents">
+                        <div class="form-group">
+
+                            {% if target_id %}
+                                <p style="font-size:20pt">{{target.view_count_limit}}回</p>
+                                <br>
+
+                                300回(2,980円)クーポンを購入(一回のみ)<br>
+                                {% if buy_history > 0 %}
+                                    <button id="btnParchase300_dummey" class="btn btn-primary" style="width:50%" disabled>購入する(300回)</button>
+                                {% else %}
+                                    <button id="btnParchase300" class="btn btn-primary" style="width:50%">購入する(300回)</button>
+                                {% endif %}
+
+                                <!-- <form action="/your-server-side-code" method="POST">
+                                  <script
+                                    src="https://checkout.stripe.com/checkout.js"
+                                    class="stripe-button"
+                                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
+                                    data-zip-code = "true"
+                                    data-amount="2980"
+                                    data-name="UNIVERSE"
+                                    data-description="300回再生可能です"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                    data-locale="auto"
+                                    data-currency="jpy">
+                                  </script>
+                                </form> -->
+
+                                <br>
+                                <br>
+                                1,000回(29,800円)クーポンを購入<br>
+                                <button id="btnParchase1000" class="btn btn-primary" style="width:50%">購入する(1000回)</button>
+
+                                <!-- <form action="/your-server-side-code" method="POST">
+                                  <script
+                                    src="https://checkout.stripe.com/checkout.js"
+                                    class="stripe-button"
+                                    data-key="pk_test_kq2QUHQQbfbIiz6RdJEbj9DU"
+                                    data-zip-code = "true"
+                                    data-amount="29800"
+                                    data-name="UNIVERSE"
+                                    data-description="1000回再生可能です"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                    data-locale="auto"
+                                    data-currency="jpy">
+                                  </script>
+                                </form> -->
+                                <br>
+                                ※ 10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。
+                            {% else %}
+                                <span id='span_view_count_limit'>50回(free)</span>
+                                <br>
+                                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンを購入下さい。
+                            {% endif %}
+                            <input type="hidden" name="hid_view_count_limit" value="50">
+
+                            <!-- <input type="radio" name="view_count_limit" value="50"> 50回
+                            <input type="radio" name="view_count_limit" value="1000"> 1,000回 -->
+
+                        </div>
+                    </td>
+                </tr>
+
+                {% if target_id %}
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>現在の再生済回数</b>
+                    </td>
+
+                    <td  class="responsiveTableContents">
+                        <p style="font-size:20pt">
+                            {{target.view_count}}回
+                        </p>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <!-- <div class="form-group">
+                <label>ターゲット画像</label>
+                <input type="file" name="target" style="width:100%; margin-top:5px;">
+                {% if target.img_name %}
+                    <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-top:5px" width="200px"/>
+                {% endif %}
+
+                <input type="hidden" name="target_file_name" value="">
+            </div> -->
+
+            <!-- <div class="form-group">
+                <label>CONTENTS</label>
+                <input type="file" name="contents" style="width:100%; margin-top:5px;">
+                {% if target.content_name %}
+                    <video style="width:300px; margin-top:5px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                      Your browser does not support the <code>video</code> element.
+                    </video>
+                {% endif %}
+                <input type="hidden" name="contents_file_name" value="">
+            </div> -->
+
+            <!-- <div id="inputP" class="form-group">
+                <label>NAME</label>
+                <input type="text" name="target_name" class="form-control" style="width:100%" value="{{target.name}}">
+            </div> -->
 
 
 
-    </form>
+            <div class="form-group" style="text-align:center;margin-top:25px">
+                <button type="submit" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">登録</p></button>
 
+                {% if target_id %}
+                <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:30%; height:45px;"><p style="margin-top:0px;font-size:15pt">削除</p></a>
+                {% endif %}
+
+                <a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:20px;width:60%; height:45px;"><p style="margin-top:6px">戻る</p></a>
+            </div>
+
+
+
+        </form>
+
+        <!-- </div> -->
     </div>
 </div>
 
