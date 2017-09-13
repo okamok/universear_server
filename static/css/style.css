@@ -375,6 +375,48 @@ margin:-20px 0px 30px 100px;
         padding:15px;
     }
 
+
+    .targetListHead__id {
+        float:left;
+        width:10px;
+    }
+
+    .targetListHead__target {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__contents {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count_limit {
+        float:left;
+        width:100px;
+    }
+
+    .targetListHead__control {
+        float:left;
+        width:50px;
+    }
+
+    .rowForCellPhone {
+        padding: 0px 10px 0px 10px;
+        height:auto;
+        overflow:hidden;
+    }
+
+    .targetAddButtonA {
+        width:60%;
+        height:40px;
+        font-size:14pt;
+    }
 }
 
 
@@ -663,5 +705,8 @@ margin:-20px 0px 30px 100px;
         margin: 10px 0px 10px 40px;
     }
 
+    .targetAddButtonA {
+        width:200px;
+    }
 
 }

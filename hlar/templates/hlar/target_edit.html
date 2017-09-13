@@ -188,13 +188,16 @@
 
 
             <div class="form-group" style="text-align:center;margin-top:25px">
-                <button type="submit" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">登録</p></button>
 
                 {% if target_id %}
-                <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:30%; height:45px;"><p style="margin-top:0px;font-size:15pt">削除</p></a>
+                    <button type="submit" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">登録</p></button>
+                    <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:30%; height:45px;"><p style="margin-top:0px;font-size:15pt">削除</p></a>
+                    <a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:20px;width:60%; height:45px;"><p style="margin-top:6px">戻る</p></a>
+                {% else %}
+                    <button type="submit" class="btn btn-primary" style="width:40%; height:45px;"><p style="font-size:15pt">登録</p></button>
+                    <a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:0px;width:40%; height:45px;"><p style="margin-top:6px">戻る</p></a>
                 {% endif %}
 
-                <a href="{% url 'hlar:target_list' %}" class="btn btn-default" style="margin-top:20px;width:60%; height:45px;"><p style="margin-top:6px">戻る</p></a>
             </div>
 
 

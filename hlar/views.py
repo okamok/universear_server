@@ -67,7 +67,11 @@ from django.db import IntegrityError
 
 from django.conf import settings
 
+from user_agents import parse as parse_ua
+
 import stripe
+
+# uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
 # S3_USER = 's3user'
 # S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
@@ -598,6 +602,11 @@ def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
     # targets = Target.objects.all().order_by('id')
 
+    # ua = parse_ua(uastring_mobile)
+    ua = parse_ua(request.META['HTTP_USER_AGENT'])
+
+    # print('-is_mobile: {0}'.format(ua.is_mobile))
+
     print('req_id')
     print(request.user)
 
@@ -608,7 +617,8 @@ def target_list(request):
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
                   {'targets': targets,
-                   's3_FQDN': s3_FQDN
+                   's3_FQDN': s3_FQDN,
+                   'is_mobile': ua.is_mobile,
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):

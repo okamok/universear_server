@@ -39,5 +39,7 @@ social-auth-app-django==1.2.0
 social-auth-core==1.4.0
 sqlparse==0.2.3
 stripe==1.62.0
+ua-parser==0.7.3
 urllib3==1.22
+user-agents==1.1.0
 uWSGI==2.0.15
