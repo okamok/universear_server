@@ -50,7 +50,7 @@ table {
                 {% for target in targets %}
                 <div style="clear:both"></div>
 
-                <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm" style="border:none;">
+                <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit" style="border:none;">
                     <div class="rowForCellPhone">
                         <div class="targetListHead__target">
                             <img src="{{s3_FQDN}}{{target.img_name}}" style="width:100%"/><br>
@@ -131,7 +131,7 @@ table {
                         </div>
 
                         <div class="targetListHead__control">
-                            <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
+                            <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit">修正</a>
                         </div>
                 </div>
 
@@ -213,10 +213,24 @@ table {
 
 <script>
 $(function() {
+
   // var h = $(window).height();
   //
   // $('#wrap').css('display','none');
   // $('#loader-bg ,#loader').height(h).css('display','block');
+});
+
+// リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
+$('.aTargetEdit').click(function(){
+
+    var url = '/hlar/target/mod/' + $(this).data('id') + '/';
+
+    var h = $(window).height();
+    $('#wrap').css('display','none');
+    $('#loader-bg ,#loader').height(h).css('display','block');
+
+    setTimeout(function(){ location.href = url; }, 800); // URLにリンクする
+    return false;
 });
 
 // $(window).load(function () { //全ての読み込みが完了したら実行

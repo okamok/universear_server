@@ -282,15 +282,15 @@ margin:-20px 0px 30px 100px;
 .welcomeDiv {
     text-align:center;
     width:100%;
-    margin-top:10px;
+    /*margin-top:10px;*/
     margin-left:0px;
-    padding:10px;
+    /*padding:10px;*/
     color:white;
     font-size:20pt;
 }
 
 .topLeft {
-    width:100%;
+    width:90%;
 }
 
 .topRight {
@@ -337,6 +337,25 @@ margin:-20px 0px 30px 100px;
 
 /*600px以下(スマホ用)*/
 @media screen and (max-width:600px) {
+
+    .navbar {
+        width:100%;
+    }
+
+    /*.navbar-brand {
+      padding-top: 25px;
+    }
+
+    .navbar-nav > li > a {
+      padding-top: 15px !important;
+      padding-bottom: 10px !important;
+    }*/
+
+    .navbar-nav > li {
+        width: 50%;
+        float: left;
+    }
+
 
     .baseDiv {
         margin-top: 10px;
@@ -569,25 +588,26 @@ margin:-20px 0px 30px 100px;
         width:100%;
         height:auto;
         overflow:hidden;
-        padding:50px 0px 50px 0px;
+        /*padding:80px 0px 50px 0px;*/
+        padding:40px 0px 50px 0px;
     }
 
     .welcomeDiv {
         text-align:center;
         width:100%;
         margin-top:40px;
-        margin-left:40px;
+        /*margin-left:40px;*/
         color:white;
-        font-size:20pt;
+        font-size:17pt;
     }
 
     .topLeft {
-        width:48%;
+        width:50%;
     }
 
     .topRight {
-        width:45%;
-        margin-left:50px;
+        width:40%;
+        /*margin-left:50px;*/
     }
 
     .contactDiv {
@@ -606,7 +626,7 @@ margin:-20px 0px 30px 100px;
     .baseDiv {
         margin-top: 20px;
         /*margin-left:20px;*/
-        padding:50px 0px 50px 0px;
+        padding:90px 0px 50px 0px;
         background-color: #F0F1F4;
     }
 
@@ -717,12 +737,12 @@ margin:-20px 0px 30px 100px;
 
     .targetListHead__view_count {
         float:left;
-        width:60px;
+        width:100px;
     }
 
     .targetListHead__view_count_limit {
         float:left;
-        width:100px;
+        width:130px;
     }
 
     .targetListHead__control {
@@ -768,4 +788,18 @@ margin:-20px 0px 30px 100px;
         width:200px;
     }
 
+
+    .navbar {
+      /*min-height: 60px !important*/
+    }
+
+    .navbar-brand {
+      /*height: 60px;*/
+      padding-top: 25px;
+    }
+
+    .navbar-nav > li > a {
+      padding-top: 15px !important;
+      padding-bottom: 10px !important;
+    }
 }
