@@ -454,7 +454,7 @@ margin:-20px 0px 30px 100px;
     }
 
     .targetAddButtonA {
-        width:60%;
+        width:90%;
         height:40px;
         font-size:14pt;
     }
@@ -823,11 +823,12 @@ margin:-20px 0px 30px 100px;
 
     .targetAddButton {
         text-align:left;
-        margin: 10px 0px 10px 40px;
+        margin: 10px 0px 20px 40px;
     }
 
     .targetAddButtonA {
         width:200px;
+        font-size:13pt;
     }
 
 
