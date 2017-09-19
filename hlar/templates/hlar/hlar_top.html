@@ -17,25 +17,35 @@
         <div class="topLeft" style="display:inline-block" >
             <div class="content-wrap fontShrik welcomeDiv">
                 {% trans 'welcome to UNIVERSE' %}<br>
-                <hr style="border: 1px solid white;margin:0px 0px 8px 0px;">
+                <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;">
                 {% trans '新しいARアプリ「UNIVERSE」へようこそ' %}<br>
                 {% trans 'すぐに無料であなただけのARコンテンツが作成できます。' %}<br>
-                <!-- <div  style="margin-top:10px">
+                <div  style="margin-top:10px">
                     <a href="/accounts/register/" class="btn btn-info">{% trans 'サインアップ' %}</a>
                     <a href="#howtouse" class="btn btn-info">{% trans '使い方' %}</a>
-                </div> -->
+                </div>
             </div>
         </div>
         <div style="clear:both"></div>
         <div class="topRight" style="display:inline-block">
             <!-- <img src="{% static "images/" %}iPhone_pc.png" style="width:100%" /> -->
-            <img src="{% static "images/" %}top_waku.png" style="width:100%" />
+            <!-- <img src="{% static "images/" %}top_waku.png" style="width:100%" /> -->
+            <img src="{% static "images/" %}pc_monitor.png" style="width:100%" />
 
             <div class="top-video-div">
-                <video class="top-video" preload="auto" data-func="play_video" loop="true" muted="true" autoplay="true" playsinline="true" poster="https://getflywheel.com/wp-content/themes/flywheel15/images/home-hero/home-page-video-frame.jpg">
-                    <source src="{% static "images/" %}universe_pv_draft.mp4">
+                <video class="top-video"
+                    preload="auto" data-func="play_video" loop="true" muted="true" autoplay="true"
+                    playsinline="true"
+                    poster="{% static "images/" %}app_icon_U_layer_with_type_resize.png">
+                        <source src="{% static "images/" %}universe_pv_draft.mp4">
     			</video>
             </div>
+
+            <div class="top-iphone-div">
+                <img src="{% static "images/" %}iPhone5-Mockup.png" style="width:100%" />
+            </div>
+
+
         </div>
     </div>
 

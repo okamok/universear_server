@@ -195,11 +195,11 @@ body {
 
 
 
-.cLogoPosition {
+/*.cLogoPosition {
     width:200px;
     margin-top: -4px;
     margin-left: -25px;
-}
+}*/
 
 
 .carousel-indicators {
@@ -215,11 +215,6 @@ body {
 }
 
 
-.cLogoPosition {
-    width:200px;
-    margin-top: -4px;
-    margin-right: 7px;
-}
 
 /* transition設定 */
 .carousel-fade .carousel-inner .item {
@@ -295,6 +290,7 @@ margin:-20px 0px 30px 100px;
 }
 
 .topRight {
+    position: relative;
     width:90%;
 }
 
@@ -470,16 +466,46 @@ margin:-20px 0px 30px 100px;
     .top-video-div {
         display: block;
         position: absolute;
-        top: 41%;
-        left: 15%;
-        width: 70%;
+        top: 8%;
+        left: 7.2%;
+        width: 85%;
         height: 51.25%;
-        }
+    }
+
+    .top-iphone-div {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 23%;
+        height: 51.25%;
+        transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
 
     .top-video {
         width:100%;
     }
 
+    .cLogoPosition {
+        width: 200px;
+        margin-top: -5px;
+        margin-right: 7px;
+    }
+
+    .topLogoA {
+        margin-left:5px;
+    }
+
+    .varHeader {
+        margin-top: 10px;
+    }
+
+    .menuButton {
+        margin-top: 0px;
+    }
 }
 
 
@@ -620,7 +646,7 @@ margin:-20px 0px 30px 100px;
     }
 
     .topRight {
-        width:50%;
+        width:40%;
         position: relative;
         /*position: absolute;
         top: 0px;
@@ -826,13 +852,41 @@ margin:-20px 0px 30px 100px;
     .top-video-div {
         display: block;
         position: absolute;
-        top: 14.5%;
-        left: 11.5%;
-        width: 77%;
+        top: 8%;
+        left: 6.7%;
+        width: 86%;
         height: 51.25%;
-        }
+    }
+
+    .top-iphone-div {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 23%;
+        height: 51.25%;
+        transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
 
     .top-video {
         width:100%;
+    }
+
+    .cLogoPosition {
+        width: 230px;
+        margin-top: -5px;
+        margin-right: 7px;
+    }
+
+    .topLogoA {
+        margin-left:20px;
+        padding-top: 25px;
+    }
+
+    .varHeader {
+        margin-top: 20px;
     }
 }

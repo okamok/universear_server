@@ -74,15 +74,17 @@
         {% load tags %}
         <nav class="navbar navbar-inverse navbar-fixed-top nomalFont">
             <div class="container" style="margin-left:10px;margin-right:10px;width:98%; /*height:80px*/">
-                <div class="navbar-header" style="/*margin-top: 13px;*/">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <div class="navbar-header varHeader" style="/*margin-top: 13px;*/">
+                    <button type="button" class="navbar-toggle collapsed menuButton" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'hlar:hlar_top' %}" style="font-family: 'Rubik', sans-serif;font-size:20pt;margin-left:30px">
-                        <img src="{% static "images/" %}app_icon_U_type_resize.png" class="cLogoPosition" />
+                    <!-- <a class="navbar-brand topLogoA" href="{% url 'hlar:hlar_top' %}" style="font-family: 'Rubik', sans-serif;font-size:20pt;"> -->
+                    <a class="topLogoA" href="{% url 'hlar:hlar_top' %}" style="font-family: 'Rubik', sans-serif;font-size:20pt;">
+                        <!-- <img src="{% static "images/" %}app_icon_U_type_resize.png" class="cLogoPosition" /> -->
+                        <img src="{% static "images/" %}app_icon_U_layer_with_type_resize.png" class="cLogoPosition" />
                     </a>
                 </div>
                 <div id="navbar" style="/*margin-top: 13px;*/" class="collapse navbar-collapse">
