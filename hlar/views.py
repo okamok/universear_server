@@ -18,6 +18,7 @@ from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
 from hlar.twitterAPI import get_twitter_account
+from hlar.lib import get_targets_popular
 
 from hlar.models import DEFAULT_PASS
 
@@ -163,11 +164,19 @@ def hlar_top(request):
     # print('aabb')
     # pprint(request.user.id)
 
+
+
+    # 人気ターゲット一覧を取得
+    targets = get_targets_popular()
+
+
     return render(request,
                   'hlar/hlar_top.html',     # 使用するテンプレート
                   {
                     'user': request.user,
-                    'msg': _("使い方")
+                    'msg': _("使い方"),
+                    'targets': targets,
+                    's3_FQDN': s3_FQDN,
                   }         # テンプレートに渡すデータ
                   )
 
@@ -610,7 +619,7 @@ def target_list(request):
     print('req_id')
     print(request.user)
 
-    # @ToDo user_idを動的に入れる
+    # ターゲット一覧を取得
     targets = get_targets_user_id(request.user.id)
 
 

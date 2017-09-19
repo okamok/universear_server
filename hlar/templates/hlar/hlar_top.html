@@ -97,12 +97,18 @@
         人気のターゲットを是非アプリからお試し下さい。<br>
 
         <div style="margin-top:20px;">
+            {% for target in targets %}
+                <div class="step-box list-mv06">
+                    <img src="{{s3_FQDN}}{{target.img_name}}" class="target-list" />
+                </div>
+            {% endfor %}
+
+<!--
             <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
             <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
             <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
             <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
+            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div> -->
         </div>
     </div>
 
