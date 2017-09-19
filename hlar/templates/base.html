@@ -26,6 +26,7 @@
         <link href="{% static "css/" %}bootstrap-social.css" rel="stylesheet">
         <script src="{% static "js/" %}common.js"></script>
         <script src="{% static "js/" %}imgLiquid-min.js"></script>
+        <script src="{% static "js/" %}jquery.inview.min.js"></script>
 
 
         {% bootstrap_javascript %}
@@ -259,6 +260,26 @@
             return false;
         });
 
+
+        $('.list-mv06').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    		if(isInView){
+    			$(this).stop().addClass('mv06');
+    		}
+    		else{
+    			$(this).stop().removeClass('mv06');
+    		}
+    	});
+        
+        $('.list-mv07').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    		if(isInView){
+    			$(this).stop().addClass('mv07');
+    		}
+    		else{
+    			$(this).stop().removeClass('mv07');
+    		}
+    	});
+
+
     });
 
     $(window).load(function () { //全ての読み込みが完了したら実行
@@ -277,7 +298,6 @@
       $('#loader-bg').delay(900).fadeOut(800);
       $('#loader').delay(600).fadeOut(300);
     }
-
 
     </script>
 </html>

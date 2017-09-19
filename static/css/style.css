@@ -43,6 +43,31 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+
+.list-mv06{
+    transition: .8s;
+	transform: scale(0, 0) rotateY(180deg);
+	-webkit-transform: scale(0, 0) rotateY(180deg);
+}
+.mv06{
+	transform: scale(1, 1) rotateY(360deg);
+	-webkit-transform: scale(1, 1) rotateY(360deg);
+}
+
+
+.list-mv07{
+    transition: .8s;
+	opacity: 0;
+	transform: translate(0,60px);
+	-webkit-transform: translate(0,60px);
+}
+.mv07{
+	opacity: 1.0;
+	transform: translate(0,0);
+	-webkit-transform: translate(0,0);
+}
+
+
 .nomalFont {
     font-family:'Bookman Old Style', 'serif', sans-serif;
 }
