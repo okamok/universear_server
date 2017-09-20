@@ -27,6 +27,7 @@
         <script src="{% static "js/" %}common.js"></script>
         <script src="{% static "js/" %}imgLiquid-min.js"></script>
         <script src="{% static "js/" %}jquery.inview.min.js"></script>
+        <script src="{% static "js/" %}wookmark.min.js"></script>
 
 
         {% bootstrap_javascript %}
@@ -269,7 +270,7 @@
     			$(this).stop().removeClass('mv06');
     		}
     	});
-        
+
         $('.list-mv07').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
     		if(isInView){
     			$(this).stop().addClass('mv07');
@@ -280,7 +281,32 @@
     	});
 
 
+        // // 最後のタイル要素内の画像が読み込まれたら実行
+        // $("#image_box li:last img").load(function(){
+        //   var options = {
+        //     autoResize: true, // ブラウザの大きさに合わせて要素を自動リサイズ
+        //     container: $('#image_box'), // 適用するリストを囲っている要素を指定
+        //     offset: 10, // 要素間の間隔を指定
+        //     itemWidth: 210 // 各要素の幅を指定
+        //   };
+        //   var handler = $('#image_box li'); // タイル風にする要素を指定
+        //   handler.wookmark(options); // wookmarkをオプション付きで実行
+        // });
+
+        // var options = {
+        //     // レイアウトのオプション
+        //     autoResize: true, // リサイズ時にレイアウトを更新
+        //     container: $('#container'), //コンテナを指定（CSS の設定で中央寄せ等する場合必要）
+        //     //itemWidth: 180, // 列の幅の指定（オプション）
+        //     offset: 5, //アイテム間のマージン（オプション）
+        //     outerOffset: 10, // コンテナからのオフセット（オプション）
+        //     fillEmptySpace: true // 最後の空いたスペースを「.wookmark-placeholder」で埋める（オプション）
+        // };
+        // $('.item').wookmark(options);
     });
+
+
+    // $('#image_box li').wookmark();
 
     $(window).load(function () { //全ての読み込みが完了したら実行
       $('#loader-bg').delay(900).fadeOut(800);

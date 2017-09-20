@@ -75,8 +75,10 @@
 
         <div class="step-box list-mv07">
             <img src="{% static "images/" %}3_install_icon_blue.png"  style="width:150px"/><br>
+
             <p>
-                <button type="button" class="btn btn-primary" style="margin-bottom:10px">{% trans 'インストール' %}</button><br>
+                <!-- <button type="button" class="btn btn-primary" style="margin-bottom:10px">{% trans 'インストール' %}</button><br> -->
+                <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px"/><br>
                 3.アプリ「UNIVERSE」をiPhoneにインストールする。<br>
             </p>
         </div>
@@ -102,13 +104,6 @@
                     <img src="{{s3_FQDN}}{{target.img_name}}" class="target-list" />
                 </div>
             {% endfor %}
-
-<!--
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div>
-            <div class="step-box list-mv06"><img src="{% static "images/" %}4_use.jpg" class="target-list" /></div> -->
         </div>
     </div>
 
