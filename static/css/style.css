@@ -68,6 +68,10 @@ body {
 }
 
 
+
+
+
+
 .nomalFont {
     font-family:'Bookman Old Style', 'serif', sans-serif;
 }
@@ -101,15 +105,6 @@ body {
      margin-right: auto;
  }
 
- .target-list {
-     width:100%;
-     /*float:left;*/
-     margin-top:10px;
-
-     display: block;
-     margin-left: auto;
-     margin-right: auto;
- }
  /**** top page end ****/
 
 
@@ -531,6 +526,17 @@ margin:-20px 0px 30px 100px;
     .menuButton {
         margin-top: 0px;
     }
+
+    .target-list {
+        /*width:100%;*/
+        /*float:left;*/
+        margin-top:10px;
+
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 }
 
 
@@ -623,7 +629,8 @@ margin:-20px 0px 30px 100px;
     }
 
     .target-list {
-        width:100%;
+        /*width:100%;*/
+        /*height:50px;*/
         /*float:left;*/
         margin-left:10px;
     }
