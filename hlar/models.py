@@ -226,12 +226,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Target(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     vuforia_target_id = models.CharField(max_length=200, null=True)
     img_name = models.CharField(max_length=100, null=True)
     content_name = models.CharField(max_length=100, null=True)
     view_count = models.IntegerField(null=True)
     view_count_limit = models.IntegerField(null=True)
     view_state = models.PositiveSmallIntegerField(null=True)
+    del_flg = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
@@ -268,7 +270,7 @@ class Payment(models.Model):
 class AccessLog(models.Model):
 
     # ターゲットID target_id
-    target = models.ForeignKey(Target, on_delete=models.DO_NOTHING)
+    target = models.ForeignKey(Target, on_delete=models.CASCADE)
 
     # アクセス日時 access_date
     access_date = models.DateTimeField(auto_now_add=True)
