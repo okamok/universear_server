@@ -18,6 +18,7 @@ from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
 from hlar.twitterAPI import get_twitter_account
+from hlar.lib import get_targets_popular
 
 from hlar.models import DEFAULT_PASS
 
@@ -67,7 +68,11 @@ from django.db import IntegrityError
 
 from django.conf import settings
 
+from user_agents import parse as parse_ua
+
 import stripe
+
+# uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
 # S3_USER = 's3user'
 # S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
@@ -159,11 +164,19 @@ def hlar_top(request):
     # print('aabb')
     # pprint(request.user.id)
 
+
+
+    # 人気ターゲット一覧を取得
+    targets = get_targets_popular()
+
+
     return render(request,
                   'hlar/hlar_top.html',     # 使用するテンプレート
                   {
                     'user': request.user,
-                    'msg': _("使い方")
+                    'msg': _("使い方"),
+                    'targets': targets,
+                    's3_FQDN': s3_FQDN,
                   }         # テンプレートに渡すデータ
                   )
 
@@ -598,17 +611,23 @@ def target_list(request):
 #    return HttpResponse('ターゲットの一覧')
     # targets = Target.objects.all().order_by('id')
 
+    # ua = parse_ua(uastring_mobile)
+    ua = parse_ua(request.META['HTTP_USER_AGENT'])
+
+    # print('-is_mobile: {0}'.format(ua.is_mobile))
+
     print('req_id')
     print(request.user)
 
-    # @ToDo user_idを動的に入れる
+    # ターゲット一覧を取得
     targets = get_targets_user_id(request.user.id)
 
 
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
                   {'targets': targets,
-                   's3_FQDN': s3_FQDN
+                   's3_FQDN': s3_FQDN,
+                   'is_mobile': ua.is_mobile,
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
@@ -636,88 +655,101 @@ def target_edit(request, target_id=None):
         ######## ターゲットファイル
         #### まず一時的にサーバーに保存
         # 保存パス(ファイル名含む)
-        targetFile = request.FILES['target']
-        filePathTarget = TARGET_FILE_PATH + targetFile.name
+        encTargetFile = None
+        filePathTarget = None
+        if request.FILES.keys() >= {'target'}:
 
-        print("filePathTarget")
-        print(filePathTarget)
+            targetFile = request.FILES['target']
+            filePathTarget = TARGET_FILE_PATH + targetFile.name
 
-        # ファイルが存在していれば削除
-        if default_storage.exists(filePathTarget):
-            default_storage.delete(filePathTarget)
+            print("filePathTarget")
+            print(filePathTarget)
 
-        try:
-            # ファイルを保存
-            destination = open(filePathTarget, 'wb+')
-            for chunk in targetFile.chunks():
-                destination.write(chunk)
-            destination.close()
+            # ファイルが存在していれば削除
+            if default_storage.exists(filePathTarget):
+                default_storage.delete(filePathTarget)
 
-        except Exception as e:
-            print ('=== エラー内容 ===')
-            print ('type:' + str(type(e)))
-            print ('args:' + str(e.args))
-            print ('message:' + e.message)
-            print ('e自身:' + str(e))
+            try:
+                # ファイルを保存
+                destination = open(filePathTarget, 'wb+')
+                for chunk in targetFile.chunks():
+                    destination.write(chunk)
+                destination.close()
 
+            except Exception as e:
+                print ('=== エラー内容 ===')
+                print ('type:' + str(type(e)))
+                print ('args:' + str(e.args))
+                print ('message:' + e.message)
+                print ('e自身:' + str(e))
 
+            # filePath = TARGET_FILE_PATH + request.POST['target_file_name']
 
+            # file読み込み
+            with open(filePathTarget, 'rb') as f:
+                contents = f.read()
 
-        # filePath = TARGET_FILE_PATH + request.POST['target_file_name']
-
-        # file読み込み
-        with open(filePathTarget, 'rb') as f:
-            contents = f.read()
-
-        # base64でencode
-        encTargetFileBase64 = base64.b64encode(contents)
-        encTargetFile = encTargetFileBase64.decode('utf-8')
+            # base64でencode
+            encTargetFileBase64 = base64.b64encode(contents)
+            encTargetFile = encTargetFileBase64.decode('utf-8')
 
 
         ######## meta テキスト
         #### テキスト作成
-        meta_file_name = targetFile.name.replace('.','') + '.txt'
-        metaPath = TARGET_FILE_PATH + meta_file_name
+        encMetaFile = None
+        metaPath = None
+        if request.FILES.keys() >= {'contents'}:
 
-        contentsFile = request.FILES['contents']
+            meta_file_name = targetFile.name.replace('.','') + '.txt'
+            metaPath = TARGET_FILE_PATH + meta_file_name
 
-        metaContent = "{\n" \
-                        '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
-                        '\t"url" : "' + s3_FQDN + contentsFile.name + '"\n' \
-                       '}'
+            contentsFile = request.FILES['contents']
 
-        # ファイルが存在していれば削除
-        if default_storage.exists(metaPath):
-            default_storage.delete(metaPath)
+            metaContent = "{\n" \
+                            '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
+                            '\t"url" : "' + s3_FQDN + contentsFile.name + '"\n' \
+                           '}'
 
-        # ファイル保存
-        default_storage.save(metaPath, ContentFile(metaContent))
+            # ファイルが存在していれば削除
+            if default_storage.exists(metaPath):
+                default_storage.delete(metaPath)
 
-        # file読み込み
-        with open(metaPath, 'rb') as f:
-            contents = f.read()
+            # ファイル保存
+            default_storage.save(metaPath, ContentFile(metaContent))
 
-        # base64でencode
-        encMetaFileBase64 = base64.b64encode(contents)
-        encMetaFile = encMetaFileBase64.decode('utf-8')
+            # file読み込み
+            with open(metaPath, 'rb') as f:
+                contents = f.read()
+
+            # base64でencode
+            encMetaFileBase64 = base64.b64encode(contents)
+            encMetaFile = encMetaFileBase64.decode('utf-8')
 
 
         ######## ターゲット名
         target_name = request.POST['target_name']
 
         ######## Vuforia API で登録
-        if target_id:   # target_id が指定されている (修正時)
+        if target_id:
+            # target_id が指定されている (修正時)
             data = {
                 "name": target_name,
                 "width": 320,
-                "image": encTargetFile,
-                "application_metadata": encMetaFile,
+                # "image": encTargetFile,
+                # "application_metadata": encMetaFile,
                 "active_flag": 1,
             }
 
+            if encTargetFile != None:
+                data['image'] = encTargetFile
+
+            if encMetaFile != None:
+                data['application_metadata'] = encMetaFile
+
             response_content = update_target(target.vuforia_target_id, data)
 
-        else:         # target_id が指定されていない (追加時)
+        else:
+            # target_id が指定されていない (追加時)
             response_content = add_target(max_num_results='',
                                      include_target_data=encMetaFile,
                                      image=encTargetFile,
@@ -729,70 +761,80 @@ def target_edit(request, target_id=None):
         if judge_vws_result(response_content['result_code']):
 
             ######## S3にコンテンツ(動画)を保存
+            key_name = ''
+            filePathContents = None
+            if request.FILES.keys() >= {'contents'}:
 
-            #### まず一時的にサーバーに保存
-            # 保存パス(ファイル名含む)
-            filePathContents = TARGET_FILE_PATH + contentsFile.name
+                #### まず一時的にサーバーに保存
+                # 保存パス(ファイル名含む)
+                filePathContents = TARGET_FILE_PATH + contentsFile.name
 
-            print("filePathContents")
-            print(filePathContents)
+                print("filePathContents")
+                print(filePathContents)
 
-            # ファイルが存在していれば削除
-            if default_storage.exists(filePathContents):
-                default_storage.delete(filePathContents)
+                # ファイルが存在していれば削除
+                if default_storage.exists(filePathContents):
+                    default_storage.delete(filePathContents)
 
-            try:
-                # ファイルを保存
-                destination = open(filePathContents, 'wb+')
-                for chunk in contentsFile.chunks():
-                    destination.write(chunk)
-                destination.close()
+                try:
+                    # ファイルを保存
+                    destination = open(filePathContents, 'wb+')
+                    for chunk in contentsFile.chunks():
+                        destination.write(chunk)
+                    destination.close()
 
-            except Exception as e:
-                print ('=== エラー内容 ===')
-                print ('type:' + str(type(e)))
-                print ('args:' + str(e.args))
-                print ('message:' + e.message)
-                print ('e自身:' + str(e))
+                except Exception as e:
+                    print ('=== エラー内容 ===')
+                    print ('type:' + str(type(e)))
+                    print ('args:' + str(e.args))
+                    print ('message:' + e.message)
+                    print ('e自身:' + str(e))
 
-            key_name = contentsFile.name
+                key_name = contentsFile.name
 
-            print("key_name")
-            print(key_name)
+                print("key_name")
+                print(key_name)
 
-            #### S3にアップロード
-            client = boto3.client('s3')
-            transfer = S3Transfer(client)
-            transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
+                #### S3にアップロード
+                client = boto3.client('s3')
+                transfer = S3Transfer(client)
+                transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
 
-            #s3にアップした動画を公開する
-            # s3 = boto3.resource('s3')
-            # bucket = s3.Bucket(bucket_name)
-            # obj = bucket.Object(key_name)
-            # obj.
+                #s3にアップした動画を公開する
+                # s3 = boto3.resource('s3')
+                # bucket = s3.Bucket(bucket_name)
+                # obj = bucket.Object(key_name)
+                # obj.
 
-            # アップしたコンテンツを公開状態にする
-            s3 = boto3.resource('s3')
-            object_acl = s3.ObjectAcl(bucket_name, key_name)
-            response = object_acl.put(ACL='public-read')
+                # アップしたコンテンツを公開状態にする
+                s3 = boto3.resource('s3')
+                object_acl = s3.ObjectAcl(bucket_name, key_name)
+                response = object_acl.put(ACL='public-read')
 
-            # #s3の動画のcontent-type をセットする
-            # s3 = boto3.resource('s3')
-            # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
-            # response = s3_object.put(ContentType='string')
+                # #s3の動画のcontent-type をセットする
+                # s3 = boto3.resource('s3')
+                # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
+                # response = s3_object.put(ContentType='string')
 
 
 
             ######## S3にターゲット(image)を保存
-            key_name_target = targetFile.name
-            transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
-            object_acl = s3.ObjectAcl(bucket_name, key_name_target)
-            response = object_acl.put(ACL='public-read')
+            if request.FILES.keys() >= {'target'}:
+                client = boto3.client('s3')
+                transfer = S3Transfer(client)
+                key_name_target = targetFile.name
+                transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+                s3 = boto3.resource('s3')
+                object_acl = s3.ObjectAcl(bucket_name, key_name_target)
+                response = object_acl.put(ACL='public-read')
 
 
             ######## DBに登録
-            target.content_name = key_name
-            target.img_name = targetFile.name
+            if key_name != '':
+                target.content_name = key_name
+
+            if request.FILES.keys() >= {'target'}:
+                target.img_name = targetFile.name
 
             if target_id:   # target_id が指定されている (修正時)
                 print('test')
@@ -808,9 +850,14 @@ def target_edit(request, target_id=None):
             target.save()
 
             ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-            default_storage.delete(filePathTarget)      #target(image)
-            default_storage.delete(metaPath)            #meta
-            default_storage.delete(filePathContents)    #contents
+            if filePathTarget != None:
+                default_storage.delete(filePathTarget)      #target(image)
+
+            if metaPath != None:
+                default_storage.delete(metaPath)            #meta
+
+            if filePathContents != None:
+                default_storage.delete(filePathContents)    #contents
 
             return redirect('hlar:target_list')
             # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))

@@ -6,6 +6,11 @@
         <meta charset="UTF-8">
         <title>{% block title %}My books{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Rubik:900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/earlyaccess/sawarabimincho.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/earlyaccess/mplus1p.css" rel="stylesheet" />
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
@@ -17,9 +22,12 @@
         {% bootstrap_css %}
         <!-- <link href="{% static "css/" %}bootstrap.css" rel="stylesheet"> -->
         <link href="{% static "css/" %}style.css" rel="stylesheet">
+        <link href="{% static "css/" %}style_pc.css" rel="stylesheet">
         <link href="{% static "css/" %}bootstrap-social.css" rel="stylesheet">
         <script src="{% static "js/" %}common.js"></script>
         <script src="{% static "js/" %}imgLiquid-min.js"></script>
+        <script src="{% static "js/" %}jquery.inview.min.js"></script>
+        <script src="{% static "js/" %}wookmark.min.js"></script>
 
 
         {% bootstrap_javascript %}
@@ -39,7 +47,8 @@
 
         {% block extrahead %}{% endblock %}
     </head>
-    <body>
+    <body class="fontShrik">
+    <!-- <body style='font-family: "Lora";'> -->
         {% load i18n %}
 
 
@@ -65,55 +74,68 @@
         </nav> -->
 
         {% load tags %}
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container" style="margin-left:10px;margin-right:10px;width:98%">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <nav class="navbar navbar-inverse navbar-fixed-top nomalFont">
+            <div class="container" style="margin-left:10px;margin-right:10px;width:98%; /*height:80px*/">
+                <div class="navbar-header varHeader" style="/*margin-top: 13px;*/">
+                    <button type="button" class="navbar-toggle collapsed menuButton" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'hlar:hlar_top' %}">UNIVERSE</a>
+                    <!-- <a class="navbar-brand topLogoA" href="{% url 'hlar:hlar_top' %}" style="font-family: 'Rubik', sans-serif;font-size:20pt;"> -->
+                    <a class="topLogoA" href="{% url 'hlar:hlar_top' %}" style="font-family: 'Rubik', sans-serif;font-size:20pt;">
+                        <!-- <img src="{% static "images/" %}app_icon_U_type_resize.png" class="cLogoPosition" /> -->
+                        <img src="{% static "images/" %}app_icon_U_layer_with_type_resize.png" class="cLogoPosition" />
+                    </a>
                 </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <!-- <ul class="nav navbar-nav">
-                        <li class="active"><a href="{% url 'hlar:target_list' %}">{% trans "使い方" %}</a></li>
-                        <li ><a href="{% url 'hlar:target_list' %}">about us</a></li>
-                    </ul> -->
+                <div id="navbar" style="/*margin-top: 13px;*/" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav nav-menu-1">
-                        <li class="active"><a href="{% url 'hlar:target_list' %}">{% trans "使い方" %}</a></li>
-                        <li><a href="{% url 'hlar:target_list' %}">{% trans "このサイトについて" %}</a></li>
+                        <li class="active" style="text-align:center">
+                            <a href="/hlar/#howtouse">
+                                <span class="glyphicon glyphicon-hand-up" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{% trans "使い方" %}</span>
+                            </a>
+                        </li>
 
                         {% if user.is_authenticated %}
-
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} 様<span class="caret"></span></a>
-                          <ul class="dropdown-menu menu-down">
-                            <li><a href="{% url 'hlar:user_edit' user_id=user.id %}">{% trans "アカウント設定" %}</a></li>
-                            <li><a href="{% url 'hlar:target_list' %}">{% trans "ターゲット管理" %}</a></li>
-                          </ul>
+                        <li style="text-align:center">
+                            <a href="{% url 'hlar:user_edit' user_id=user.id %}">
+                                <span class="glyphicon glyphicon-user" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{{ user.username }}</span>
+                            </a>
+                        </li>
+                        <li style="text-align:center">
+                            <a id="aTargetList" href="#">
+                                <span class="glyphicon glyphicon-picture" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{% trans "ターゲット管理" %}</span>
+                            </a>
                         </li>
 
-                        <!-- <li>
-                            <a href="{% url 'hlar:user_edit' user_id=user.id %}">{{ user.username }} 様</a>
-                        </li> -->
-
-                        <li>
-                            <a href="/logout">{% trans "ログアウト" %}</a>
+                        <li style="text-align:center">
+                            <a href="/logout">
+                                <span class="glyphicon glyphicon-log-out" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{% trans "ログアウト" %}</span>
+                            </a>
                         </li>
                         {% else %}
-                        <li>
-                            <a href="/accounts/login/">{% trans "ログイン" %}</a>
+                        <li style="text-align:center">
+                            <a href="/accounts/login/">
+                                <span class="glyphicon glyphicon-log-in" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{% trans "ログイン" %}</span>
+                            </a>
                         </li>
-                        <li>
-                            <a href="/accounts/register/">{% trans "サインアップ" %}</a>
+                        <li style="text-align:center">
+                            <a href="/accounts/register/">
+                                <span class="glyphicon glyphicon-flash" style="font-size:17pt"></span><br>
+                                <span style="font-size:8pt">{% trans "サインアップ" %}</span>
+                            </a>
                         </li>
                         {% endif %}
 
-                        <li style="padding-top:8px">
+                        <li style="padding-top:23px; text-align:center;">
                             <span>
-                              <form id="form_lang" name="form_lang" action="{% url 'hlar:set_language' %}" method="post">
+                              <form id="form_lang" style="display: inline-block;" name="form_lang" action="{% url 'hlar:set_language' %}" method="post">
                             	{% csrf_token %}
                             	<input name="next" type="hidden" value="{{ redirect_to }}" />
                             	<select name="language"  class="form-control" style="width:100px" id="lang_sel">
@@ -125,63 +147,75 @@
                                 {% endif%}
                             	{% endfor %}
                             	</select>
-                            	<!-- <input type="submit" value="Go" style="block:inline;width:70px" class="form-control" /> -->
                               </form>
                             </span>
                         </li>
-
-                        <!-- <li style="padding-top:10px">
-                            <input type="text" class="form-control input-sm" style="width:200px;float:left">
-                            <button type="button" class="btn btn-primary btn-sm">検索</button>
-                        </li> -->
                     </ul>
                 </div>
             </div>
         </nav>
 
+        <div id="loader-bg">
+          <div id="loader">
+            <img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />
+            <p>Now Loading...</p>
+          </div>
+        </div>
+
+        <div id="wrap">
+
+
         {% block content %}
         {{ content }}
         {% endblock %}
 
+        </div>
 
-        <footer style="margin-top:50px">
+
+        <footer style="margin-top:0px">
           <div class="container">
             <div class="row">
-              <div class="col-md-4 col-sm-6 footerleft ">
-                <div class="logofooter"> Logo</div>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
-                <p><i class="fa fa-map-pin"></i> 210, Aggarwal Tower, Rohini sec 9, New Delhi -        110085, INDIA</p>
-                <p><i class="fa fa-phone"></i> Phone (India) : +91 9999 878 398</p>
-                <p><i class="fa fa-envelope"></i> E-mail : info@webenlance.com</p>
+              <div class=" col-sm-6 footerleft ">
+                <div class="logofooter">
+                    <img class="cLogoForFooter" src="{% static "images/" %}app_icon_U_type_resize.png" />
+                </div>
+
+                <p>
+                    新しいARアプリ「UNIVERSE」
+                    すぐに無料であなただけのARコンテンツが作成できます。
+                </p>
+                <!-- <p><i class="fa fa-map-pin"></i> 2-4-4-311, Aggarwal Tower, Rohini sec 9, New Delhi -        110085, INDIA</p> -->
+                <!-- <p><i class="fa fa-phone"></i> Phone (JP) : +81 9999 878 398</p> -->
+                <p><i class="fa fa-envelope"></i> E-mail : info@insight.hiliberate.biz</p>
 
               </div>
-              <div class="col-md-2 col-sm-6 paddingtop-bottom">
-                <h6 class="heading7">GENERAL LINKS</h6>
+              <div class="col-md-3 col-sm-6 footerleft">
+                <h6 class="heading7">MENU</h6>
                 <ul class="footer-ul">
-                  <li><a href="#"> Career</a></li>
-                  <li><a href="#"> Privacy Policy</a></li>
-                  <li><a href="#"> Terms & Conditions</a></li>
-                  <li><a href="#"> Client Gateway</a></li>
-                  <li><a href="#"> Ranking</a></li>
-                  <li><a href="#"> Case Studies</a></li>
-                  <li><a href="#"> Frequently Ask Questions</a></li>
+                  <li><a href="/hlar"> {% trans 'トップ' %}</a></li>
+                  <li><a href="/hlar/#howtouse"> {% trans '使い方' %}</a></li>
+                  <li><a href="/accounts/register/">{% trans "サインアップ" %}</a></li>
                 </ul>
               </div>
-              <div class="col-md-3 col-sm-6 paddingtop-bottom">
-                <h6 class="heading7">LATEST POST</h6>
-                <div class="post">
+              <div class="col-md-3 col-sm-6 footerleft">
+                <h6 class="heading7">ABOUT</h6>
+                <ul class="footer-ul">
+                  <li><a href="/hlar"> {% trans 'このサイトについて' %}</a></li>
+                </ul>
+
+                <!-- <div class="post">
                   <p>facebook crack the movie advertisment code:what it means for you <span>August 3,2015</span></p>
                   <p>facebook crack the movie advertisment code:what it means for you <span>August 3,2015</span></p>
                   <p>facebook crack the movie advertisment code:what it means for you <span>August 3,2015</span></p>
-                </div>
+                </div> -->
               </div>
-              <div class="col-md-3 col-sm-6 paddingtop-bottom">
+              <!-- <div class="col-md-3 col-sm-6 paddingtop-bottom">
                 <div class="fb-page" data-href="https://www.facebook.com/facebook" data-tabs="timeline" data-height="300" data-small-header="false" style="margin-bottom:15px;" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                   <div class="fb-xfbml-parse-ignore">
                     <blockquote cite="https://www.facebook.com/facebook"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </footer>
@@ -190,14 +224,13 @@
         <div class="copyright">
           <div class="container">
             <div class="col-md-6">
-              <p>© 2016 - All Rights with Webenlance</p>
+              <p>© 2017 HI LIBERATE</p>
             </div>
             <div class="col-md-6">
               <ul class="bottom_ul">
-                <li><a href="#">webenlance.com</a></li>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Faq's</a></li>
+                <li><a href="/hlar"> {% trans 'トップ' %}</a></li>
+                <li><a href="#"><a href="#"> {% trans '使い方' %}</a></a></li>
+                <li><a href="#"><a href="/hlar"> {% trans 'このサイトについて' %}</a></a></li>
                 <li><a href="#">Contact us</a></li>
                 <li><a href="#">Site Map</a></li>
               </ul>
@@ -212,6 +245,85 @@
         $('#lang_sel').change(function() {
             document.form_lang.submit();
         });
+
+
+        // リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
+        $('#aTargetList').click(function(){
+            var url = "{% url 'hlar:target_list' %}"; // クリックされたリンクのURLを取得
+
+            // $('#js-loader').fadeIn(600);    // ローディング画面をフェードイン
+
+            var h = $(window).height();
+            $('#wrap').css('display','none');
+            $('#loader-bg ,#loader').height(h).css('display','block');
+
+            setTimeout(function(){ location.href = url; }, 800); // URLにリンクする
+            return false;
+        });
+
+
+        $('.list-mv06').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    		if(isInView){
+    			$(this).stop().addClass('mv06');
+    		}
+    		else{
+    			$(this).stop().removeClass('mv06');
+    		}
+    	});
+
+        $('.list-mv07').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    		if(isInView){
+    			$(this).stop().addClass('mv07');
+    		}
+    		else{
+    			$(this).stop().removeClass('mv07');
+    		}
+    	});
+
+
+        // // 最後のタイル要素内の画像が読み込まれたら実行
+        // $("#image_box li:last img").load(function(){
+        //   var options = {
+        //     autoResize: true, // ブラウザの大きさに合わせて要素を自動リサイズ
+        //     container: $('#image_box'), // 適用するリストを囲っている要素を指定
+        //     offset: 10, // 要素間の間隔を指定
+        //     itemWidth: 210 // 各要素の幅を指定
+        //   };
+        //   var handler = $('#image_box li'); // タイル風にする要素を指定
+        //   handler.wookmark(options); // wookmarkをオプション付きで実行
+        // });
+
+        // var options = {
+        //     // レイアウトのオプション
+        //     autoResize: true, // リサイズ時にレイアウトを更新
+        //     container: $('#container'), //コンテナを指定（CSS の設定で中央寄せ等する場合必要）
+        //     //itemWidth: 180, // 列の幅の指定（オプション）
+        //     offset: 5, //アイテム間のマージン（オプション）
+        //     outerOffset: 10, // コンテナからのオフセット（オプション）
+        //     fillEmptySpace: true // 最後の空いたスペースを「.wookmark-placeholder」で埋める（オプション）
+        // };
+        // $('.item').wookmark(options);
     });
+
+
+    // $('#image_box li').wookmark();
+
+    $(window).load(function () { //全ての読み込みが完了したら実行
+      $('#loader-bg').delay(900).fadeOut(800);
+      $('#loader').delay(600).fadeOut(300);
+      $('#wrap').css('display', 'block');
+    });
+
+    //10秒たったら強制的にロード画面を非表示
+    $(function(){
+      setTimeout('stopload()',10000);
+    });
+
+    function stopload(){
+      $('#wrap').css('display','block');
+      $('#loader-bg').delay(900).fadeOut(800);
+      $('#loader').delay(600).fadeOut(300);
+    }
+
     </script>
 </html>

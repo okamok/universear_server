@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
-footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', sans-serif; }
+footer { background-color:#0c1a1e; min-height:250px; font-family: 'Open Sans', sans-serif; }
 .footerleft { margin-top:50px; padding:0 36px; }
 .logofooter { margin-bottom:10px; font-size:25px; color:#fff; font-weight:700;}
 
@@ -23,20 +23,58 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 
 
- .icon-ul { list-style-type:none !important; margin:0px; padding:0px;}
- .icon-ul li { line-height:75px; width:100%; float:left;}
- .icon { float:left; margin-right:5px;}
+.icon-ul { list-style-type:none !important; margin:0px; padding:0px;}
+.icon-ul li { line-height:75px; width:100%; float:left;}
+.icon { float:left; margin-right:5px;}
 
 
- .copyright { min-height:40px; background-color:#000000;}
- .copyright p { text-align:left; color:#FFF; padding:10px 0; margin-bottom:0px;}
- .heading7 { font-size:21px; font-weight:700; color:#d9d6d6; margin-bottom:22px;}
- .post p { font-size:12px; color:#FFF; line-height:20px;}
- .post p span { display:block; color:#8f8f8f;}
- .bottom_ul { list-style-type:none; float:right; margin-bottom:0px;}
- .bottom_ul li { float:left; line-height:40px;}
- .bottom_ul li:after { content:"/"; color:#FFF; margin-right:8px; margin-left:8px;}
- .bottom_ul li a { color:#FFF;  font-size:12px;}
+.copyright { min-height:40px; background-color:#000000;}
+.copyright p { text-align:left; color:#FFF; padding:10px 0; margin-bottom:0px;}
+.heading7 { font-size:21px; font-weight:700; color:#d9d6d6; margin-bottom:22px;}
+.post p { font-size:12px; color:#FFF; line-height:20px;}
+.post p span { display:block; color:#8f8f8f;}
+.bottom_ul { list-style-type:none; float:right; margin-bottom:0px;}
+.bottom_ul li { float:left; line-height:40px;}
+.bottom_ul li:after { content:"/"; color:#FFF; margin-right:8px; margin-left:8px;}
+.bottom_ul li a { color:#FFF;  font-size:12px;}
+
+
+body {
+    -webkit-font-smoothing: antialiased;
+}
+
+
+.list-mv06{
+    transition: .8s;
+	transform: scale(0, 0) rotateY(180deg);
+	-webkit-transform: scale(0, 0) rotateY(180deg);
+}
+.mv06{
+	transform: scale(1, 1) rotateY(360deg);
+	-webkit-transform: scale(1, 1) rotateY(360deg);
+}
+
+
+.list-mv07{
+    transition: .8s;
+	opacity: 0;
+	transform: translate(0,60px);
+	-webkit-transform: translate(0,60px);
+}
+.mv07{
+	opacity: 1.0;
+	transform: translate(0,0);
+	-webkit-transform: translate(0,0);
+}
+
+
+
+
+
+
+.nomalFont {
+    font-family:'Bookman Old Style', 'serif', sans-serif;
+}
 
 
 /**** 全体 start ****/
@@ -55,9 +93,9 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 /**** top page start ****/
  .step-box {
      float:left;
-     width:90%;
-     padding:5px;
-     margin-left:10px;
+     width:100%;
+     padding:2.5px 10px 2.5px 10px;
+     margin-top:30px;
  }
 
  .step-box img {
@@ -67,40 +105,6 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
      margin-right: auto;
  }
 
- .target-list {
-     width:80%;
-     /*float:left;*/
-     margin-top:10px;
-
-     display: block;
-     margin-left: auto;
-     margin-right: auto;
- }
-
-
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-     .step-box {
-         /*float:left;*/
-         /*width:250px;*/
-         width:23%;
-         padding:5px;
-         margin-left:10px;
-     }
-
-     .step-box img {
-         width:100%;
-         /*width:250px;
-         height:180px*/
-     }
-
-     .target-list {
-         width:100%;
-         /*float:left;*/
-         margin-left:10px;
-     }
-
-}
  /**** top page end ****/
 
 
@@ -117,21 +121,7 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
     text-align: center;
 }
 
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-    .nav-menu-1 {
-        float:right;
-    }
 
-    .navbar-nav {
-        text-align: left;
-    }
-
-    .menu-down {
-        text-align: left;
-    }
-
-}
 /**** nav関連 end ****/
 
 
@@ -225,85 +215,26 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 
 
 
-/*PC用の設定*/
-@media screen and (min-width: 768px) {
-  .carousel-caption-lo {
-    right: 20%;
-    /*left: 20%;*/
-    padding-bottom: 30px;
-  }
+/*.cLogoPosition {
+    width:200px;
+    margin-top: -4px;
+    margin-left: -25px;
+}*/
 
-  .slider-d{
-  }
 
-  .slider-d img{
-      margin-top:0px;
-      max-width: 100%;
-  }
-
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-    /*display: block;*/
-    max-width: 200%;
-    height: auto;
-  }
-
-  .slider-img {
-      width:100%;
-  }
-
-  .slider-p {
-      left:10%;
-      padding:10px;
-      width:200px;
-      margin-bottom:150px;
-      text-align:left;
-      text-shadow: -2px 2px 3px #808080;
-  }
-
-  .slider-page-l {
-  }
-
-  .slider-page-r {
-  }
-
-  .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
-      position: absolute;
-      top: 50%;
-      z-index: 5;
-      display: inline-block;
-      margin-top: -10px;
-  }
-
-  .carousel-control {
+.carousel-indicators {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 15%;
-    font-size: 20px;
-    color: #fff;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
     text-align: center;
-    text-shadow: 0 1px 2px rgba(0,0,0,.6);
-    background-color: rgba(0,0,0,0);
-    filter: alpha(opacity=50);
-    opacity: .5;
-    height:100%;
+    list-style: none;
 }
 
-  .carousel-indicators {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      z-index: 15;
-      width: 60%;
-      padding-left: 0;
-      margin-left: -30%;
-      text-align: center;
-      list-style: none;
-  }
 
-}
 
 /* transition設定 */
 .carousel-fade .carousel-inner .item {
@@ -331,3 +262,664 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 }
 
 /**** slider関連 end ****/
+
+.slope1 {
+-webkit-transform: rotate(-5deg); /* chrome、safari　*/
+-moz-transform: rotate(-5deg); /* firefox　*/
+margin:0px 0px 10px -10px;
+}
+
+
+.slope2 {
+-webkit-transform: rotate(-10deg); /* chrome、safari　*/
+-moz-transform: rotate(-10deg); /* firefox　*/
+margin:-20px 0px 30px 100px;
+}
+
+.fontShrik {
+    /*font-family: 'Shrikhand', "Mplus 1p", cursive;*/
+    font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;
+    font-weight: bold,
+}
+
+.wf-mplus1p {
+    font-family: "Mplus 1p";
+    font-weight: bold;
+}
+
+.basicBox{
+    width:100%;
+    height:auto;
+    overflow:hidden;
+    padding:50px 0px 50px 0px;
+}
+
+.welcomeDiv {
+    text-align:center;
+    width:100%;
+    /*min-width: 625px;*/
+    /*margin-top:10px;*/
+    margin-left:0px;
+    /*padding:10px;*/
+    color:white;
+    font-size:20pt;
+}
+
+.topLeft {
+    width:90%;
+}
+
+.topRight {
+    position: relative;
+    width:90%;
+}
+
+.contactDiv {
+    width:100%;
+    text-align:center;
+    margin-top:20px;
+    font-size:15pt;
+}
+
+.cLogoForFooter {
+    width:200px;
+    /*margin-top: -4px;
+    margin-left: -25px;*/
+}
+
+.basicForm {
+    width:100%;
+    padding:10px;
+    display:inline-block;
+}
+
+#inputP input {
+    border: 1px solid #ccc;
+    border-radius:10px;
+    box-shadow: none;
+    padding: 2px 8px;
+    width:100%;
+    height:35px;
+}
+
+.contentsDiv {
+    width:90%;
+    height:auto;
+    overflow:hidden;
+    background-color: white;
+    padding:20px 0px 20px 0px;
+    border-radius:20px;
+    display: inline-block;
+}
+
+/*600px以下(スマホ用)*/
+@media screen and (max-width:600px) {
+
+    .navbar {
+        width:100%;
+    }
+
+    /*.navbar-brand {
+      padding-top: 25px;
+    }
+
+    .navbar-nav > li > a {
+      padding-top: 15px !important;
+      padding-bottom: 10px !important;
+    }*/
+
+    .navbar-nav > li {
+        width: 50%;
+        float: left;
+    }
+
+
+    .baseDiv {
+        margin-top: 10px;
+        /*margin-left:20px;*/
+        padding:50px 0px 50px 0px;
+        width:100%;
+    }
+
+
+    .resposiveTable {
+        display: block;
+        width: 100%;
+    }
+
+    .resposiveTable td th{
+        display: block;
+        width: 100%;
+    }
+
+
+    .resposiveTable tr {
+        border-bottom: 1px solid #C6C6C6;
+    }
+
+    .responsiveTableHeader{
+        display: block;
+        width: 100%;
+        /*width:30%;*/
+        padding:15px;
+    }
+
+    .responsiveTableContents{
+        display: block;
+        width: 100%;
+        /*width:70%;*/
+        padding:15px;
+    }
+
+
+    .targetListHead__id {
+        float:left;
+        width:10px;
+    }
+
+    .targetListHead__target {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__contents {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count_limit {
+        float:left;
+        width:100px;
+    }
+
+    .targetListHead__control {
+        float:left;
+        width:50px;
+    }
+
+    .rowForCellPhone {
+        padding: 0px 10px 0px 10px;
+        height:auto;
+        overflow:hidden;
+    }
+
+    .targetAddButtonA {
+        width:90%;
+        height:40px;
+        font-size:14pt;
+    }
+
+    #loader-bg {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      background: #000;
+      z-index: 9998;
+    }
+    #loader {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      margin-top: -100px;
+      margin-left: -100px;
+      text-align: center;
+      color: #fff;
+      z-index: 9999;
+    }
+
+
+    .loaderImg {
+        width:100px;
+    }
+
+    .top-video-div {
+        display: block;
+        position: absolute;
+        top: 8%;
+        left: 7.2%;
+        width: 85%;
+        height: 51.25%;
+    }
+
+    .top-iphone-div {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 23%;
+        height: 51.25%;
+        transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
+
+    .top-video {
+        width:100%;
+    }
+
+    .cLogoPosition {
+        width: 200px;
+        margin-top: -5px;
+        margin-right: 7px;
+    }
+
+    .topLogoA {
+        margin-left:5px;
+    }
+
+    .varHeader {
+        margin-top: 10px;
+    }
+
+    .menuButton {
+        margin-top: 0px;
+    }
+
+    .target-list {
+        /*width:100%;*/
+        /*float:left;*/
+        margin-top:10px;
+
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+
+
+
+
+/*PC用の設定*/
+@media screen and (min-width: 768px) {
+    .baseDiv {
+        margin-top: 10px;
+        /*margin-left:20px;*/
+        padding:50px 0px 50px 0px;
+    }
+
+    .carousel-caption-lo {
+        right: 20%;
+        /*left: 20%;*/
+        padding-bottom: 30px;
+    }
+
+    .slider-d{
+    }
+
+    .slider-d img{
+        margin-top:0px;
+        max-width: 100%;
+    }
+
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+        /*display: block;*/
+        max-width: 200%;
+        height: auto;
+    }
+
+    .slider-img {
+        width:100%;
+    }
+
+    .slider-p {
+        left:10%;
+        padding:10px;
+        width:200px;
+        margin-bottom:100px;
+        text-align:left;
+        text-shadow: -2px 2px 3px #808080;
+    }
+
+    .slider-page-l {
+    }
+
+    .slider-page-r {
+    }
+
+    .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
+        position: absolute;
+        top: 50%;
+        z-index: 5;
+        display: inline-block;
+        margin-top: -10px;
+    }
+
+    .carousel-control {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 15%;
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 1px 2px rgba(0,0,0,.6);
+        background-color: rgba(0,0,0,0);
+        filter: alpha(opacity=50);
+        opacity: .5;
+        height:100%;
+    }
+
+    .step-box {
+        /*float:left;*/
+        /*width:250px;*/
+        width:23%;
+        padding:5px;
+        margin-left:10px;
+    }
+
+    .step-box img {
+        width:100%;
+        /*width:250px;
+        height:180px*/
+    }
+
+    .target-list {
+        /*width:100%;*/
+        /*height:50px;*/
+        /*float:left;*/
+        margin-left:10px;
+    }
+
+    .nav-menu-1 {
+        float:right;
+    }
+
+    .navbar-nav {
+        text-align: left;
+    }
+
+    .menu-down {
+        text-align: left;
+    }
+
+    .bgGradation {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #0960d7), color-stop(0.00, #8ac5e0));
+        background: -webkit-linear-gradient(#8ac5e0, #0960d7);
+        background: -moz-linear-gradient(#8ac5e0, #0960d7);
+        background: -o-linear-gradient(#8ac5e0, #0960d7);
+        background: -ms-linear-gradient(#8ac5e0, #0960d7);
+        background: linear-gradient(#8ac5e0, #0960d7);
+    }
+
+    .basicBox{
+        width:100%;
+        height:auto;
+        overflow:hidden;
+        /*padding:80px 0px 50px 0px;*/
+        padding:40px 0px 50px 0px;
+    }
+
+    .welcomeDiv {
+        text-align:center;
+        width:100%;
+        margin-top:40px;
+        /*margin-left:40px;*/
+        color:white;
+        font-size:17pt;
+    }
+
+    .topLeft {
+        width:60%;
+    }
+
+    .topRight {
+        width:40%;
+        position: relative;
+        /*position: absolute;
+        top: 0px;
+        right: 0px;*/
+        /*width: auto;*/
+
+        /*margin-left:50px;*/
+    }
+
+    .contactDiv {
+        width:100%;
+        text-align:center;
+        margin-top:20px;
+        font-size:20pt;
+    }
+
+    .cLogoForFooter {
+        width:200px;
+        /*margin-top: -4px;
+        margin-left: -25px;*/
+    }
+
+    .baseDiv {
+        margin-top: 20px;
+        /*margin-left:20px;*/
+        padding:90px 0px 50px 0px;
+        background-color: #F0F1F4;
+    }
+
+    .basicForm {
+        /*width:auto;*/
+        width:90%;
+        display:inline-block;
+    }
+
+    .contentsDiv {
+        width:40%;
+        height:auto;
+        overflow:hidden;
+        background-color: white;
+        padding:20px 0px 20px 0px;
+        border-radius:20px;
+        display: inline-block;
+    }
+
+    .contentsLargeDiv {
+        width:80%;
+        height:auto;
+        overflow:hidden;
+        background-color: white;
+        padding:20px 0px 20px 0px;
+        border-radius:20px;
+        display: inline-block;
+    }
+
+    /*.resposiveTable tbody, tr, th, td {
+        display: block;
+        width: 100%;
+    }*/
+
+    .resposiveTable{
+        /*display:inline;*/
+        width: 100%; /*スマホ画面ほぼ一杯に広がる感じ*/
+    }
+
+    .resposiveTable tbody{
+        /*display:inline;*/
+        width: 100%; /*スマホ画面ほぼ一杯に広がる感じ*/
+    }
+
+    .resposiveTable tr {
+        width:100%;
+        border-bottom: 1px solid #C6C6C6;
+    }
+
+    .responsiveTableHeader{
+        width:30%;
+        padding:15px;
+    }
+
+    .responsiveTableContents{
+        width:70%;
+        padding:15px;
+    }
+
+    .itemlistSort {
+        width: 100%;
+        box-sizing: border-box;
+        counter-reset: sort;
+    }
+
+    .targetList {
+        display: inline-block;
+        width:90%;
+    }
+
+    .targetListHead {
+        list-style:none;
+        padding-left: 0px;
+
+        box-sizing: border-box;
+        width: 100%;
+        background-color: #fff;
+        line-height: 50px;
+        border-bottom: solid 1px #e5e8ed;
+        color: #b2bcca;
+        font-size: 11px;
+    }
+
+    .targetListHead__id {
+        float:left;
+        width:10px;
+/*
+        background: #fff;
+        display: table;
+        position: relative;
+        width: 100%;
+        vertical-align: middle;
+        padding: 15px 0;
+        font-size: 14px;
+        margin: 0 0 1px 0;
+        box-sizing: border-box;*/
+    }
+
+    .targetListHead__target {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__contents {
+        float:left;
+        width:30%;
+    }
+
+    .targetListHead__view_count {
+        float:left;
+        width:100px;
+    }
+
+    .targetListHead__view_count_limit {
+        float:left;
+        width:130px;
+    }
+
+    .targetListHead__control {
+        float:left;
+        width:50px;
+    }
+
+    .targetAddButton {
+        text-align:left;
+        margin: 10px 0px 20px 40px;
+    }
+
+    .targetAddButtonA {
+        width:200px;
+        font-size:13pt;
+    }
+
+
+    #loader-bg {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      background: #000;
+      z-index: 9998;
+    }
+    #loader {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      margin-top: -100px;
+      margin-left: -100px;
+      text-align: center;
+      color: #fff;
+      z-index: 9999;
+    }
+
+    .loaderImg {
+        width:200px;
+    }
+
+
+    .navbar {
+      /*min-height: 60px !important*/
+    }
+
+    .navbar-brand {
+      /*height: 60px;*/
+      padding-top: 25px;
+    }
+
+    .navbar-nav > li > a {
+      padding-top: 15px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .top-video-div {
+        display: block;
+        position: absolute;
+        top: 8%;
+        left: 6.7%;
+        width: 86%;
+        height: 51.25%;
+    }
+
+    .top-iphone-div {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 23%;
+        height: 51.25%;
+        transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+    }
+
+
+    .top-video {
+        width:100%;
+    }
+
+    .cLogoPosition {
+        width: 230px;
+        margin-top: -5px;
+        margin-right: 7px;
+    }
+
+    .topLogoA {
+        margin-left:20px;
+        padding-top: 25px;
+    }
+
+    .varHeader {
+        margin-top: 20px;
+    }
+}

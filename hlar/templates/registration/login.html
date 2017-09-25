@@ -4,25 +4,44 @@
 {% block title %}{% trans "Log in" %}{% endblock %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
+<!-- <div style="margin-top: 70px;margin-left:20px"> -->
+<div class="baseDiv nomalFont" style="text-align:center">
+
+    <div class="contentsDiv">
+        <div class="fontShrik">
+            <h4>ログイン</h4>
+        </div>
+
+        <form method="post" action="" class="basicForm">
+            <div id="inputP">
+                {% csrf_token %}
+                <!-- {{ form.as_p }} -->
+
+                {% for field in form %}
+                    <p style="text-align:left">
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {{ field.errors }}
+                    </p>
+                {% endfor %}
 
 
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="{% trans 'Log in' %}" />
-    <input type="hidden" name="next" value="{{ next }}" />
-</form>
-<hr>
-<a href="{% url 'social:begin' 'google-oauth2' %}?next=/hlar/" class="btn btn-block btn-social btn-google-plus" style="width:200px">
-    <i class="fa fa-google-plus"></i> Sign in with Gmail
-</a>
-<hr>
-<p>
-    {% trans "Forgot your password?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>.<br>
-    {% trans "Not a member?" %} <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>.
-</p>
+                <input type="submit" class="form-control btn-primary" style="width:100%; height:40px; margin-top:5px;display: inline-block;" value="{% trans 'Log in' %}" />
+                <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+        </form>
 
+        <hr>
+        <a href="{% url 'social:begin' 'google-oauth2' %}?next=/hlar/" class="btn btn-block btn-social btn-google-plus" style="width:85%;display: inline-block; margin:0px 5px 0px 5px">
+            <i class="fa fa-google-plus"></i> Sign in with Gmail
+        </a>
+        <hr>
+        <p>
+            {% trans "Forgot your password?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>.<br>
+            {% trans "Not a member?" %} <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>.
+        </p>
+
+    </div>
 </div>
 {% endblock %}
 
