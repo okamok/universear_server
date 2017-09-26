@@ -23,11 +23,21 @@ table {
             <h4>ターゲット一覧</h4>
         </div>
 
+        {% if addTarget %}
         <div class="targetAddButton">
             <a href="{% url 'hlar:target_add' %}" class="btn btn-info btn-sm targetAddButtonA">
                 <span style="margin-right:5px" class="glyphicon glyphicon-plus-sign"></span>ターゲット追加
             </a>
+            <p style='font-size:9pt'>
+            ※フリーで{{TARGET_LIMIT_COUNT}}個まで登録可能
+            </p>
         </div>
+        {% else %}
+        <div class="targetAddButton">
+            登録上限を超えているので新規登録できません
+        </div>
+        {% endif %}
+
 
         {% if targets|length > 0 %}
 
