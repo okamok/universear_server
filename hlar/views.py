@@ -909,10 +909,24 @@ def target_del(request, target_id):
 
     print('target.vuforia_target_id')
     print(target.vuforia_target_id)
+
+    ######## Vuforia のデータをAPIで削除
     response_content = del_target(target.vuforia_target_id)
 
     print('response_content')
     print(response_content)
+
+    ######## HLAR側 DB Target.del_flg を onにする
+    try:
+        target.del_flg = True
+        target.save()
+    except Exception as e:
+        print ('=== エラー内容 ===')
+        print ('type:' + str(type(e)))
+        print ('args:' + str(e.args))
+        print ('message:' + e.message)
+        print ('e自身:' + str(e))
+
 
     if judge_vws_result(response_content['result_code']):
         return redirect('hlar:target_list')
