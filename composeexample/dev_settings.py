@@ -24,4 +24,4 @@ STRIPE_API_KEY = 'sk_test_Po5fLfcGq5FnakXbyvB7IIO9'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_Qf9hdfU6fy6sKc09jZ4hKH5T'
 
 # エラー「Site matching query does not exist. 」を解消する為
-SITE_ID=2
+SITE_ID=3

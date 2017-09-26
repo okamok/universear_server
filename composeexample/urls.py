@@ -31,7 +31,9 @@ from hlar.forms import CustomRegistrationForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
     url(r'^hlar/', include('hlar.urls'), name='hlar_index'),
+
     url(r'^api/', include(hlar_router.urls)),
 
     url(r'^login/$', auth_views.login, {'template_name': 'hlar/login.html', 'authentication_form': LoginForm}),
@@ -66,6 +68,7 @@ urlpatterns = [
     #     auth_views.PasswordChangeDoneView.as_view(),
     #     name='auth_password_change_done'),
 
+    url(r'^', views.hlar_top, name='hlar_top'),
 ]
 
 if settings.DEBUG:
