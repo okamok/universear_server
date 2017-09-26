@@ -625,12 +625,20 @@ def target_list(request):
     # ターゲット一覧を取得
     targets = get_targets_user_id(request.user.id)
 
+    print ('type:' + str(type(targets)))
+    print (len(targets))
+
+    addTarget = True
+    if len(targets) >= settings.TARGET_LIMIT_COUNT:
+        addTarget = False
 
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
                   {'targets': targets,
                    's3_FQDN': s3_FQDN,
                    'is_mobile': ua.is_mobile,
+                   'addTarget': addTarget,
+                   'TARGET_LIMIT_COUNT': settings.TARGET_LIMIT_COUNT,
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
