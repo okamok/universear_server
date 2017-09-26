@@ -4,13 +4,16 @@
 {% block title %}{% trans "Account Activated" %}{% endblock %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
-    <p>
-        {% trans "Your account is now activated." %}
-        {% if not user.is_authenticated %}
-        {% trans "You can log in." %}
-        {% endif %}
-    </p>
+<div class="baseDiv nomalFont" style="text-align:center">
+    <div class="contentsDiv">
+
+        <p>
+            {% trans "Your account is now activated." %}
+            {% if not user.is_authenticated %}
+            {% trans "You can log in." %}
+            {% endif %}
+        </p>
+    </div>
 </div>
 {% endblock %}
 

@@ -4,14 +4,14 @@
 {% block title %}{% trans "Resend Activation Email" %}{% endblock %}
 
 {% block content %}
-<div style="margin-top: 70px;margin-left:20px">
-
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans 'Submit' %}" />
-</form>
-
+<div class="baseDiv nomalFont" style="text-align:center">
+    <div class="contentsDiv">
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="{% trans 'Submit' %}" />
+        </form>
+    </div>
 </div>
 {% endblock %}
 

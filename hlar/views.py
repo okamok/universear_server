@@ -602,6 +602,9 @@ def user_edit(request, user_id=None):
 @login_required
 def target_list(request):
 
+    if request.user.is_authenticated() == False:
+        return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+
     # if not request.user:
     #         return HttpResponseRedirect('/login/?next=%s' % request.path)
 
@@ -631,6 +634,10 @@ def target_list(request):
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
+
+    if request.user.is_authenticated() == False:
+        return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+
     msg = ''
     buy_history = 0
 
