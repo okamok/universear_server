@@ -29,6 +29,8 @@ from hlar.views import UserProfileRegistration
 from registration.backends.default.views import RegistrationView
 from hlar.forms import CustomRegistrationForm
 
+from django.http import HttpResponseRedirect
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
@@ -68,7 +70,8 @@ urlpatterns = [
     #     auth_views.PasswordChangeDoneView.as_view(),
     #     name='auth_password_change_done'),
 
-    url(r'^', views.hlar_top, name='hlar_top'),
+    # url('/', views.hlar_top, name='hlar_top'),
+    url(r'^$', lambda r: HttpResponseRedirect('hlar/')),
 ]
 
 if settings.DEBUG:
