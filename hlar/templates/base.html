@@ -158,7 +158,7 @@
 
         <div id="loader-bg">
           <div id="loader">
-            <img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />
+            <!-- <img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." /> -->
             <p>Now Loading...</p>
           </div>
         </div>
@@ -257,6 +257,8 @@
             var h = $(window).height();
             $('#wrap').css('display','none');
             $('#loader-bg ,#loader').height(h).css('display','block');
+            $("#loader").prepend('<img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />');
+
 
             setTimeout(function(){ location.href = url; }, 800); // URLにリンクする
             return false;
