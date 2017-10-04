@@ -686,7 +686,8 @@ def target_edit(request, target_id=None):
 
         #### ターゲット @ToDo
 
-        if request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}:
+        if (request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}) or \
+            (request.FILES.keys() <= {'target'} and request.FILES.keys() <= {'contents'}):
             print('errなし')
         else:
             err = True
