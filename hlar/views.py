@@ -643,6 +643,7 @@ def target_list(request):
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
+    targetFile = None
 
     if request.user.is_authenticated() == False:
         return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
@@ -669,18 +670,29 @@ def target_edit(request, target_id=None):
         # POST 時
 
         ######## 入力チェック
-        #### コンテンツ
-        contentsFile = request.FILES['contents']
-        print('file_size')
-        print(contentsFile.size)
-
         err = False
+        errMsg = ''
 
-        if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
-            # エラー
-            err = True
+        #### コンテンツ
+        if request.FILES.get('contents', False):
+            contentsFile = request.FILES['contents']
+            print('file_size')
+            print(contentsFile.size)
+
+            if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
+                # エラー
+                err = True
+                errMsg = 'コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000))
 
         #### ターゲット @ToDo
+
+        if request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}:
+            print('errなし')
+        else:
+            err = True
+            errMsg = 'ターゲットとコンテンツは同時にアップして下さい。'
+
+
 
         if err:
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
@@ -690,7 +702,7 @@ def target_edit(request, target_id=None):
                 target.name = vuforia_target['name']
 
             return render(request, 'hlar/target_edit.html', dict(
-                msg='コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+                msg= errMsg,
                 form = form,
                 target_id = target_id,
                 target = target,
