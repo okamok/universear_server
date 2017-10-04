@@ -31,8 +31,8 @@ SECRET_KEY = '=tt9c92xn=ddsk05zx!q89wd3+qsgc$l(_d8%aflq$&%&b8#lt'
 ADMINS = [('universe_admin', 'okamok108@gmail.com'),]
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'okamok108@gmail.com'
-EMAIL_HOST_PASSWORD = 'Break!0205'
+EMAIL_HOST_USER = 'universe.ar.app@gmail.com'
+EMAIL_HOST_PASSWORD = 'masahi0205'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 SERVER_EMAIL = 'error_info@universe.com'

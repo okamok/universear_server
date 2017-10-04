@@ -879,7 +879,21 @@ def target_edit(request, target_id=None):
             # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
             # エラー時
-            return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
+            form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+            if target.vuforia_target_id:
+                vuforia_target = get_target_by_id(target.vuforia_target_id)
+                target.name = vuforia_target['name']
+
+            return render(request, 'hlar/target_edit.html', dict(
+                msg=response_content['result_code'],
+                form = form,
+                target_id = target_id,
+                target = target,
+                stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+                buy_history = buy_history,
+                s3_FQDN = s3_FQDN,
+            ))
 
 
 
