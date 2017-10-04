@@ -23,10 +23,14 @@ db:
 
 # これなら毎回コンテナ削除しても大丈夫だと思われる。
 web:
-  image: okamok108/django:1.0.0
+  image: okamok108/django:1.0.2
   # build: .
 
-  command: /bin/bash -c "sudo pip install --no-cache-dir -r requirements.txt && yes | mkdir /var/log/uwsgi && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
+  command: /bin/bash -c "export PYENV='develop' && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
+
+  # これだとdocker-compose start の度にパッケージインストールとかすることになるのでマズい。
+  # command: /bin/bash -c "sudo pip install --no-cache-dir -r requirements.txt && yes | mkdir /var/log/uwsgi && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
+  # command: /bin/bash -c "sudo pip install --no-cache-dir -r requirements.txt && yes | mkdir /var/log/uwsgi && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
 
   # command: /bin/bash -c "mkdir /var/log/uwsgi && yes | sudo pip install --no-cache-dir -r requirements.txt && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
 
