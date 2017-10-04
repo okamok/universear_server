@@ -498,14 +498,15 @@ def user_edit(request, user_id=None):
                 msg['success_msg'] = '更新が完了しました。'
 
             elif mode == 'edit':
-                print('password')
-                print(request.POST['password'])
-                if request.POST['password']:
+                # print('password')
+                # print(request.POST['password'])
+
+                if request.POST.get('password', False):
                     user.set_password(request.POST['password'])
 
                 form = form.save()
 
-                if request.POST['password']:
+                if request.POST.get('password', False):
                     # msg['success_msg'] = 'パスワードを変更したので改めてログインして下さい。'
 
                     messages.success(request, 'パスワードを変更したので改めてログインして下さい。')
