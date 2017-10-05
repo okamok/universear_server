@@ -1,5 +1,14 @@
+db_data:
+  image: busybox
+  volumes:
+      - /var/lib/mysql
+  command: sh
+
+
 db:
   image: mysql
+  volumes_from:
+      - db_data
   ports:
          - "3306:3306"
   environment:
