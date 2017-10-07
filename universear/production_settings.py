@@ -7,7 +7,7 @@ DATABASES = {
         'NAME': 'universe',
         'USER': 'root',
         'PASSWORD':'masahi0205',
-        'HOST': 'test-hlar.c1ebqmlevvpb.us-east-1.rds.amazonaws.com',
+        'HOST': 'universe.cdwueyrsxbwv.us-east-1.rds.amazonaws.com',
         'PORT': 3306,
     }
 }
