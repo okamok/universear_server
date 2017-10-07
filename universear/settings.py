@@ -287,7 +287,15 @@ AUTH_USER_MODEL = 'hlar.User'
 print(os.environ['PYENV'])
 
 if os.environ['PYENV']:
-    if os.environ['PYENV'] == 'develop':
+    if os.environ['PYENV'] == 'local':
+        try:
+            print('local settings')
+            from universear.local_settings import *
+        except ImportError:
+            print('local settings error')
+            pass
+
+    elif os.environ['PYENV'] == 'develop':
         try:
             print('develop settings')
             from universear.dev_settings import *
