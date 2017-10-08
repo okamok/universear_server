@@ -674,6 +674,22 @@ def target_edit(request, target_id=None):
         err = False
         errMsg = ''
 
+        #### ターゲット @ToDo
+        if request.FILES.get('target', False):
+            targetFile = request.FILES['target']
+
+            ## 拡張子チェック
+            ext = os.path.splitext(targetFile.name)[1].lower()
+
+            print('ext')
+            print(ext)
+
+            if ext != '.jpeg' or ext != '.jpg':
+                # エラー
+                err = True
+                errMsg = 'ターゲット画像のファイル形式が不正です。'
+
+
         #### コンテンツ
         if request.FILES.get('contents', False):
             contentsFile = request.FILES['contents']
@@ -685,7 +701,16 @@ def target_edit(request, target_id=None):
                 err = True
                 errMsg = 'コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000))
 
-        #### ターゲット @ToDo
+            ## 拡張子チェック
+            ext = os.path.splitext(contentsFile.name)[1].lower()
+
+            print('ext')
+            print(ext)
+
+            if ext != '.mp4' or ext != '.mov':
+                # エラー
+                err = True
+                errMsg = 'コンテンツ動画のファイル形式が不正です。'
 
         if (request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}) or \
             (request.FILES.keys() <= {'target'} and request.FILES.keys() <= {'contents'}):
@@ -693,8 +718,6 @@ def target_edit(request, target_id=None):
         else:
             err = True
             errMsg = 'ターゲットとコンテンツは同時にアップして下さい。'
-
-
 
         if err:
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
