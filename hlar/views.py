@@ -664,6 +664,12 @@ def target_edit(request, target_id=None):
         # print('edit1')
         # pprint(vars(target))
     else:         # target_id が指定されていない (追加時)
+        #### 登録がMAX数に達していたら一覧に飛ばす
+        # ターゲット一覧を取得
+        targets = get_targets_user_id(request.user.id)
+        if len(targets) >= settings.TARGET_LIMIT_COUNT:
+            return redirect('hlar:target_list')
+
         target = Target()
 
 
@@ -684,7 +690,7 @@ def target_edit(request, target_id=None):
             print('ext')
             print(ext)
 
-            if ext != '.jpeg' or ext != '.jpg':
+            if ext != '.jpeg' and ext != '.jpg':
                 # エラー
                 err = True
                 errMsg = 'ターゲット画像のファイル形式が不正です。'
@@ -707,7 +713,7 @@ def target_edit(request, target_id=None):
             print('ext')
             print(ext)
 
-            if ext != '.mp4' or ext != '.mov':
+            if ext != '.mp4' and ext != '.mov':
                 # エラー
                 err = True
                 errMsg = 'コンテンツ動画のファイル形式が不正です。'
