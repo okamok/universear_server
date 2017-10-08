@@ -99,7 +99,8 @@ consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
 
 
 # bucket_name = 'test-hlar'
-bucket_name = 'hlar-test'
+# bucket_name = 'hlar-test'
+bucket_name = settings.S3_BUCKET_NAME
 s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
 

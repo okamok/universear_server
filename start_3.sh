@@ -1,4 +1,4 @@
 #!/bin/sh
 
 eval "$(docker-machine env default)"
-docker exec -it edc /bin/bash
+docker exec -it 11f /bin/bash
