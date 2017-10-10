@@ -684,6 +684,12 @@ def target_edit(request, target_id=None):
         if request.FILES.get('target', False):
             targetFile = request.FILES['target']
 
+            ## サイズチェック
+            if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
+                # エラー
+                err = True
+                errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
+
             ## 拡張子チェック
             ext = os.path.splitext(targetFile.name)[1].lower()
 
@@ -702,6 +708,7 @@ def target_edit(request, target_id=None):
             print('file_size')
             print(contentsFile.size)
 
+            ## サイズチェック
             if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
                 # エラー
                 err = True
