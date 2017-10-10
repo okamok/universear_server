@@ -94,7 +94,8 @@
                     <ul class="nav navbar-nav nav-menu-1">
                         <li class="active" style="text-align:center">
                             <a href="/hlar/#howtouse">
-                                <span class="glyphicon glyphicon-hand-up" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-hand-up" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{% trans "使い方" %}</span>
                             </a>
                         </li>
@@ -102,33 +103,38 @@
                         {% if user.is_authenticated %}
                         <li style="text-align:center">
                             <a href="{% url 'hlar:user_edit' user_id=user.id %}">
-                                <span class="glyphicon glyphicon-user" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-user" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{{ user.username }}</span>
                             </a>
                         </li>
                         <li style="text-align:center">
                             <a id="aTargetList" href="#">
-                                <span class="glyphicon glyphicon-picture" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-picture" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{% trans "ターゲット管理" %}</span>
                             </a>
                         </li>
 
                         <li style="text-align:center">
                             <a href="/logout">
-                                <span class="glyphicon glyphicon-log-out" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-log-out" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{% trans "ログアウト" %}</span>
                             </a>
                         </li>
                         {% else %}
                         <li style="text-align:center">
                             <a href="/accounts/login/">
-                                <span class="glyphicon glyphicon-log-in" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-log-in" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{% trans "ログイン" %}</span>
                             </a>
                         </li>
                         <li style="text-align:center">
                             <a href="/accounts/register/">
-                                <span class="glyphicon glyphicon-flash" style="font-size:17pt"></span><br>
+                                <span class="glyphicon glyphicon-flash" style="font-size:17pt"></span>
+                                <br>
                                 <span style="font-size:8pt">{% trans "サインアップ" %}</span>
                             </a>
                         </li>

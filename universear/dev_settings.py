@@ -34,6 +34,9 @@ SITE_ID=2
 # ターゲット フリーで登録できる数
 TARGET_LIMIT_COUNT = 5
 
+# ターゲット画像のMAXサイズ
+TARGET_SIZE_LIMIT = 2000000
+
 # コンテンツ動画のMAXサイズ
 CONTENTS_SIZE_LIMIT = 40000000
 
