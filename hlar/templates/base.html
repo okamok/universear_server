@@ -2,7 +2,8 @@
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
-    <head>
+    <!-- <head> -->
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
         <meta charset="UTF-8">
         <title>{% block title %}My books{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,6 +48,21 @@
         <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
 
         {% block extrahead %}{% endblock %}
+
+        <meta property="og:title" content="【UNIVERSE AR】無料で今すぐオリジナルARコンテンツを作成しましょう！">
+        <meta property="og:type" content="product">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta property="og:site_name" content="UNIVERSE AR">
+        <meta property="og:description" content="画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能！">
+        <meta property="og:image" content="https://universear.hiliberate.biz/static/images/ogp_icon_1200.jpg">
+
+        <!-- <meta property="og:video" content="動画のファイルパス" />
+        <meta property="og:video:height" content="動画の高さサイズ" />
+        <meta property="og:video:width" content="動画の横幅サイズ" />
+        <meta property="og:video:type" content="動画のファイルタイプ（application/x-shockwave-flashなど）" /> -->
+
+        <meta name="twitter:card" content="summarylargeimage" />
+
     </head>
     <body class="fontShrik">
     <!-- <body style='font-family: "Lora";'> -->
