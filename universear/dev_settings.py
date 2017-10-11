@@ -29,7 +29,7 @@ STRIPE_API_KEY = 'sk_test_TwoBPzByKz7FZ35aoeBlbuTl'
 
 
 # エラー「Site matching query does not exist. 」を解消する為
-SITE_ID=3
+SITE_ID=6
 
 # ターゲット フリーで登録できる数
 TARGET_LIMIT_COUNT = 5
