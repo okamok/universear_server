@@ -23,7 +23,7 @@ STRIPE_PUBLISHABLE_KEY = 'pk_live_g1yb1Y7ka4ScPM8DnQiyPf6b'
 STRIPE_API_KEY = 'sk_live_CRTqfz7N4dC4b0CUFSFUzR2z'
 
 # エラー「Site matching query does not exist. 」を解消する為
-SITE_ID=2
+SITE_ID=3
 
 # ターゲット フリーで登録できる数
 TARGET_LIMIT_COUNT = 5
