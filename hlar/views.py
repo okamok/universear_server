@@ -791,21 +791,33 @@ def target_edit(request, target_id=None):
             encTargetFileBase64 = base64.b64encode(contents)
             encTargetFile = encTargetFileBase64.decode('utf-8')
 
+        ######## 誘導先 リンク
+        target_link_URL = request.POST['target_link_URL']
+
+        ######## ターゲット名
+        target_name = request.POST['target_name']
 
         ######## meta テキスト
         #### テキスト作成
         encMetaFile = None
         metaPath = None
-        if request.FILES.keys() >= {'contents'}:
+        if request.FILES.keys() >= {'contents'} or request.POST['hid_content_name']:
 
-            meta_file_name = targetFile.name.replace('.','') + '.txt'
+            content_name_for_meta = ''
+            if request.FILES.keys() >= {'contents'}:
+                contentsFile = request.FILES['contents']
+                content_name_for_meta = contentsFile.name
+            elif request.POST['hid_content_name']:
+                content_name_for_meta = request.POST['hid_content_name']
+
+            # meta_file_name = targetFile.name.replace('.','') + '.txt'
+            meta_file_name = target_name.replace('.','') + '.txt'
             metaPath = TARGET_FILE_PATH + meta_file_name
 
-            contentsFile = request.FILES['contents']
-
             metaContent = "{\n" \
-                            '\t"title": "DEATHRO -CRAZY FOR YOU- music video",\n' \
-                            '\t"url" : "' + s3_FQDN + contentsFile.name + '"\n' \
+                            '\t"title": "' + target_name + '",\n' \
+                            '\t"url" : "' + s3_FQDN + content_name_for_meta + '",\n' \
+                            '\t"linkUrl" : "' + target_link_URL + '"\n' \
                            '}'
 
             # ファイルが存在していれば削除
@@ -822,10 +834,6 @@ def target_edit(request, target_id=None):
             # base64でencode
             encMetaFileBase64 = base64.b64encode(contents)
             encMetaFile = encMetaFileBase64.decode('utf-8')
-
-
-        ######## ターゲット名
-        target_name = request.POST['target_name']
 
         ######## Vuforia API で登録
         if target_id:
@@ -934,6 +942,9 @@ def target_edit(request, target_id=None):
             if request.FILES.keys() >= {'target'}:
                 target.img_name = targetFile.name
 
+            if target_link_URL:
+                target.target_link_URL = target_link_URL
+
             if target_id:   # target_id が指定されている (修正時)
                 print('test')
             else:
@@ -991,6 +1002,9 @@ def target_edit(request, target_id=None):
         if target.vuforia_target_id:
             vuforia_target = get_target_by_id(target.vuforia_target_id)
             target.name = vuforia_target['name']
+
+        if target.target_link_URL == None:
+            target.target_link_URL = ''
 
 #    c = Context({"my_name": "Adrian"})
     # print('target.img_name')

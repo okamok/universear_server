@@ -230,6 +230,7 @@ class Target(models.Model):
     vuforia_target_id = models.CharField(max_length=200, null=True)
     img_name = models.CharField(max_length=100, null=True)
     content_name = models.CharField(max_length=100, null=True)
+    target_link_URL = models.CharField(max_length=300, null=True)
     view_count = models.IntegerField(null=True)
     view_count_limit = models.IntegerField(null=True)
     view_state = models.PositiveSmallIntegerField(null=True)
