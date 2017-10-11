@@ -65,6 +65,7 @@
                             mp4またはmov形式のみ登録可能です。
                         </p>
                         <input type="hidden" name="contents_file_name" value="">
+                        <input type="hidden" name="hid_content_name" value="{{target.content_name}}">
                     </td>
                 </tr>
 
@@ -79,6 +80,20 @@
                         </div>
                     </td>
                 </tr>
+
+                <tr>
+                    <td class="responsiveTableHeader">
+                        <b>誘導リンク</b>
+                    </td>
+
+                    <td  class="responsiveTableContents">
+                        <div id="inputP" class="form-group">
+                            <input type="text" name="target_link_URL" class="form-control" style="width:100%" value="{{target.target_link_URL}}">
+                        </div>
+                    </td>
+                </tr>
+
+
 
                 <tr>
                     <td class="responsiveTableHeader">

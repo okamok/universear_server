@@ -30,7 +30,7 @@ STRIPE_API_KEY = 'sk_test_TwoBPzByKz7FZ35aoeBlbuTl'
 SITE_ID=3
 
 # ターゲット フリーで登録できる数
-TARGET_LIMIT_COUNT = 2
+TARGET_LIMIT_COUNT = 10
 
 # ターゲット画像のMAXサイズ
 TARGET_SIZE_LIMIT = 2000000
