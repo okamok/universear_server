@@ -368,6 +368,19 @@ margin:-20px 0px 30px 100px;
 }
 
 
+.box_corner_circle {
+
+   color: #ffffff;
+   margin: 5px;
+   padding: 5px 10px;
+   line-height: 2em;
+   background-color: #5bc0de;
+   border-radius: 10px;        /* CSS3草案 */
+   -webkit-border-radius: 10px;    /* Safari,Google Chrome用 */
+   -moz-border-radius: 10px;   /* Firefox用 */
+}
+
+
 
 /*600px以下(スマホ用)*/
 @media screen and (max-width:600px) {

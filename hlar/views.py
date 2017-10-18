@@ -680,8 +680,19 @@ def target_edit(request, target_id=None):
         err = False
         errMsg = ''
 
+        #### 名前
+        if request.POST['target_name'] == '':
+            # エラー
+            err = True
+            errMsg = '名前を入力して下さい。'
+        else:
+            target.name = request.POST['target_name']
+
+        #### 誘導リンク
+        target.target_link_URL = request.POST['target_link_URL']
+
         #### ターゲット @ToDo
-        if request.FILES.get('target', False):
+        if err == False and request.FILES.get('target', False):
             targetFile = request.FILES['target']
 
             ## サイズチェック
@@ -703,7 +714,7 @@ def target_edit(request, target_id=None):
 
 
         #### コンテンツ
-        if request.FILES.get('contents', False):
+        if err == False and request.FILES.get('contents', False):
             contentsFile = request.FILES['contents']
             print('file_size')
             print(contentsFile.size)
@@ -747,6 +758,8 @@ def target_edit(request, target_id=None):
                 stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
                 buy_history = buy_history,
                 s3_FQDN = s3_FQDN,
+                TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
             ))
 
 
@@ -971,7 +984,7 @@ def target_edit(request, target_id=None):
             return redirect('hlar:target_list')
             # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
-            # エラー時
+            # Vuforia API エラー時
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
 
             if target.vuforia_target_id:
@@ -986,6 +999,8 @@ def target_edit(request, target_id=None):
                 stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
                 buy_history = buy_history,
                 s3_FQDN = s3_FQDN,
+                TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
             ))
 
 
@@ -1023,6 +1038,8 @@ def target_edit(request, target_id=None):
             stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
             buy_history = buy_history,
             s3_FQDN = s3_FQDN,
+            TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+            CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
         ))
 
 def target_del(request, target_id):
