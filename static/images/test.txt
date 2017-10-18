@@ -1,5 +1,0 @@
-{
-	"title": "test",
-	"url" : "https://hlar-test.s3.amazonaws.com/None",
-	"linkUrl" : "None"
-}
