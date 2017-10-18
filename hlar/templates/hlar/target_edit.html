@@ -32,6 +32,11 @@
 
             <table class="resposiveTable">
                 <tr>
+                    <td colspan="2" style="text-align:left" >
+                        <span class="box_corner_circle">STEP1</span>UNIVERSE ARアプリで使用するターゲット画像を登録します。
+                    </td>
+                </tr>
+                <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
                         <b>ターゲット画像</b>
                     </td>
@@ -41,14 +46,23 @@
                         {% if target.img_name %}
                             <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-top:5px" width="200px"/>
                         {% endif %}
-                        <p style='font-size:9pt;margin-top:5px'>
-                            この画像をUNIVERSE ARアプリで写します。<br>
-                            jpg画像のみ登録可能です。
+                        <p style='margin-top:5px'>
+                            <ul style='font-size:7pt; padding-left:20px;'>
+                                <li>jpg画像のみ登録可能です。(最大{{TARGET_SIZE_LIMIT}}MBまで)</li>
+                                <li>過度に複雑な画像(風景画像など)はターゲット画像に向きません。シンプルなマーク/ロゴ画像を推奨します。</li>
+                                <li>iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。</li>
+                            <ul>
+
                         </p>
                         <input type="hidden" name="target_file_name" value="">
                     </td>
                 </tr>
                 <tr>
+                    <td colspan="2" style="text-align:left" >
+                        <span class="box_corner_circle">STEP2</span>再生される動画を登録します。
+                    </td>
+                </tr>
+                <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
                         <b>コンテンツ動画</b>
                     </td>
@@ -61,17 +75,25 @@
                             </video>
                         {% endif %}
                         <p style='font-size:9pt;margin-top:5px'>
-                            ターゲット画像をUNIVERSE ARアプリで写すとこの動画が再生されます。<br>
-                            mp4またはmov形式のみ登録可能です。
+                            <ul style='font-size:7pt; padding-left:20px;'>
+                                <li>mp4またはmov形式のみ登録可能です。(最大{{CONTENTS_SIZE_LIMIT}}MBまで)</li>
+                                <li>
+                                    iPhoneで撮影した動画を使用する場合はiPhoneを横にしてホームボタンが右側の状態で撮影した横長の動画をご使用下さい。ホームボタンの位置が逆ですと動画の上下が反転します。またそれ以外の縦長の動画などは想定通り動作しない可能性があります。
+                                </li>
+                            </ul>
                         </p>
                         <input type="hidden" name="contents_file_name" value="">
                         <input type="hidden" name="hid_content_name" value="{{target.content_name}}">
                     </td>
                 </tr>
-
                 <tr>
+                    <td colspan="2" style="text-align:left" >
+                        <span class="box_corner_circle">STEP3</span>ARコンテンツの名前を入力します。
+                    </td>
+                </tr>
+                <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
-                        <b>NAME</b>
+                        <b>名前</b>
                     </td>
 
                     <td  class="responsiveTableContents">
@@ -80,7 +102,11 @@
                         </div>
                     </td>
                 </tr>
-
+                <tr>
+                    <td colspan="2" style="text-align:left" >
+                        <span class="box_corner_circle">STEP4</span>ターゲット画像認識時、メニューに表示されるURLを設定します。(省略可能)
+                    </td>
+                </tr>
                 <tr>
                     <td class="responsiveTableHeader">
                         <b>誘導リンク</b>
@@ -153,7 +179,7 @@
                             {% else %}
                                 <span id='span_view_count_limit'>50回(free)</span>
                                 <br>
-                                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンを購入下さい。
+                                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンをご購入下さい。
                             {% endif %}
                             <input type="hidden" name="hid_view_count_limit" value="50">
 
