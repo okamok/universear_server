@@ -288,6 +288,28 @@ def get_target_ids():
     response = _get_authenticated_response(req)
     return json.loads(response.content.decode())['results']
 
+
+def duplicates(target_id):
+    url = '%s/duplicates/%s' % (HOST, target_id)
+
+    print('target_id')
+    print(target_id)
+
+    print('url')
+    print(url)
+
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    req = requests.Request(method='GET', url=url, headers=headers)
+    response = _get_authenticated_response(req)
+
+    print('duplicates1234')
+
+    pprint(vars(response))
+
+
+    return json.loads(response.content.decode())
+
+
 def get_target_id_from_name(name):
     targets = get_targets()
 
