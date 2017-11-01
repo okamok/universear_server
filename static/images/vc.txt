@@ -1,5 +1,0 @@
-{
-	"title": "vc",
-	"url" : "https://hlar-test.s3.amazonaws.com/vinyl_cut_lathe.mp4",
-	"linkUrl" : ""
-}

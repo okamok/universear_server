@@ -35,4 +35,4 @@ TARGET_SIZE_LIMIT = 2000000
 CONTENTS_SIZE_LIMIT = 40000000
 
 # S3 バケット名
-S3_BUCKET_NAME = 'universe-ar'
+S3_BUCKET_NAME = 'universe-ar-prod'

@@ -299,8 +299,14 @@ def duplicates(target_id):
     print(url)
 
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-    req = requests.Request(method='GET', url=url, headers=headers)
+    # req = requests.Request(method='GET', url=url, headers=headers)
+    req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
+
+    # headers = {'Content-Type': 'application/json; charset=utf-8'}
+    # req = requests.Request(method='DELETE', url=url)
+    # response = _get_authenticated_response(req)
+
 
     print('duplicates1234')
 

@@ -1,6 +1,8 @@
 import os
 import json
 import base64
+import subprocess
+from subprocess import Popen
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -105,6 +107,17 @@ s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
 
 def hlar_top(request):
+    # proc = Popen( cmd .strip().split(" ") )
+    # proc = Popen('sleep 1m',shell=True )
+    proc = Popen('python manage.py deltarget 111122222',shell=True )
+
+
+    # proc = subprocess.call('sleep 1m' , shell=True)
+    # os.system('sleep 1m')
+
+    # check = commands.getoutput("python manage.py deltarget 111")
+    # print(check)
+
     current_site = get_current_site(request)
     print(current_site.domain)
 
@@ -645,9 +658,23 @@ def target_list(request):
 
 def target_edit(request, target_id=None):
 
-    response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
-    print('response_duplicate999')
-    print(response_duplicate)
+    # # 被りある
+    # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
+    #
+    # # 被りなし
+    # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
+    #
+    # print('response_duplicate999')
+    # print(response_duplicate)
+    #
+    # print('response_duplicate_response')
+    # print(response_duplicate['result_code'])
+    #
+    # print('response_duplicate_similar_targets')
+    # print(response_duplicate['result_code'])
+    # print(len(response_duplicate['similar_targets']))
+
+
 
     targetFile = None
 
@@ -883,6 +910,7 @@ def target_edit(request, target_id=None):
         print(response_content)
 
         if judge_vws_result(response_content['result_code']):
+            filePathContents = None
 
             ######## Check for Duplicate Targets 同じターゲットが登録されていないか確認
             vuforia_target_id = ''
@@ -895,9 +923,41 @@ def target_edit(request, target_id=None):
             print('response_duplicate')
             print(response_duplicate)
 
-            if len(response_duplicate['similar_targets']) > 0:
+            # # 被りある
+            # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
+            #
+            # # 被りなし
+            # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
+            #
+            # print('response_duplicate999')
+            # print(response_duplicate)
+            #
+            # print('response_duplicate_response')
+            # print(response_duplicate['result_code'])
+            #
+            # print('response_duplicate_similar_targets')
+            # print(response_duplicate['similar_targets'])
+            # print(len(response_duplicate['similar_targets']))
+
+
+
+            if response_duplicate['result_code'] == 'Success' and len(response_duplicate['similar_targets']) > 0:
                 #### 同じ画像が登録されている
-                # 登録したデータを削除    @ToDo
+
+                #### 削除は不可 TargetStatusProcessing というエラーが返って来る。
+                #### 登録したデータを削除 Vuforia API
+                # response_content = del_target(vuforia_target_id)
+                # print('del_response')
+                # print(response_content)
+
+                #### 上記削除が不可の為、当面inActiveにする。 これも不可 TargetStatusNotSuccess となる。
+                # data = {"active_flag": 0}
+                # response_content = update_target(vuforia_target_id, data)
+                # print('del_response')
+                # print(response_content)
+
+                # バッチで実行
+                os.system('python manage.py deltarget 123456789')
 
 
                 # エラー時
@@ -907,21 +967,25 @@ def target_edit(request, target_id=None):
                     vuforia_target = get_target_by_id(target.vuforia_target_id)
                     target.name = vuforia_target['name']
 
+                # 一時ファイル削除
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+
                 return render(request, 'hlar/target_edit.html', dict(
-                    msg='似ている画像がすでに登録されていました。',
+                    msg='類似画像がすでに登録されていた為、登録出来ませんでした。',
                     form = form,
                     target_id = target_id,
                     target = target,
                     stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
                     buy_history = buy_history,
                     s3_FQDN = s3_FQDN,
+                    TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                    CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
                 ))
 
 
             else:
                 ######## S3にコンテンツ(動画)を保存
                 key_name = ''
-                filePathContents = None
                 if request.FILES.keys() >= {'contents'}:
 
                     #### まず一時的にサーバーに保存
@@ -1012,14 +1076,15 @@ def target_edit(request, target_id=None):
                 target.save()
 
                 ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-                if filePathTarget != None:
-                    default_storage.delete(filePathTarget)      #target(image)
-
-                if metaPath != None:
-                    default_storage.delete(metaPath)            #meta
-
-                if filePathContents != None:
-                    default_storage.delete(filePathContents)    #contents
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                # if filePathTarget != None:
+                #     default_storage.delete(filePathTarget)      #target(image)
+                #
+                # if metaPath != None:
+                #     default_storage.delete(metaPath)            #meta
+                #
+                # if filePathContents != None:
+                #     default_storage.delete(filePathContents)    #contents
 
                 return redirect('hlar:target_list')
                 # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
@@ -1310,7 +1375,15 @@ def parse_qsl(url):
         param.update({_p[0]: _p[1]})
     return param
 
+def delete_tmp_file(filePathTarget, metaPath, filePathContents):
+    if filePathTarget != None:
+        default_storage.delete(filePathTarget)      #target(image)
 
+    if metaPath != None:
+        default_storage.delete(metaPath)            #meta
+
+    if filePathContents != None:
+        default_storage.delete(filePathContents)    #contents
 
 
 
