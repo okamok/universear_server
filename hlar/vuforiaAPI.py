@@ -36,8 +36,15 @@ from hlar.models import User, Target
 # The hostname of the Cloud Recognition Web API
 CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
-SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
+# okamok_cloud_2
+SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
+SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
+
+# okamok_cloud_3
+# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
 VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
     'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail']
 
