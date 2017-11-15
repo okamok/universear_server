@@ -115,7 +115,8 @@ s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 def hlar_top(request):
     # proc = Popen( cmd .strip().split(" ") )
     # proc = Popen('sleep 1m',shell=True )
-    proc = Popen('python manage.py deltarget 111122222',shell=True )
+
+    # proc = Popen("python manage.py deltarget '9b53b41daa1143bd9428dd09b957d926'",shell=True )
 
 
     # proc = subprocess.call('sleep 1m' , shell=True)
@@ -205,7 +206,6 @@ def signup(request):
     if request.method == 'POST':
         print('post-data')
         pprint(vars(request.POST))
-
         form = SignUpForm(request.POST)
 
         print('form-data')
@@ -963,8 +963,8 @@ def target_edit(request, target_id=None):
                 # print(response_content)
 
                 # バッチで実行
-                os.system('python manage.py deltarget 123456789')
-
+                # os.system('python manage.py deltarget 123456789')
+                proc = Popen("python manage.py deltarget '" + vuforia_target_id + "'",shell=True )
 
                 # エラー時
                 form = TargetForm(instance=target)  # target インスタンスからフォームを作成

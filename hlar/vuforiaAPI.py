@@ -46,7 +46,7 @@ SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
 # SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
 
 VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
-    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail']
+    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail', 'TargetStatusProcessing']
 
 
 class VuforiaBaseError(Exception):
