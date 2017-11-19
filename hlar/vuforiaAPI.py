@@ -36,10 +36,17 @@ from hlar.models import User, Target
 # The hostname of the Cloud Recognition Web API
 CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
-SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
+# okamok_cloud_2
+SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
+SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
+
+# okamok_cloud_3
+# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
 VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
-    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail']
+    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail', 'TargetStatusProcessing']
 
 
 class VuforiaBaseError(Exception):
@@ -287,6 +294,34 @@ def get_target_ids():
     req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
     return json.loads(response.content.decode())['results']
+
+
+def duplicates(target_id):
+    url = '%s/duplicates/%s' % (HOST, target_id)
+
+    print('target_id')
+    print(target_id)
+
+    print('url')
+    print(url)
+
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    # req = requests.Request(method='GET', url=url, headers=headers)
+    req = requests.Request(method='GET', url=url)
+    response = _get_authenticated_response(req)
+
+    # headers = {'Content-Type': 'application/json; charset=utf-8'}
+    # req = requests.Request(method='DELETE', url=url)
+    # response = _get_authenticated_response(req)
+
+
+    print('duplicates1234')
+
+    pprint(vars(response))
+
+
+    return json.loads(response.content.decode())
+
 
 def get_target_id_from_name(name):
     targets = get_targets()

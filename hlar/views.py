@@ -1,6 +1,8 @@
 import os
 import json
 import base64
+import subprocess
+from subprocess import Popen
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -16,7 +18,7 @@ from pprint import pprint
 from hlar.models import User, Target, Payment, AccessLog, Oauth as OauthTbl
 from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
-from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id
+from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id, duplicates
 from hlar.twitterAPI import get_twitter_account
 from hlar.lib import get_targets_popular
 
@@ -78,8 +80,14 @@ import stripe
 # S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
 # S3_SECRET_KEY = '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'
 
-SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+# okamok_cloud_2
+SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
+SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
+
+# okamok_cloud_3
+# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
 # TARGET_FILE_PATH = './tmp/'
 TARGET_FILE_PATH = './static/images/'
 
@@ -105,6 +113,18 @@ s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
 
 def hlar_top(request):
+    # proc = Popen( cmd .strip().split(" ") )
+    # proc = Popen('sleep 1m',shell=True )
+
+    # proc = Popen("python manage.py deltarget '9b53b41daa1143bd9428dd09b957d926'",shell=True )
+
+
+    # proc = subprocess.call('sleep 1m' , shell=True)
+    # os.system('sleep 1m')
+
+    # check = commands.getoutput("python manage.py deltarget 111")
+    # print(check)
+
     current_site = get_current_site(request)
     print(current_site.domain)
 
@@ -186,7 +206,6 @@ def signup(request):
     if request.method == 'POST':
         print('post-data')
         pprint(vars(request.POST))
-
         form = SignUpForm(request.POST)
 
         print('form-data')
@@ -644,6 +663,25 @@ def target_list(request):
                   })         # テンプレートに渡すデータ
 
 def target_edit(request, target_id=None):
+
+    # # 被りある
+    # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
+    #
+    # # 被りなし
+    # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
+    #
+    # print('response_duplicate999')
+    # print(response_duplicate)
+    #
+    # print('response_duplicate_response')
+    # print(response_duplicate['result_code'])
+    #
+    # print('response_duplicate_similar_targets')
+    # print(response_duplicate['result_code'])
+    # print(len(response_duplicate['similar_targets']))
+
+
+
     targetFile = None
 
     if request.user.is_authenticated() == False:
@@ -878,111 +916,184 @@ def target_edit(request, target_id=None):
         print(response_content)
 
         if judge_vws_result(response_content['result_code']):
-
-            ######## S3にコンテンツ(動画)を保存
-            key_name = ''
             filePathContents = None
-            if request.FILES.keys() >= {'contents'}:
 
-                #### まず一時的にサーバーに保存
-                # 保存パス(ファイル名含む)
-                filePathContents = TARGET_FILE_PATH + contentsFile.name
-
-                print("filePathContents")
-                print(filePathContents)
-
-                # ファイルが存在していれば削除
-                if default_storage.exists(filePathContents):
-                    default_storage.delete(filePathContents)
-
-                try:
-                    # ファイルを保存
-                    destination = open(filePathContents, 'wb+')
-                    for chunk in contentsFile.chunks():
-                        destination.write(chunk)
-                    destination.close()
-
-                except Exception as e:
-                    print ('=== エラー内容 ===')
-                    print ('type:' + str(type(e)))
-                    print ('args:' + str(e.args))
-                    print ('message:' + e.message)
-                    print ('e自身:' + str(e))
-
-                key_name = contentsFile.name
-
-                print("key_name")
-                print(key_name)
-
-                #### S3にアップロード
-                client = boto3.client('s3')
-                transfer = S3Transfer(client)
-                transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
-
-                #s3にアップした動画を公開する
-                # s3 = boto3.resource('s3')
-                # bucket = s3.Bucket(bucket_name)
-                # obj = bucket.Object(key_name)
-                # obj.
-
-                # アップしたコンテンツを公開状態にする
-                s3 = boto3.resource('s3')
-                object_acl = s3.ObjectAcl(bucket_name, key_name)
-                response = object_acl.put(ACL='public-read')
-
-                # #s3の動画のcontent-type をセットする
-                # s3 = boto3.resource('s3')
-                # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
-                # response = s3_object.put(ContentType='string')
-
-
-
-            ######## S3にターゲット(image)を保存
-            if request.FILES.keys() >= {'target'}:
-                client = boto3.client('s3')
-                transfer = S3Transfer(client)
-                key_name_target = targetFile.name
-                transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
-                s3 = boto3.resource('s3')
-                object_acl = s3.ObjectAcl(bucket_name, key_name_target)
-                response = object_acl.put(ACL='public-read')
-
-
-            ######## DBに登録
-            if key_name != '':
-                target.content_name = key_name
-
-            if request.FILES.keys() >= {'target'}:
-                target.img_name = targetFile.name
-
-            if target_link_URL:
-                target.target_link_URL = target_link_URL
-
-            if target_id:   # target_id が指定されている (修正時)
-                print('test')
+            ######## Check for Duplicate Targets 同じターゲットが登録されていないか確認
+            vuforia_target_id = ''
+            if target_id:
+                vuforia_target_id = target.vuforia_target_id
             else:
-                target.user_id = request.user.id
-                target.view_count = 0
-                target.view_count_limit = 50 #とりあえずデフォルトを50回にしておく @ToDo ここは選べるようにするか？そうなると課金？
-                target.vuforia_target_id = response_content['target_id']
+                vuforia_target_id = response_content['target_id']
+
+            response_duplicate = duplicates(vuforia_target_id)
+            print('response_duplicate')
+            print(response_duplicate)
+
+            # # 被りある
+            # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
+            #
+            # # 被りなし
+            # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
+            #
+            # print('response_duplicate999')
+            # print(response_duplicate)
+            #
+            # print('response_duplicate_response')
+            # print(response_duplicate['result_code'])
+            #
+            # print('response_duplicate_similar_targets')
+            # print(response_duplicate['similar_targets'])
+            # print(len(response_duplicate['similar_targets']))
 
 
-            # target = form.save(commit=False)
 
-            target.save()
+            if response_duplicate['result_code'] == 'Success' and len(response_duplicate['similar_targets']) > 0:
+                #### 同じ画像が登録されている
 
-            ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-            if filePathTarget != None:
-                default_storage.delete(filePathTarget)      #target(image)
+                #### 削除は不可 TargetStatusProcessing というエラーが返って来る。
+                #### 登録したデータを削除 Vuforia API
+                # response_content = del_target(vuforia_target_id)
+                # print('del_response')
+                # print(response_content)
 
-            if metaPath != None:
-                default_storage.delete(metaPath)            #meta
+                #### 上記削除が不可の為、当面inActiveにする。 これも不可 TargetStatusNotSuccess となる。
+                # data = {"active_flag": 0}
+                # response_content = update_target(vuforia_target_id, data)
+                # print('del_response')
+                # print(response_content)
 
-            if filePathContents != None:
-                default_storage.delete(filePathContents)    #contents
+                # バッチで実行
+                # os.system('python manage.py deltarget 123456789')
+                proc = Popen("python manage.py deltarget '" + vuforia_target_id + "'",shell=True )
 
-            return redirect('hlar:target_list')
-            # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
+                # エラー時
+                form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+                if target.vuforia_target_id:
+                    vuforia_target = get_target_by_id(target.vuforia_target_id)
+                    target.name = vuforia_target['name']
+
+                # 一時ファイル削除
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+
+                return render(request, 'hlar/target_edit.html', dict(
+                    msg='類似画像がすでに登録されていた為、登録出来ませんでした。',
+                    form = form,
+                    target_id = target_id,
+                    target = target,
+                    stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+                    buy_history = buy_history,
+                    s3_FQDN = s3_FQDN,
+                    TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                    CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+                ))
+
+
+            else:
+                ######## S3にコンテンツ(動画)を保存
+                key_name = ''
+                if request.FILES.keys() >= {'contents'}:
+
+                    #### まず一時的にサーバーに保存
+                    # 保存パス(ファイル名含む)
+                    filePathContents = TARGET_FILE_PATH + contentsFile.name
+
+                    print("filePathContents")
+                    print(filePathContents)
+
+                    # ファイルが存在していれば削除
+                    if default_storage.exists(filePathContents):
+                        default_storage.delete(filePathContents)
+
+                    try:
+                        # ファイルを保存
+                        destination = open(filePathContents, 'wb+')
+                        for chunk in contentsFile.chunks():
+                            destination.write(chunk)
+                        destination.close()
+
+                    except Exception as e:
+                        print ('=== エラー内容 ===')
+                        print ('type:' + str(type(e)))
+                        print ('args:' + str(e.args))
+                        print ('message:' + e.message)
+                        print ('e自身:' + str(e))
+
+                    key_name = contentsFile.name
+
+                    print("key_name")
+                    print(key_name)
+
+                    #### S3にアップロード
+                    client = boto3.client('s3')
+                    transfer = S3Transfer(client)
+                    transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
+
+                    #s3にアップした動画を公開する
+                    # s3 = boto3.resource('s3')
+                    # bucket = s3.Bucket(bucket_name)
+                    # obj = bucket.Object(key_name)
+                    # obj.
+
+                    # アップしたコンテンツを公開状態にする
+                    s3 = boto3.resource('s3')
+                    object_acl = s3.ObjectAcl(bucket_name, key_name)
+                    response = object_acl.put(ACL='public-read')
+
+                    # #s3の動画のcontent-type をセットする
+                    # s3 = boto3.resource('s3')
+                    # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
+                    # response = s3_object.put(ContentType='string')
+
+
+
+                ######## S3にターゲット(image)を保存
+                if request.FILES.keys() >= {'target'}:
+                    client = boto3.client('s3')
+                    transfer = S3Transfer(client)
+                    key_name_target = targetFile.name
+                    transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+                    s3 = boto3.resource('s3')
+                    object_acl = s3.ObjectAcl(bucket_name, key_name_target)
+                    response = object_acl.put(ACL='public-read')
+
+
+                ######## DBに登録
+                if key_name != '':
+                    target.content_name = key_name
+
+                if request.FILES.keys() >= {'target'}:
+                    target.img_name = targetFile.name
+
+                if target_link_URL:
+                    target.target_link_URL = target_link_URL
+
+                if target_id:   # target_id が指定されている (修正時)
+                    print('test')
+                else:
+                    target.user_id = request.user.id
+                    target.view_count = 0
+                    target.view_count_limit = 50 #とりあえずデフォルトを50回にしておく @ToDo ここは選べるようにするか？そうなると課金？
+                    target.vuforia_target_id = response_content['target_id']
+
+
+                # target = form.save(commit=False)
+
+                target.save()
+
+                ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                # if filePathTarget != None:
+                #     default_storage.delete(filePathTarget)      #target(image)
+                #
+                # if metaPath != None:
+                #     default_storage.delete(metaPath)            #meta
+                #
+                # if filePathContents != None:
+                #     default_storage.delete(filePathContents)    #contents
+
+                return redirect('hlar:target_list')
+                # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
             # Vuforia API エラー時
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
@@ -1270,7 +1381,15 @@ def parse_qsl(url):
         param.update({_p[0]: _p[1]})
     return param
 
+def delete_tmp_file(filePathTarget, metaPath, filePathContents):
+    if filePathTarget != None:
+        default_storage.delete(filePathTarget)      #target(image)
 
+    if metaPath != None:
+        default_storage.delete(metaPath)            #meta
+
+    if filePathContents != None:
+        default_storage.delete(filePathContents)    #contents
 
 
 
