@@ -1289,15 +1289,18 @@ def target_payment(request):
         print(target.view_count_limit)
         target.save()
 
+        ######## vuforia の targetをactiveにする。
+        data = {"active_flag": 1}
+        print("vuforia active")
+        print(target.vuforia_target_id)
+        update_target(target.vuforia_target_id, data)
+
         dictData = {'ret':True}
         return HttpResponse(json.dumps(dictData))
     else:
         dictData = {'ret':False, 'msg': '金額でエラーが発生しました。'}
         return HttpResponse(json.dumps(dictData))
 
-    ######## vuforia の targetをactiveにする。
-    data = {"active_flag": 1}
-    update_target(target.vuforia_target_id, data)
 
 
     # targetFile = request.FILES['target']
