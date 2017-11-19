@@ -1155,10 +1155,10 @@ def target_edit(request, target_id=None):
 
 def target_del(request, target_id):
 
-    if target_id:   # target_id が指定されている (修正時)
+    if target_id:   # target_id が指定されている
         target = get_object_or_404(Target, pk=target_id)
         # pprint(vars(target))
-    else:         # target_id が指定されていない (追加時)
+    else:         # target_id が指定されていない
         return HttpResponse('エラー')
 
     print('target.vuforia_target_id')
@@ -1181,11 +1181,27 @@ def target_del(request, target_id):
         print ('message:' + e.message)
         print ('e自身:' + str(e))
 
+    ######## S3のデータを削除
+    #### コンテンツ動画
+    client = boto3.client('s3')
+    response = client.delete_object(
+        Bucket = bucket_name,
+        Key = target.content_name
+    )
+
+    #### ターゲット画像
+    response = client.delete_object(
+        Bucket = bucket_name,
+        Key = target.img_name
+    )
+
 
     if judge_vws_result(response_content['result_code']):
         return redirect('hlar:target_list')
     else:
         return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
+
+
 
     return HttpResponse('ターゲットの削除')
 
@@ -1279,6 +1295,9 @@ def target_payment(request):
         dictData = {'ret':False, 'msg': '金額でエラーが発生しました。'}
         return HttpResponse(json.dumps(dictData))
 
+    ######## vuforia の targetをactiveにする。
+    data = {"active_flag": 1}
+    update_target(target.vuforia_target_id, data)
 
 
     # targetFile = request.FILES['target']
