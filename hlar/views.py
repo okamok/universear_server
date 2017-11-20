@@ -74,6 +74,9 @@ from user_agents import parse as parse_ua
 
 import stripe
 
+import string
+import random
+
 # uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
 # S3_USER = 's3user'
@@ -806,10 +809,16 @@ def target_edit(request, target_id=None):
         # 保存パス(ファイル名含む)
         encTargetFile = None
         filePathTarget = None
+
+
+        # ユーティリティ関数にすると便利かも?
+        n = 9
+        random_str = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
+
         if request.FILES.keys() >= {'target'}:
 
             targetFile = request.FILES['target']
-            filePathTarget = TARGET_FILE_PATH + targetFile.name
+            filePathTarget = TARGET_FILE_PATH + random_str + '_' + targetFile.name
 
             print("filePathTarget")
             print(filePathTarget)
@@ -857,7 +866,7 @@ def target_edit(request, target_id=None):
             content_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
-                content_name_for_meta = contentsFile.name
+                content_name_for_meta = random_str + '_' + contentsFile.name
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
 
@@ -996,7 +1005,7 @@ def target_edit(request, target_id=None):
 
                     #### まず一時的にサーバーに保存
                     # 保存パス(ファイル名含む)
-                    filePathContents = TARGET_FILE_PATH + contentsFile.name
+                    filePathContents = TARGET_FILE_PATH + random_str + '_' + contentsFile.name
 
                     print("filePathContents")
                     print(filePathContents)
@@ -1019,7 +1028,7 @@ def target_edit(request, target_id=None):
                         print ('message:' + e.message)
                         print ('e自身:' + str(e))
 
-                    key_name = contentsFile.name
+                    key_name = random_str + '_' + contentsFile.name
 
                     print("key_name")
                     print(key_name)
@@ -1051,7 +1060,7 @@ def target_edit(request, target_id=None):
                 if request.FILES.keys() >= {'target'}:
                     client = boto3.client('s3')
                     transfer = S3Transfer(client)
-                    key_name_target = targetFile.name
+                    key_name_target = random_str + '_' + targetFile.name
                     transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
                     s3 = boto3.resource('s3')
                     object_acl = s3.ObjectAcl(bucket_name, key_name_target)
@@ -1063,7 +1072,7 @@ def target_edit(request, target_id=None):
                     target.content_name = key_name
 
                 if request.FILES.keys() >= {'target'}:
-                    target.img_name = targetFile.name
+                    target.img_name = random_str + '_' + targetFile.name
 
                 if target_link_URL:
                     target.target_link_URL = target_link_URL
