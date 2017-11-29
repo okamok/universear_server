@@ -1,0 +1,12 @@
+Host github.com
+  HostName github.com
+  IdentityFile ~/.ssh/for_github
+  User git
+
+Host bitbucket.org
+  User git
+  Port 22
+  HostName bitbucket.org
+  identityFile ~/.ssh/for_bit_bucket
+  TCPKeepAlive yes
+  IdentitiesOnly yes

@@ -1,20 +1,3 @@
-# import httplib
-
-# import http.client
-# import hashlib
-# import mimetypes
-# import hmac
-# import base64
-# import sys
-# import json
-# import requests
-# from email.utils import formatdate
-# from datetime import datetime
-# from urllib.parse import urlparse, urlencode, quote_plus
-# from time import mktime
-# from hashlib import sha1, md5
-# from hmac import new as hmac
-
 import logging
 import urllib.request, base64
 import pytz
@@ -32,18 +15,12 @@ from hmac import new as hmac
 from pprint import pprint
 from hlar.models import User, Target
 
+from django.conf import settings
+
 
 # The hostname of the Cloud Recognition Web API
 CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
-
-# okamok_cloud_2
-SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
-SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
-
-# okamok_cloud_3
-# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
 
 VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
     'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail', 'TargetStatusProcessing']
@@ -112,8 +89,8 @@ def authorization_header_for_request(method, content, content_type, date, reques
     components_to_sign.append(str(request_path))
     string_to_sign = "\n".join(components_to_sign)
     # signature = compute_hmac_base64(SERVER_SECRET_KEYS, string_to_sign)
-    signature = compute_hmac_base64(SERVER_SECRET_KEYS, string_to_sign.encode('utf-8'))
-    auth_header = "VWS %s:%s" % (SERVER_ACCESS_KEYS, signature)
+    signature = compute_hmac_base64(settings.SERVER_SECRET_KEYS, string_to_sign.encode('utf-8'))
+    auth_header = "VWS %s:%s" % (settings.SERVER_ACCESS_KEYS, signature)
     return auth_header
 
 
@@ -348,7 +325,7 @@ def _get_authenticated_response(req):
     print('string_to_sign')
     print(string_to_sign)
 
-    signature = _hmac_sha1_base64(SERVER_SECRET_KEYS, string_to_sign)
+    signature = _hmac_sha1_base64(settings.SERVER_SECRET_KEYS, string_to_sign)
 
     print('signature')
     print(signature)
@@ -357,7 +334,7 @@ def _get_authenticated_response(req):
     #print("signature: ", signature)
 
     req.headers['Date'] =  rfc1123_date
-    auth_header = 'VWS %s:%s' % (SERVER_ACCESS_KEYS, signature)
+    auth_header = 'VWS %s:%s' % (settings.SERVER_ACCESS_KEYS, signature)
     req.headers['Authorization'] = auth_header
 
     print('auth_header')

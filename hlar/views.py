@@ -19,7 +19,7 @@ from hlar.models import User, Target, Payment, AccessLog, Oauth as OauthTbl
 from django.db.models import Count
 from hlar.forms import TargetForm, UserForm, RegistrationForm
 from hlar.vuforiaAPI import add_target, get_targets, get_targets_user_id, judge_vws_result, get_target_id_from_name, update_target, del_target, get_target_by_id, duplicates
-from hlar.twitterAPI import get_twitter_account
+# from hlar.twitterAPI import get_twitter_account
 from hlar.lib import get_targets_popular
 
 from hlar.models import DEFAULT_PASS
@@ -38,7 +38,7 @@ import boto3
 from boto3.s3.transfer import S3Transfer
 
 import urllib
-import twitter
+# import twitter
 from requests_oauthlib import OAuth1Session
 
 # DB登録時のバリデーション
@@ -79,38 +79,8 @@ import random
 
 # uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
-# S3_USER = 's3user'
-# S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
-# S3_SECRET_KEY = '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'
-
-# okamok_cloud_2
-SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
-SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
-
-# okamok_cloud_3
-# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
-
-# TARGET_FILE_PATH = './tmp/'
 TARGET_FILE_PATH = './static/images/'
 
-
-# oauth 関連
-request_token_url = 'http://twitter.com/oauth/request_token'
-# access_token_url = 'http://twitter.com/oauth/access_token'
-access_token_url = 'https://twitter.com/oauth/access_token'
-
-
-authenticate_url = 'http://twitter.com/oauth/authenticate'
-
-
-
-consumer_key = '05WxUGIG4paZZZWj22cZJR6qC'
-consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
-
-
-# bucket_name = 'test-hlar'
-# bucket_name = 'hlar-test'
 bucket_name = settings.S3_BUCKET_NAME
 s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
@@ -401,43 +371,43 @@ def callback(request):
 
     return access_token['oauth_token'], access_token['oauth_token_secret']
 
-def client(access_token, access_token_secret):
-    # api = twitter.Api(consumer_key=consumer_key,
-    #                   consumer_secret=consumer_secret,
-    #                   access_token_key=access_token,
-    #                   access_token_secret=access_token_secret,
-    #                   cache=None)
-    #
-    # tweets = api.GetSearch(term=u"#今日")
-    # for tweet in tweets:
-    #     print(tweet.text)
-
-
-    CK = consumer_key                             # Consumer Key
-    CS = consumer_secret         # Consumer Secret
-    AT = access_token            # Access Token
-    AS = access_token_secret     # Accesss Token Secert
-
-    # タイムライン取得用のURL
-    url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-
-    # とくにパラメータは無い
-    params = {}
-
-    # OAuth で GET
-    twitter = OAuth1Session(CK, CS, AT, AS)
-    req = twitter.get(url, params = params)
-
-    if req.status_code == 200:
-        # レスポンスはJSON形式なので parse する
-        timeline = json.loads(req.text)
-        # 各ツイートの本文を表示
-        for tweet in timeline:
-            print(tweet["text"])
-
-    else:
-        # エラーの場合
-        print ("Error: %d" % req.status_code)
+# def client(access_token, access_token_secret):
+#     # api = twitter.Api(consumer_key=consumer_key,
+#     #                   consumer_secret=consumer_secret,
+#     #                   access_token_key=access_token,
+#     #                   access_token_secret=access_token_secret,
+#     #                   cache=None)
+#     #
+#     # tweets = api.GetSearch(term=u"#今日")
+#     # for tweet in tweets:
+#     #     print(tweet.text)
+#
+#
+#     CK = consumer_key                             # Consumer Key
+#     CS = consumer_secret         # Consumer Secret
+#     AT = access_token            # Access Token
+#     AS = access_token_secret     # Accesss Token Secert
+#
+#     # タイムライン取得用のURL
+#     url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+#
+#     # とくにパラメータは無い
+#     params = {}
+#
+#     # OAuth で GET
+#     twitter = OAuth1Session(CK, CS, AT, AS)
+#     req = twitter.get(url, params = params)
+#
+#     if req.status_code == 200:
+#         # レスポンスはJSON形式なので parse する
+#         timeline = json.loads(req.text)
+#         # 各ツイートの本文を表示
+#         for tweet in timeline:
+#             print(tweet["text"])
+#
+#     else:
+#         # エラーの場合
+#         print ("Error: %d" % req.status_code)
 
 
 def user_add(request):
@@ -1334,76 +1304,76 @@ def target_payment(request):
     # return HttpResponse(json.dumps(dictData))
 
 
-def twitter_login(request):
-
-    # Create your consumer with the proper key/secret.
-    consumer = oauth.Consumer(key=consumer_key,
-        secret=consumer_secret)
-
-    # Request token URL for Twitter.
-    request_token_url = "https://api.twitter.com/oauth/request_token"
-
-    # Create our client.
-    client = oauth.Client(consumer)
-
-    # The OAuth Client request works just like httplib2 for the most part.
-    resp, content = client.request(request_token_url, "GET")
-
-    content_str = content.decode('utf-8')
-
-    request_token = dict(parse_qsl(content_str))
-
-    url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
-
-    #### request_token と request_token_secret を保存
-    # DBに保存
-    # oauth_obj = OauthTbl()
-    # oauth_obj.oauth_token = request_token['oauth_token']
-    # oauth_obj.oauth_token_secret = request_token['oauth_token_secret']
-    # oauth_obj.save()
-
-    # sessionに保存
-    request.session['oauth_token'] = request_token['oauth_token']
-    request.session['oauth_token_secret'] = request_token['oauth_token_secret']
-
-
-    return HttpResponseRedirect(url)
-
-
-
-
-
-
-    # print(content.split('&'))
-    # request_token = dict(parse_qsl(content))
-
-    # 認証ページに遷移
-    # url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
-    # url = 'http://twitter.com/oauth/authenticate?oauth_token=2UsavwAAAAAA1SEBAAABXOcW3d0'
-    # print('<meta http-equiv="refresh"content="1; url=%s">' % url)
-
-    # return HttpResponseRedirect(url)
-
-    # # consumer = oauth2.Consumer
-    # # print(consumer)
-    # consumer = oauth2.Consumer(key=consumer_key, secret=consumer_secret)
-    # client = oauth2.Client(consumer)
-    # # reqest_token を取得
-    # resp, content = client.request(request_token_url, 'GET')
-    #
-    # print(content)
-    #
-    # request_token = dict(parse_qsl(content))
-    #
-    # # 認証ページに遷移
-    # url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
-    # print('<meta http-equiv="refresh"content="1; url=%s">' % url)
-    #
-    # # request_token と request_token_secret を保存
-    # con = sqlite3.connect('oauth.db')
-    # con.execute(u'insert into oauth values (?, ?)', (request_token['oauth_token'], request_token['oauth_token_secret']))
-    # con.commit()
-    # con.close()
+# def twitter_login(request):
+#
+#     # Create your consumer with the proper key/secret.
+#     consumer = oauth.Consumer(key=consumer_key,
+#         secret=consumer_secret)
+#
+#     # Request token URL for Twitter.
+#     request_token_url = "https://api.twitter.com/oauth/request_token"
+#
+#     # Create our client.
+#     client = oauth.Client(consumer)
+#
+#     # The OAuth Client request works just like httplib2 for the most part.
+#     resp, content = client.request(request_token_url, "GET")
+#
+#     content_str = content.decode('utf-8')
+#
+#     request_token = dict(parse_qsl(content_str))
+#
+#     url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
+#
+#     #### request_token と request_token_secret を保存
+#     # DBに保存
+#     # oauth_obj = OauthTbl()
+#     # oauth_obj.oauth_token = request_token['oauth_token']
+#     # oauth_obj.oauth_token_secret = request_token['oauth_token_secret']
+#     # oauth_obj.save()
+#
+#     # sessionに保存
+#     request.session['oauth_token'] = request_token['oauth_token']
+#     request.session['oauth_token_secret'] = request_token['oauth_token_secret']
+#
+#
+#     return HttpResponseRedirect(url)
+#
+#
+#
+#
+#
+#
+#     # print(content.split('&'))
+#     # request_token = dict(parse_qsl(content))
+#
+#     # 認証ページに遷移
+#     # url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
+#     # url = 'http://twitter.com/oauth/authenticate?oauth_token=2UsavwAAAAAA1SEBAAABXOcW3d0'
+#     # print('<meta http-equiv="refresh"content="1; url=%s">' % url)
+#
+#     # return HttpResponseRedirect(url)
+#
+#     # # consumer = oauth2.Consumer
+#     # # print(consumer)
+#     # consumer = oauth2.Consumer(key=consumer_key, secret=consumer_secret)
+#     # client = oauth2.Client(consumer)
+#     # # reqest_token を取得
+#     # resp, content = client.request(request_token_url, 'GET')
+#     #
+#     # print(content)
+#     #
+#     # request_token = dict(parse_qsl(content))
+#     #
+#     # # 認証ページに遷移
+#     # url = '%s?oauth_token=%s' % (authenticate_url, request_token['oauth_token'])
+#     # print('<meta http-equiv="refresh"content="1; url=%s">' % url)
+#     #
+#     # # request_token と request_token_secret を保存
+#     # con = sqlite3.connect('oauth.db')
+#     # con.execute(u'insert into oauth values (?, ?)', (request_token['oauth_token'], request_token['oauth_token_secret']))
+#     # con.commit()
+#     # con.close()
 
 def parse_qsl(url):
     param = {}
