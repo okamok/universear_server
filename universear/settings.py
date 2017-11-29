@@ -85,7 +85,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.facebook.FacebookAppOAuth2',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.google.GoogleOAuth2',
-    'social.backends.twitter.TwitterOAuth',
+    # 'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 
 )
@@ -332,3 +332,38 @@ STATICFILES_DIRS = [
 # アクティベーションメール実装時に追加
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+
+
+# Vuforia
+# okamok_cloud_2
+SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
+SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
+
+# okamok_cloud_3
+# SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+# SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+
+
+
+##### 下記、view.py に記載していたもの
+# # S3_USER = 's3user'
+# # S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
+# # S3_SECRET_KEY = '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'
+#
+# # okamok_cloud_2
+# SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
+# SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
+#
+# # okamok_cloud_3
+# # SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
+# # SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
+# # TARGET_FILE_PATH = './tmp/'
+#
+# # oauth 関連
+# # request_token_url = 'http://twitter.com/oauth/request_token'
+# # # access_token_url = 'http://twitter.com/oauth/access_token'
+# # access_token_url = 'https://twitter.com/oauth/access_token'
+# # authenticate_url = 'http://twitter.com/oauth/authenticate'
+#
+# consumer_key = '05WxUGIG4paZZZWj22cZJR6qC'
+# consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
