@@ -14,7 +14,7 @@
 {% endif %}
 
 {% if form.errors %}
-<p style="color:red;">メールアドレスとパスワードが一致しません。</p>
+<p style="color:red;">{% trans 'メールアドレスとパスワードが一致しません。' %}</p>
 {% endif %}
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
@@ -30,7 +30,7 @@
 </tr>
 </table>
 
-<input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="ログイン" />
+<input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="{% trans 'ログイン' %}" />
 <input type="hidden" name="next" value="{{ next }}" />
 <br>
 <hr>

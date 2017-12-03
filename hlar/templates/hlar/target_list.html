@@ -2,7 +2,9 @@
 
 {% load staticfiles %}
 
-{% block title %}ターゲットの一覧{% endblock title %}
+{% load i18n %}
+
+{% block title %}{% trans 'ターゲット一覧' %}{% endblock title %}
 
 {% block extrahead %}
 <style>
@@ -20,21 +22,23 @@ table {
     <div class="contentsLargeDiv">
 
         <div class="fontShrik">
-            <h4>ターゲット一覧</h4>
+            <h4>{% trans 'ターゲット一覧' %}</h4>
         </div>
 
         {% if addTarget %}
         <div class="targetAddButton">
             <a href="{% url 'hlar:target_add' %}" class="btn btn-info btn-sm targetAddButtonA">
-                <span style="margin-right:5px" class="glyphicon glyphicon-plus-sign"></span>ターゲット追加
+                <span style="margin-right:5px" class="glyphicon glyphicon-plus-sign"></span>{% trans 'ターゲット追加' %}
             </a>
             <p style='font-size:9pt'>
-            ※{{TARGET_LIMIT_COUNT}}個まで無料で登録可能
+            <!-- ※{{TARGET_LIMIT_COUNT}}個まで無料で登録可能 -->
+            ※ {% blocktrans %}{{TARGET_LIMIT_COUNT}} 個まで無料で登録可能{% endblocktrans %}
+            <!-- {% trans '5個まで無料で登録可能' %} -->
             </p>
         </div>
         {% else %}
         <div class="targetAddButton">
-            登録上限を超えているので新規登録できません
+            {% trans '登録上限を超えているので新規登録できません' %}
         </div>
         {% endif %}
 
@@ -73,8 +77,8 @@ table {
 
                         <div class="targetListHead__view_count">
                             {{ target.name }}<br>
-                            再生回数:{{ target.view_count }}回<br>
-                            再生上限:{{ target.view_count_limit }}回
+                            {% trans '再生回数' %}:{{ target.view_count }} {% trans '回' %}<br>
+                            {% trans '再生上限' %}:{{ target.view_count_limit }} {% trans '回' %}
                         </div>
 
                             <!-- <div class="targetListHead__view_count_limit">
@@ -104,11 +108,11 @@ table {
             <div class="targetList">
                 <div>
         				<div class="targetListHead__id">ID</div>
-        				<div class="targetListHead__target">ターゲット</div>
-        				<div class="targetListHead__contents">コンテンツ</div>
-        				<div class="targetListHead__view_count">再生回数</div>
-        				<div class="targetListHead__view_count_limit">再生回数上限</div>
-        				<div class="targetListHead__control">操作</div>
+        				<div class="targetListHead__target">{% trans 'ターゲット' %}</div>
+        				<div class="targetListHead__contents">{% trans 'コンテンツ' %}</div>
+        				<div class="targetListHead__view_count">{% trans '再生回数' %}</div>
+        				<div class="targetListHead__view_count_limit">{% trans '再生回数上限' %}</div>
+        				<div class="targetListHead__control">{% trans '操作' %}</div>
                 </div>
                 <hr style="margin-bottom:5px;">
 
@@ -140,7 +144,7 @@ table {
                         </div>
 
                         <div class="targetListHead__control">
-                            <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit">修正</a>
+                            <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit">{% trans '修正' %}</a>
                         </div>
                 </div>
 
@@ -213,7 +217,7 @@ table {
 
 
         {% else %}
-                <div style="margin-top:10px">登録されているターゲットがありません。</div>
+                <div style="margin-top:10px">{% trans '登録されているターゲットがありません。' %}</div>
         {% endif %}
             </div>
         </div>

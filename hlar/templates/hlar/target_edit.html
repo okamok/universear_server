@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% load i18n %}
+
 {% block title %}ターゲットの編集{% endblock title %}
 
 {% block content %}
@@ -10,7 +12,7 @@
     <div class="contentsLargeDiv">
         <!-- <h4 class="page-header">ターゲットの編集</h4> -->
         <div class="fontShrik">
-            <h4>ターゲットの編集</h4>
+            <h4>{% trans 'ターゲットの編集' %}</h4>
         </div>
 
         <!-- <div style="margin-left:20px"> -->
@@ -33,12 +35,12 @@
             <table class="resposiveTable">
                 <tr>
                     <td colspan="2" style="text-align:left" >
-                        <span class="box_corner_circle">STEP1</span>UNIVERSE ARアプリで使用するターゲット画像を登録します。
+                        <span class="box_corner_circle">STEP1</span>{% trans 'UNIVERSE ARアプリで使用するターゲット画像を登録します。' %}
                     </td>
                 </tr>
                 <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
-                        <b>ターゲット画像</b>
+                        <b>{% trans 'ターゲット画像' %}</b>
                     </td>
 
                     <td class="responsiveTableContents">
@@ -48,9 +50,11 @@
                         {% endif %}
                         <p style='margin-top:5px'>
                             <ul style='font-size:7pt; padding-left:20px;'>
-                                <li>jpg画像のみ登録可能です。(最大{{TARGET_SIZE_LIMIT}}MBまで)</li>
-                                <li>過度に複雑な画像(風景画像など)はターゲット画像に向きません。シンプルなマーク/ロゴ画像を推奨します。</li>
-                                <li>iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。</li>
+                                <!-- <li>jpg画像のみ登録可能です。(最大{{TARGET_SIZE_LIMIT}}MBまで)</li> -->
+
+                                <li>{% trans 'jpg画像のみ登録可能です。' %}{% trans '[最大2MBまで]' %}</li>
+                                <li>{% trans '過度に複雑な画像はターゲット画像に向きません。' %}{% trans 'シンプルなマーク/ロゴ画像を推奨します。' %}</li>
+                                <li>{% trans 'iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。' %}</li>
                             <ul>
 
                         </p>
@@ -59,12 +63,12 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:left" >
-                        <span class="box_corner_circle">STEP2</span>再生される動画を登録します。
+                        <span class="box_corner_circle">STEP2</span>{% trans '再生される動画を登録します。' %}
                     </td>
                 </tr>
                 <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
-                        <b>コンテンツ動画</b>
+                        <b>{% trans 'コンテンツ動画' %}</b>
                     </td>
 
                     <td class="responsiveTableContents">
@@ -76,9 +80,13 @@
                         {% endif %}
                         <p style='font-size:9pt;margin-top:5px'>
                             <ul style='font-size:7pt; padding-left:20px;'>
-                                <li>mp4またはmov形式のみ登録可能です。(最大{{CONTENTS_SIZE_LIMIT}}MBまで)</li>
+                                <li>{% trans 'mp4またはmov形式のみ登録可能です。' %}
+                                    <!-- (最大{{CONTENTS_SIZE_LIMIT}}MBまで) -->
+                                    {% trans '[最大40MBまで]' %}
+                                </li>
                                 <li>
-                                    iPhoneで撮影した動画を使用する場合はiPhoneを横にしてホームボタンが右側の状態で撮影した横長の動画をご使用下さい。ホームボタンの位置が逆ですと動画の上下が反転します。またそれ以外の縦長の動画などは想定通り動作しない可能性があります。
+                                    {% trans 'iPhoneで撮影した動画を使用する場合はiPhoneを横にしてホームボタンが右側の状態で撮影した横長の動画をご使用下さい。ホームボタンの位置が逆ですと動画の上下が反転します。またそれ以外の縦長の動画などは想定通り動作しない可能性があります。' %}
+
                                 </li>
                             </ul>
                         </p>
@@ -88,12 +96,12 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:left" >
-                        <span class="box_corner_circle">STEP3</span>ARコンテンツの名前を入力します。
+                        <span class="box_corner_circle">STEP3</span>{% trans 'ARコンテンツの名前を入力します。' %}
                     </td>
                 </tr>
                 <tr style="border-bottom:none">
                     <td class="responsiveTableHeader">
-                        <b>名前</b>
+                        <b>{% trans '名前' %}</b>
                     </td>
 
                     <td  class="responsiveTableContents">
@@ -104,12 +112,13 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:left" >
-                        <span class="box_corner_circle">STEP4</span>ターゲット画像認識時、メニューに表示されるURLを設定します。(省略可能)
+                        <span class="box_corner_circle">STEP4</span>{% trans 'ターゲット画像認識時、メニューに表示されるURLを設定します。' %}
+                        ({% trans '省略可能' %})
                     </td>
                 </tr>
                 <tr>
                     <td class="responsiveTableHeader">
-                        <b>誘導リンク</b>
+                        <b>{% trans '誘導リンク' %}</b>
                     </td>
 
                     <td  class="responsiveTableContents">
@@ -123,21 +132,21 @@
 
                 <tr>
                     <td class="responsiveTableHeader">
-                        <b>再生回数上限</b>
+                        <b>{% trans '再生回数上限' %}</b>
                     </td>
 
                     <td  class="responsiveTableContents">
                         <div class="form-group">
 
                             {% if target_id %}
-                                <p style="font-size:20pt">{{target.view_count_limit}}回</p>
+                                <p style="font-size:20pt">{{target.view_count_limit}}{% trans '回' %}</p>
                                 <br>
 
-                                300回(2,980円)クーポンを購入(一回のみ)<br>
+                                {% trans '300回[2,980円]クーポンを購入[一回のみ]' %}<br>
                                 {% if buy_history > 0 %}
-                                    <button id="btnParchase300_dummey" class="btn btn-primary" style="width:50%" disabled>購入する(300回)</button>
+                                    <button id="btnParchase300_dummey" class="btn btn-primary" style="width:50%" disabled>{% trans '購入する"300回"' %}</button>
                                 {% else %}
-                                    <button id="btnParchase300" class="btn btn-primary" style="width:50%">購入する(300回)</button>
+                                    <button id="btnParchase300" class="btn btn-primary" style="width:50%">{% trans '購入する"300回"' %}</button>
                                 {% endif %}
 
                                 <!-- <form action="/your-server-side-code" method="POST">
@@ -157,8 +166,8 @@
 
                                 <br>
                                 <br>
-                                1,000回(29,800円)クーポンを購入<br>
-                                <button id="btnParchase1000" class="btn btn-primary" style="width:50%">購入する(1000回)</button>
+                                {% trans '1,000回[29,800円]クーポンを購入' %}<br>
+                                <button id="btnParchase1000" class="btn btn-primary" style="width:50%">{% trans '購入する"1000回"' %}</button>
 
                                 <!-- <form action="/your-server-side-code" method="POST">
                                   <script
@@ -175,11 +184,11 @@
                                   </script>
                                 </form> -->
                                 <br>
-                                ※ 10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。
+                                ※ {% trans '10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。' %}
                             {% else %}
-                                <span id='span_view_count_limit' style="font-size:20pt">50回(free)</span>
+                                <span id='span_view_count_limit' style="font-size:20pt">50 {% trans '回' %}(free)</span>
                                 <br>
-                                ※ 50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンをご購入下さい。
+                                ※ {% trans '50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンをご購入下さい。' %}
                             {% endif %}
                             <input type="hidden" name="hid_view_count_limit" value="50">
 
@@ -193,12 +202,12 @@
                 {% if target_id %}
                 <tr>
                     <td class="responsiveTableHeader">
-                        <b>現在の再生済回数</b>
+                        <b>{% trans '現在の再生済回数' %}</b>
                     </td>
 
                     <td  class="responsiveTableContents">
                         <p style="font-size:20pt">
-                            {{target.view_count}}回
+                            {{target.view_count}} {% trans '回' %}
                         </p>
                     </td>
                 </tr>
@@ -236,16 +245,16 @@
             <div class="form-group" style="text-align:center;margin-top:25px">
                 {% if target_id %}
                     <!-- <button type="submit" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">登録</p></button> -->
-                    <button id="btnEdit" type="button" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">登録</p></button>
-                    <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:30%; height:45px;"><p style="margin-top:0px;font-size:15pt">削除</p></a>
-                    <a id="btnReturn" href="#" class="btn btn-default" style="margin-top:20px;width:60%; height:45px;"><p style="margin-top:6px">戻る</p></a>
+                    <button id="btnEdit" type="button" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
+                    <a href="{% url 'hlar:target_del' target_id=target.id %}" class="btn btn-danger" style="width:30%; height:45px;"><p style="margin-top:0px;font-size:15pt">{% trans '削除' %}</p></a>
+                    <a id="btnReturn" href="#" class="btn btn-default" style="margin-top:20px;width:60%; height:45px;"><p style="margin-top:6px">{% trans '戻る' %}</p></a>
                 {% else %}
                     <!-- <button type="submit" class="btn btn-primary" style="width:40%; height:45px;"><p style="font-size:15pt">登録</p></button> -->
-                    <button id="btnEdit" type="button" class="btn btn-primary" style="width:40%; height:45px;"><p style="font-size:15pt">登録</p></button>
-                    <a id="btnReturn" href="#" class="btn btn-default" style="margin-top:0px;width:40%; height:45px;"><p style="margin-top:6px">戻る</p></a>
+                    <button id="btnEdit" type="button" class="btn btn-primary" style="width:40%; height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
+                    <a id="btnReturn" href="#" class="btn btn-default" style="margin-top:0px;width:40%; height:45px;"><p style="margin-top:6px">{% trans '戻る' %}</p></a>
                 {% endif %}
                     <p style="margin-top:10px">
-                        ※wifi環境でのアップ推奨です
+                        ※{% trans 'wifi環境でのアップ推奨です' %}
                     </p>
             </div>
 
