@@ -9,7 +9,7 @@
     <div class="contentsDiv">
 
         <div class="fontShrik">
-            <h4>アカウント作成</h4>
+            <h4>{% trans 'アカウント作成' %}</h4>
         </div>
 
         <form method="post" action="" class="basicForm" >
@@ -19,7 +19,7 @@
             <div style="text-align:left">
                 {% for field in form %}
                   <p id="inputP">
-                    {{ field.label_tag }}<br>
+                    {% trans field.label_tag %}<br>
                     {{ field }}
                     {% if field.help_text %}
                       <br><small style="color: grey">{{ field.help_text }}</small>
@@ -39,7 +39,7 @@
             <i class="fa fa-google-plus"></i> Sign in with Gmail
         </a>
         <hr>
-        登録メールを再送信する場合は<a href="/accounts/activate/resend/">こちら</a><br>
+        {% trans '登録メールを再送信する場合は' %}<a href="/accounts/activate/resend/">{% trans 'こちら' %}</a><br>
     </div>
 </div>
 {% endblock %}

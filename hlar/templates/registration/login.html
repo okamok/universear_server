@@ -9,7 +9,7 @@
 
     <div class="contentsDiv">
         <div class="fontShrik">
-            <h4>ログイン</h4>
+            <h4>{% trans "ログイン" %}</h4>
         </div>
 
         <form method="post" action="" class="basicForm">
@@ -19,7 +19,8 @@
 
                 {% for field in form %}
                     <p style="text-align:left">
-                        {{ field.label_tag }}<br>
+                        <!-- {{ field.label_tag }}<br> -->
+                        {% trans field.label_tag %}<br>
                         {{ field }}
                         {{ field.errors }}
                     </p>

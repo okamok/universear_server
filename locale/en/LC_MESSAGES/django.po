@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright ¥(C¥) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -37,8 +37,292 @@ msgstr "LogOut"
 msgid "サインアップ"
 msgstr "Sign Up"
 
-msgid "新しいARアプリ「UNIVERSE」へようこそ"
+msgid "新しいARアプリ「UNIVERSE AR」へようこそ"
 msgstr "this is revolution of AR app."
 
+msgid "無料ですぐにあなただけのARコンテンツが作成できます。"
+msgstr "You can make your own AR contents very soon for free."
+
+msgid "ターゲット管理"
+msgstr "Target management"
+
+msgid "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。"
+msgstr "You can make your original AR contents with few easy steps."
+
+msgid "1.こちらからユーザー登録[gmailのアカウントでも可能]"
+msgstr "1.Let's sign up here[you can use your Gmail account]"
+
+msgid "2.ターゲット登録から認識したい画像[ターゲット]と表示する動画を登録"
+msgstr "2.Please add TARGET image that you want to recognize by App."
+
+msgid "3.アプリ「UNIVERSE AR」をiPhoneにインストールする。"
+msgstr "3.Install APP [UNIVERSE AR] to your iPhone."
+
+msgid "4.アプリを起動してターゲットにかざせばオリジナルARコンテンツの完成です。"
+msgstr "4.Boot up App on your iPhone.then focus to the TARGET.your AR contents is completed!"
+
+msgid "人気のターゲットを是非アプリからお試し下さい。"
+msgstr "Let's try popular TARGETS!"
+
+msgid "ご要望/お問い合わせはこちらから"
+msgstr "Feel free to contact us."
+
+msgid "新しいARアプリ「UNIVERSE AR」"
+msgstr "This is new AR App [UNIVERSE AR]."
+
 msgid "すぐに無料であなただけのARコンテンツが作成できます。"
-msgstr "you can start very soon.please push button belowe."
+msgstr "you can make your own AR contents for free."
+
+msgid "トップ"
+msgstr "Top"
+
+msgid "ユーザー情報変更"
+msgstr "User info edit"
+
+msgid "メールアドレス"
+msgstr "Mail address"
+
+msgid "ユーザー名"
+msgstr "User name"
+
+msgid "パスワード"
+msgstr "Password"
+
+msgid "変更は"
+msgstr "click for change"
+
+msgid "こちら"
+msgstr "here"
+
+msgid "ターゲット一覧"
+msgstr "Target list"
+
+msgid "%(TARGET_LIMIT_COUNT)s 個まで無料で登録可能"
+msgstr "you can add %(TARGET_LIMIT_COUNT)s maximum"
+
+msgid "ターゲット"
+msgstr "Targe"
+
+msgid "コンテンツ"
+msgstr "Contents"
+
+msgid "再生回数"
+msgstr "Play count"
+
+msgid "再生回数上限"
+msgstr "Play count maximum"
+
+msgid "再生上限"
+msgstr "Play count maximum"
+
+msgid "修正"
+msgstr "Edit"
+
+msgid "ターゲットの編集"
+msgstr "Target edit"
+
+msgid "UNIVERSE ARアプリで使用するターゲット画像を登録します。"
+msgstr "Add Target image for use UNIVERSE AR App."
+
+msgid "ターゲット画像"
+msgstr "Target image"
+
+msgid "jpg画像のみ登録可能です。"
+msgstr "jpg image only."
+
+msgid "過度に複雑な画像はターゲット画像に向きません。"
+msgstr "It can't use too complicated image."
+
+msgid "シンプルなマーク/ロゴ画像を推奨します。"
+msgstr "Simple image(ex.logo mark) is good for target."
+
+msgid "iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。"
+msgstr "When you use image that taken by iPhone.We recommend after screenshot.because sometime the image over 2MB."
+
+msgid "再生される動画を登録します。"
+msgstr "Add your video that is played when App recognize target image."
+
+msgid "mp4またはmov形式のみ登録可能です。"
+msgstr "mp4 and mov is allowed."
+
+msgid "[最大40MBまで]"
+msgstr "[40MB maximum]"
+
+
+msgid "iPhoneで撮影した動画を使用する場合はiPhoneを横にしてホームボタンが右側の状態で撮影した横長の動画をご使用下さい。ホームボタンの位置が逆ですと動画の上下が反転します。またそれ以外の縦長の動画などは想定通り動作しない可能性があります。"
+msgstr "When you use video that taken by iPhone.you should use video that taken in the situation home button is right side.if it is opposite,video may upside down."
+
+msgid "ARコンテンツの名前を入力します。"
+msgstr "Set AR contents name"
+
+msgid "名前"
+msgstr "Name"
+
+msgid "ターゲット画像認識時、メニューに表示されるURLを設定します。"
+msgstr "Set URL that will be display at menu when App recognize target."
+
+msgid "省略可能"
+msgstr "not required"
+
+msgid "誘導リンク"
+msgstr "Target Link"
+
+msgid "回"
+msgstr "count"
+
+msgid "50回以上をこ希望の場合は登録後、ターゲット編集画面から300回/1,000回クーポンをご購入下さい。"
+msgstr "if you'd like to more 50 count,please purchase 300/1000 count coupon from edit part."
+
+msgid "登録"
+msgstr "Submit"
+
+msgid "戻る"
+msgstr "Return"
+
+msgid "wifi環境でのアップ推奨です"
+msgstr "wifi is recommended"
+
+msgid "ログアウトしました"
+msgstr "Log out"
+
+msgid "アカウント作成"
+msgstr "Sign up"
+
+msgid "パスワードの確認"
+msgstr "Password for confirm"
+
+msgid "登録メールを再送信する場合は"
+msgstr "click for re-send sign up mail"
+
+msgid "メールアドレスとパスワードが一致しません。"
+msgstr "Please input correct mail and password"
+
+msgid "コンテンツ動画"
+msgstr "Contents video"
+
+msgid "10,000回〜上限無しなどご希望の場合はこちらからお問い合わせ下さい。"
+msgstr "if you'd like to more than 10,000 count,please contact us."
+
+msgid "300回[2,980円]クーポンを購入[一回のみ]"
+msgstr "purchase 300 count cupon by 30usd.(1 time only)"
+
+msgid "購入する\"300回\""
+msgstr "purchase 300 count"
+
+msgid "1,000回[29,800円]クーポンを購入"
+msgstr "purchase 1,000 count by 300usd."
+
+msgid "購入する\"1000回\""
+msgstr "purchase 1,000 count"
+
+msgid "現在の再生済回数"
+msgstr "Current play count"
+
+msgid "削除"
+msgstr "Delete"
+
+msgid "[最大2MBまで]"
+msgstr "[maximum size is 2MB]"
+
+msgid "登録されているターゲットがありません。"
+msgstr "You have no target image."
+
+msgid "登録上限を超えているので新規登録できません"
+msgstr "You can not add over maximum add count."
+
+msgid "ターゲット追加"
+msgstr "Add target"
+
+msgid "操作"
+msgstr "Manage"
+
+msgid "<label for=\"id_username\">メールアドレス:</label>"
+msgstr "<label for=\"id_username\">Mail Address:</label>"
+
+msgid "<label class=\"required\" for=\"id_username\">ユーザー名:</label>"
+msgstr "<label class=\"required\" for=\"id_username\">User name:</label>"
+
+msgid "<label class=\"required\" for=\"id_password2\">パスワードの確認:</label>"
+msgstr "<label class=\"required\" for=\"id_password2\">Password for confirm:</label>"
+
+msgid "メールを送信したのでご確認下さい。"
+msgstr "Please check your email to complete the registration process."
+
+msgid "パスワードをリセットする為にメールアドレスを入力して下さい。"
+msgstr "Forgot your password? Enter your email in the form below and we'll send you instructions for creating a new one."
+
+msgid "新しいパスワードを入力して下さい。:"
+msgstr "Enter your new password below to reset your password:"
+
+
+msgid "パスワードのリセットが完了しました。"
+msgstr "Your password has been reset!"
+
+msgid "<a href=\"/accounts/login\">こちら</a>からログインして下さい。"
+msgstr "You may now <a href=\"/accounts/login\">log in</a>"
+
+msgid "パスワード変更が完了しました。"
+msgstr "Password successfully changed!"
+
+msgid "認証メールを %(email)s に送信したのでご確認下さい。"
+msgstr "We have sent an email to %(email)s with further instructions."
+
+msgid "<label for=\"id_email\">メールアドレス:</label>"
+msgstr "<label for=\"id_email\">Mail address:</label>"
+
+msgid "<label for=\"id_username\">ユーザー名:</label>"
+msgstr "<label for=\"id_username\">User name:</label>"
+
+msgid "<label for=\"id_password\">パスワード:</label>"
+msgstr "<label for=\"id_password\">Password:</label>"
+
+msgid "変更は<a href=\"/password/change/\">こちら</a>"
+msgstr "Click <a href=\"/password/change/\">here</a> for change"
+
+msgid "ターゲット登録"
+msgstr "Add Target"
+
+msgid "エンジョイ！"
+msgstr "Enjoy!"
+
+msgid "アカウント認証が完了しました。"
+msgstr "Your account is now activated."
+
+msgid "こちらから<a href='/accounts/login/'>ログイン</a>して下さい。"
+msgstr "You can log in.<a href=\"/accounts/login/\">here</a>"
+
+
+msgid "※本メールは、UNIVERSEより"
+msgstr "※ UNIVERSE AR send customers"
+
+msgid "アカウント登録された方にお送りしています。"
+msgstr "who want to registered our service."
+
+msgid "もし、お心当たりが無い場合は、お手数ですがこのままこのメールを破棄して"
+msgstr "if you didn't registered,please dispose this mail."
+
+msgid "いただければアカウント登録はなされません。"
+msgstr "we don't register you."
+
+msgid "またその旨、下記までご連絡いただければ幸いです。"
+msgstr "and please contact us.thank you."
+
+
+
+msgid "※※ まだ、会員登録は終了していません ※※"
+msgstr "※※ Member registration still on the way ※※"
+
+msgid "登録を完了する為には、以下のURLをクリックしてください。"
+msgstr "please click URL below for finish member registration."
+
+msgid "正常にリンクできない場合は、ブラウザのアドレスに張付けて確認してください。"
+msgstr "if URL link don't work.please paste to blowser."
+
+msgid "複数行に表示されている場合は、つなげて1行にしてから張付けてください。"
+msgstr "if URL have several rows.please join it and paste."
+
+msgid "UNIVERSE AR 登録確認メール"
+msgstr "UNIVERSE AR member registration"
+
+msgid "更新が完了しました。"
+msgstr "Edit finished."

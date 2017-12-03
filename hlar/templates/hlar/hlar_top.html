@@ -2,7 +2,7 @@
 
 {% load staticfiles %}  <!-- ← 追加 -->
 
-{% block title %}UNIVERSE top{% endblock title %}
+{% block title %}UNIVERSE AR top{% endblock title %}
 
 {% block extrahead %}
 {% endblock %}
@@ -16,11 +16,11 @@
     <div class="basicBox" style="background-color:#3878BC;padding-bottom:30px;text-align:center">
         <div class="topLeft" style="display:inline-block" >
             <div class="content-wrap fontShrik welcomeDiv">
-                {% trans 'welcome to UNIVERSE' %}<br>
+                {% trans 'welcome to UNIVERSE AR' %}<br>
                 <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;">
-                {% trans '新しいARアプリ「UNIVERSE」へようこそ' %}<br>
+                {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
                 {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
-                {% trans 'ぜひ今すぐトライしてください。' %}<br>
+                <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
                 <!--add 201171128-->
                 <div  style="margin-top:10px">
                     <a href="/accounts/register/" class="btn btn-info">{% trans 'サインアップ' %}</a>
@@ -54,7 +54,7 @@
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
         <h2 style="margin:0px">{% trans '使い方' %}</h2>
-        簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。<br>
+        {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br>
         <br>
 
         <div class="step-box list-mv07">
@@ -62,7 +62,8 @@
             <p>
                 <a href="/accounts/register/" class="btn btn-primary" style="margin-bottom:10px">{% trans 'サインアップ' %}</a>
                 <br>
-                1.<a href="#">こちら</a>からユーザー登録(gmailのアカウントでも可能)<br>
+                <a href="#">{% trans "1.こちらからユーザー登録[gmailのアカウントでも可能]" %}</a>
+                <br>
             </p>
         </div>
 
@@ -71,7 +72,7 @@
             <p>
                 <a href="/hlar/target/add/" class="btn btn-primary" style="margin-bottom:10px">{% trans 'ターゲット登録' %}</a>
                 <br>
-                2.ターゲット登録から認識したい画像(ターゲット)と表示する動画を登録<br>
+                {% trans "2.ターゲット登録から認識したい画像[ターゲット]と表示する動画を登録" %}<br>
             </p>
         </div>
 
@@ -81,14 +82,14 @@
             <p>
                 <!-- <button type="button" class="btn btn-primary" style="margin-bottom:10px">{% trans 'インストール' %}</button><br> -->
                 <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px"/><br>
-                3.アプリ「UNIVERSE」をiPhoneにインストールする。<br>
+                {% trans "3.アプリ「UNIVERSE AR」をiPhoneにインストールする。" %}<br>
             </p>
         </div>
 
         <div class="step-box list-mv07">
             <img src="{% static "images/" %}4_try_icon_blue.png" style="width:150px" /><br>
             <button type="button" class="btn btn-primary" style="margin-bottom:10px">{% trans 'エンジョイ！' %}</button><br>
-            <p>4.アプリを起動してターゲットにかざせばオリジナルARコンテンツの完成です。</p><br>
+            <p>{% trans "4.アプリを起動してターゲットにかざせばオリジナルARコンテンツの完成です。" %}</p><br>
         </div>
 
 
@@ -98,7 +99,7 @@
 
     <div class="fontShrik basicBox" style="background-color:#5ABB73;color:white;padding:50px 0px 50px 0px;text-align:center">
         <h2 style="margin:0px">TOP TARGETS</h2>
-        人気のターゲットを是非アプリからお試し下さい。<br>
+        {% trans "人気のターゲットを是非アプリからお試し下さい。" %}<br>
 
         <div style="margin-top:20px;">
             {% for target in targets %}
@@ -111,7 +112,7 @@
 
     <div class="fontShrik basicBox" style="background-color:#F06868;color:white;text-align:center">
         <h2 style="margin:0px">CONTACT</h2>
-        ご要望/お問い合わせはこちらから<br>
+        {% trans "ご要望/お問い合わせはこちらから" %}<br>
 
         <div class="contactDiv">info@insight.hiliberate.biz</div>
     </div>
