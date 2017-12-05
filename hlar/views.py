@@ -781,44 +781,43 @@ def target_edit(request, target_id=None):
         filePathTarget = None
 
 
-        # ユーティリティ関数にすると便利かも?
+        # ランダム文字列を作成
         n = 9
         random_str = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
 
         if request.FILES.keys() >= {'target'}:
 
             targetFile = request.FILES['target']
-            filePathTarget = TARGET_FILE_PATH + random_str + '_' + targetFile.name
-
-            print("filePathTarget")
-            print(filePathTarget)
-
-            # ファイルが存在していれば削除
-            if default_storage.exists(filePathTarget):
-                default_storage.delete(filePathTarget)
-
-            try:
-                # ファイルを保存
-                destination = open(filePathTarget, 'wb+')
-                for chunk in targetFile.chunks():
-                    destination.write(chunk)
-                destination.close()
-
-            except Exception as e:
-                print ('=== エラー内容 ===')
-                print ('type:' + str(type(e)))
-                print ('args:' + str(e.args))
-                print ('message:' + e.message)
-                print ('e自身:' + str(e))
-
-            # filePath = TARGET_FILE_PATH + request.POST['target_file_name']
-
-            # file読み込み
-            with open(filePathTarget, 'rb') as f:
-                contents = f.read()
+            # filePathTarget = TARGET_FILE_PATH + random_str + '_' + targetFile.name
+            #
+            # print("filePathTarget")
+            # print(filePathTarget)
+            #
+            # # ファイルが存在していれば削除
+            # if default_storage.exists(filePathTarget):
+            #     default_storage.delete(filePathTarget)
+            #
+            # try:
+            #     # ファイルを保存
+            #     destination = open(filePathTarget, 'wb+')
+            #     for chunk in targetFile.chunks():
+            #         destination.write(chunk)
+            #     destination.close()
+            #
+            # except Exception as e:
+            #     print ('=== エラー内容 ===')
+            #     print ('type:' + str(type(e)))
+            #     print ('args:' + str(e.args))
+            #     print ('message:' + e.message)
+            #     print ('e自身:' + str(e))
+            #
+            # # file読み込み
+            # with open(filePathTarget, 'rb') as f:
+            #     contents = f.read()
 
             # base64でencode
-            encTargetFileBase64 = base64.b64encode(contents)
+            # encTargetFileBase64 = base64.b64encode(contents)
+            encTargetFileBase64 = base64.b64encode(targetFile.read())
             encTargetFile = encTargetFileBase64.decode('utf-8')
 
         ######## 誘導先 リンク
@@ -864,6 +863,9 @@ def target_edit(request, target_id=None):
             # base64でencode
             encMetaFileBase64 = base64.b64encode(contents)
             encMetaFile = encMetaFileBase64.decode('utf-8')
+            print("encMetaFile")
+            print(encMetaFile)
+
 
         ######## Vuforia API で登録
         if target_id:
@@ -953,7 +955,7 @@ def target_edit(request, target_id=None):
                     target.name = vuforia_target['name']
 
                 # 一時ファイル削除
-                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                # delete_tmp_file(filePathTarget, metaPath, filePathContents)
 
                 return render(request, 'hlar/target_edit.html', dict(
                     msg='類似画像がすでに登録されていた為、登録出来ませんでした。',
@@ -973,30 +975,30 @@ def target_edit(request, target_id=None):
                 key_name = ''
                 if request.FILES.keys() >= {'contents'}:
 
-                    #### まず一時的にサーバーに保存
-                    # 保存パス(ファイル名含む)
-                    filePathContents = TARGET_FILE_PATH + random_str + '_' + contentsFile.name
-
-                    print("filePathContents")
-                    print(filePathContents)
-
-                    # ファイルが存在していれば削除
-                    if default_storage.exists(filePathContents):
-                        default_storage.delete(filePathContents)
-
-                    try:
-                        # ファイルを保存
-                        destination = open(filePathContents, 'wb+')
-                        for chunk in contentsFile.chunks():
-                            destination.write(chunk)
-                        destination.close()
-
-                    except Exception as e:
-                        print ('=== エラー内容 ===')
-                        print ('type:' + str(type(e)))
-                        print ('args:' + str(e.args))
-                        print ('message:' + e.message)
-                        print ('e自身:' + str(e))
+                    # #### まず一時的にサーバーに保存
+                    # # 保存パス(ファイル名含む)
+                    # filePathContents = TARGET_FILE_PATH + random_str + '_' + contentsFile.name
+                    #
+                    # print("filePathContents")
+                    # print(filePathContents)
+                    #
+                    # # ファイルが存在していれば削除
+                    # if default_storage.exists(filePathContents):
+                    #     default_storage.delete(filePathContents)
+                    #
+                    # try:
+                    #     # ファイルを保存
+                    #     destination = open(filePathContents, 'wb+')
+                    #     for chunk in contentsFile.chunks():
+                    #         destination.write(chunk)
+                    #     destination.close()
+                    #
+                    # except Exception as e:
+                    #     print ('=== エラー内容 ===')
+                    #     print ('type:' + str(type(e)))
+                    #     print ('args:' + str(e.args))
+                    #     print ('message:' + e.message)
+                    #     print ('e自身:' + str(e))
 
                     key_name = random_str + '_' + contentsFile.name
 
@@ -1006,7 +1008,8 @@ def target_edit(request, target_id=None):
                     #### S3にアップロード
                     client = boto3.client('s3')
                     transfer = S3Transfer(client)
-                    transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
+                    # transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
+                    # transfer.upload_fileobj(contentsFile.read(), bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
 
                     #s3にアップした動画を公開する
                     # s3 = boto3.resource('s3')
@@ -1016,6 +1019,14 @@ def target_edit(request, target_id=None):
 
                     # アップしたコンテンツを公開状態にする
                     s3 = boto3.resource('s3')
+                    bucket = s3.Bucket(bucket_name)
+                    # bucket.upload_fileobj(contentsFile.read(), key_name, extra_args={'ContentType': "video/quicktime"})
+
+                    # print("contentsFile.read()")
+                    # print(contentsFile.read())
+
+                    bucket.upload_fileobj(contentsFile, key_name)
+
                     object_acl = s3.ObjectAcl(bucket_name, key_name)
                     response = object_acl.put(ACL='public-read')
 
@@ -1028,11 +1039,26 @@ def target_edit(request, target_id=None):
 
                 ######## S3にターゲット(image)を保存
                 if request.FILES.keys() >= {'target'}:
-                    client = boto3.client('s3')
-                    transfer = S3Transfer(client)
+                    # client = boto3.client('s3')
+                    # transfer = S3Transfer(client)
                     key_name_target = random_str + '_' + targetFile.name
-                    transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
-                    s3 = boto3.resource('s3')
+                    # transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+                    if s3 == None:
+                        s3 = boto3.resource('s3')
+
+                    if bucket == None:
+                        bucket = s3.Bucket(bucket_name)
+
+
+                    print("targetFile.size")
+                    print(targetFile.name)
+                    print(targetFile.size)
+                    # print(targetFile.read())
+                    # bucket.upload_fileobj(targetFile, key_name_target)
+                    targetFile.seek(0, 0)
+                    bucket.upload_fileobj(targetFile, key_name_target)
+
+
                     object_acl = s3.ObjectAcl(bucket_name, key_name_target)
                     response = object_acl.put(ACL='public-read')
 
@@ -1061,7 +1087,8 @@ def target_edit(request, target_id=None):
                 target.save()
 
                 ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                # delete_tmp_file(filePathTarget, metaPath, filePathContents)
+
                 # if filePathTarget != None:
                 #     default_storage.delete(filePathTarget)      #target(image)
                 #
