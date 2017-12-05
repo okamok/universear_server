@@ -955,7 +955,7 @@ def target_edit(request, target_id=None):
                     target.name = vuforia_target['name']
 
                 # 一時ファイル削除
-                # delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
 
                 return render(request, 'hlar/target_edit.html', dict(
                     msg='類似画像がすでに登録されていた為、登録出来ませんでした。',
@@ -1087,7 +1087,7 @@ def target_edit(request, target_id=None):
                 target.save()
 
                 ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
-                # delete_tmp_file(filePathTarget, metaPath, filePathContents)
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
 
                 # if filePathTarget != None:
                 #     default_storage.delete(filePathTarget)      #target(image)
