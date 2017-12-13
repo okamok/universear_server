@@ -833,11 +833,15 @@ def target_edit(request, target_id=None):
         if request.FILES.keys() >= {'contents'} or request.POST['hid_content_name']:
 
             content_name_for_meta = ''
+            target_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
+                targetFile = request.FILES['target']
                 content_name_for_meta = random_str + '_' + contentsFile.name
+                target_name_for_meta =  random_str + '_' + targetFile.name
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
+                target_name_for_meta = request.POST['target_file_name']
 
             # meta_file_name = targetFile.name.replace('.','') + '.txt'
             meta_file_name = target_name.replace('.','') + '.txt'
@@ -846,7 +850,8 @@ def target_edit(request, target_id=None):
             metaContent = "{\n" \
                             '\t"title": "' + target_name + '",\n' \
                             '\t"url" : "' + s3_FQDN + content_name_for_meta + '",\n' \
-                            '\t"linkUrl" : "' + target_link_URL + '"\n' \
+                            '\t"linkUrl" : "' + target_link_URL + '",\n' \
+                            '\t"targetImageUrl" : "' + s3_FQDN + target_name_for_meta + '"\n' \
                            '}'
 
             # ファイルが存在していれば削除
@@ -872,7 +877,7 @@ def target_edit(request, target_id=None):
             # target_id が指定されている (修正時)
             data = {
                 "name": target_name,
-                "width": 320,
+                "width": 1,
                 # "image": encTargetFile,
                 # "application_metadata": encMetaFile,
                 "active_flag": 1,
