@@ -130,7 +130,7 @@ def get_content_type(filename):
 
 def add_target(max_num_results, include_target_data, image, target_name):
 
-    data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
+    data = {"name": target_name, "width": 1, "image": image,"application_metadata": include_target_data, "active_flag": 1}
     url = '%s/targets' % HOST
     data = json.dumps(data)
 
