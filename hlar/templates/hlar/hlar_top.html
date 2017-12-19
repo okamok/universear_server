@@ -16,20 +16,20 @@
     <div class="basicBox" style="background-color:#3878BC;padding-bottom:30px;text-align:center">
         <div class="topLeft" style="display:inline-block" >
             <div class="content-wrap fontShrik welcomeDiv">
-                {% trans 'welcome to UNIVERSE AR' %}<br>
-                <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;">
+                <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
+                <!-- <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;"> -->
                 {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
                 {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                 <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
                 <!--add 201171128-->
-                <div  style="margin-top:10px">
-                    <a href="/accounts/register/" class="btn btn-info">{% trans 'サインアップ' %}</a>
-                    <a href="#howtouse" class="btn btn-info">{% trans '使い方' %}</a>
+                <div  style="margin-top:20px">
+                    <a href="/accounts/register/" class="btn btn-info btnTopSignUp">{% trans 'サインアップ' %}</a>
+                    <a href="#howtouse" class="btn btn-info btnTopHowToUse">{% trans '使い方' %}</a>
                 </div>
             </div>
         </div>
         <div style="clear:both"></div>
-        <div class="topRight" style="display:inline-block">
+        <div class="topRight" style="display:inline-block;margin-top:10px">
             <!-- <img src="{% static "images/" %}iPhone_pc.png" style="width:100%" /> -->
             <!-- <img src="{% static "images/" %}top_waku.png" style="width:100%" /> -->
             <img src="{% static "images/" %}pc_monitor.png" style="width:100%" />
@@ -54,7 +54,25 @@
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
         <h2 style="margin:0px">{% trans '使い方' %}</h2>
-        {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br>
+        <!-- {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br> -->
+        <br>
+
+        <div class="list-mv02">
+            <img src="{% static "images/" %}universe_sample_img.jpg" class="sampleImg" />
+            <p style="margin-top:15px">
+                {% trans "アプリをお手持ちのiPhoneにインストールしてこちらのサンプル画像を読み取って下さい。" %}<br>
+                <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px;margin-top:15px;"/>
+            </p>
+        </div>
+    </div>
+
+    <img src="{% static "images/" %}top_img_1.jpg" class="topImg1"/>
+
+
+    <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
+
+        <h2 style="margin:0px">{% trans 'あなただけのオリジナルARコンテンツを作成しましょう' %}</h2>
+        {% trans "簡単な数ステップで作成可能です。" %}<br>
         <br>
 
         <div class="step-box list-mv07">

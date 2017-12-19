@@ -43,6 +43,23 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.list-mv01{
+	transform: scale(0, 0);
+	-webkit-transform: scale(0, 0);
+}
+.mv01{
+	transform: scale(1, 1);
+	-webkit-transform: scale(1, 1);
+}
+
+.list-mv02{
+    transition: 1.2s;
+	opacity: 0;
+}
+.mv02{
+    transition: 2s;
+	opacity: 1.0;
+}
 
 .list-mv06{
     transition: .8s;
@@ -277,8 +294,8 @@ margin:-20px 0px 30px 100px;
 }
 
 .fontShrik {
-    /*font-family: 'Shrikhand', "Mplus 1p", cursive;*/
-    font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;
+    /*font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;*/
+    font-family: 'Bookman', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;
     font-weight: bold,
 }
 
@@ -302,8 +319,22 @@ margin:-20px 0px 30px 100px;
     margin-left:0px;
     /*padding:10px;*/
     color:white;
-    font-size:20pt;
+    font-size:12pt;
 }
+
+.btnTopSignUp {
+    width:150px;
+    height:45px;
+    padding-top:12px;
+}
+
+.btnTopHowToUse {
+    width:150px;
+    height:45px;
+    padding-top:12px;
+    margin-left:10px;
+}
+
 
 .topLeft {
     width:90%;
@@ -380,6 +411,14 @@ margin:-20px 0px 30px 100px;
    -moz-border-radius: 10px;   /* Firefox用 */
 }
 
+.sampleImg {
+    width:450px;
+}
+
+.topImg1 {
+    width:100%;
+    height:165px;
+}
 
 
 /*600px以下(スマホ用)*/
@@ -567,6 +606,14 @@ margin:-20px 0px 30px 100px;
         margin-right: auto;
     }
 
+    .sampleImg {
+        width:100%;
+    }
+
+    .topImg1 {
+        width:100%;
+        height:120px;
+    }
 }
 
 
@@ -700,9 +747,21 @@ margin:-20px 0px 30px 100px;
         margin-top:40px;
         /*margin-left:40px;*/
         color:white;
-        font-size:17pt;
+        font-size:12pt;
     }
 
+    .btnTopSignUp {
+        width:150px;
+        height:45px;
+        padding-top:12px;
+    }
+
+    .btnTopHowToUse {
+        width:150px;
+        height:45px;
+        padding-top:12px;
+        margin-left:20px;
+    }
     .topLeft {
         width:60%;
     }
@@ -912,6 +971,13 @@ margin:-20px 0px 30px 100px;
       padding-bottom: 10px !important;
     }
 
+
+    .div-video-bg {
+        width:100%;
+        height:100%;
+    }
+
+
     .top-video-div {
         display: block;
         position: absolute;
@@ -953,3 +1019,10 @@ margin:-20px 0px 30px 100px;
         margin-top: 20px;
     }
 }
+
+
+/*bootstrap override*/
+/*.navbar-inverse {
+  background-color: rgba(0,0,0,0);
+  border-color: rgba(0,0,0,0);
+}*/
