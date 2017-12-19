@@ -877,7 +877,8 @@ def target_edit(request, target_id=None):
             # target_id が指定されている (修正時)
             data = {
                 "name": target_name,
-                "width": 1,
+                # "width": 1,
+                "width": 320,
                 # "image": encTargetFile,
                 # "application_metadata": encMetaFile,
                 "active_flag": 1,
