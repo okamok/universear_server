@@ -16,11 +16,20 @@
     <div class="basicBox" style="background-color:#3878BC;padding-bottom:30px;text-align:center">
         <div class="topLeft" style="display:inline-block" >
             <div class="content-wrap fontShrik welcomeDiv">
-                <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
-                <!-- <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;"> -->
-                {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
-                {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
-                <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
+                {% if is_mobile %}
+                    <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
+                    <div style="text-align:left">
+                        {% trans '新しいARアプリ「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
+                    </div>
+                {% else %}
+                    <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
+                    <!-- <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;"> -->
+                    {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
+                    {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
+                    <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
+
+                {% endif %}
+
                 <!--add 201171128-->
                 <div  style="margin-top:20px">
                     <a href="/accounts/register/" class="btn btn-info btnTopSignUp">{% trans 'サインアップ' %}</a>
