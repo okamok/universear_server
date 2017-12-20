@@ -163,6 +163,8 @@ def hlar_top(request):
     # 人気ターゲット一覧を取得
     targets = get_targets_popular()
 
+    ua = parse_ua(request.META['HTTP_USER_AGENT'])
+
 
     return render(request,
                   'hlar/hlar_top.html',     # 使用するテンプレート
@@ -171,6 +173,7 @@ def hlar_top(request):
                     'msg': _("使い方"),
                     'targets': targets,
                     's3_FQDN': s3_FQDN,
+                    'is_mobile': ua.is_mobile,
                   }         # テンプレートに渡すデータ
                   )
 
