@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% load i18n %}
+
+{% block title %}{% trans '簡易登録処理' %}{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="baseDiv nomalFont" style="text-align:center">
+
+    <div class="contentsLargeDiv">
+
+        <div class="fontShrik">
+            <h4>{% trans '簡易登録' %}</h4>
+        </div>
+
+        {% if err %}
+            {# エラー時 #}
+            {% blocktrans %}{{ msg }}{% endblocktrans %}<br>
+            {% trans '登録でエラーが発生しました。' %}<br>
+        {% else %}
+            {# 正常完了 #}
+            {% trans '登録が正常に完了しました。' %}<br>
+            {% trans 'アプリを起動して下記画像を読み取りましょう。' %}<br>
+            <img src="{{s3_FQDN}}{{target.img_name}}" class="tempAddImg">
+        {% endif %}
+    </div>
+</div>
+<script>
+$(function() {
+
+});
+
+// リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
+$('.aTargetEdit').click(function(){
+
+    var url = '/hlar/target/mod/' + $(this).data('id') + '/';
+
+    var h = $(window).height();
+    $('#wrap').css('display','none');
+    $('#loader-bg ,#loader').height(h).css('display','block');
+    // $("#loader").prepend('<img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />');
+
+
+    setTimeout(function(){ location.href = url; }, 800); // URLにリンクする
+    return false;
+});
+</script>
+
+{% endblock content %}
