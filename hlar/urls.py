@@ -16,6 +16,7 @@ urlpatterns = [
     # target
     url(r'^target/$', views.target_list, name='target_list'),   # 一覧
     url(r'^target/add/$', views.target_edit, name='target_add'),  # 登録
+    url(r'^target/temp_add/$', views.target_temp_edit, name='target_temp_add'),  # 登録
     url(r'^target/upload/$', views.target_upload, name='target_upload'),  # 登録
     url(r'^target/mod/(?P<target_id>\d+)/$', views.target_edit, name='target_mod'),  # 修正
     url(r'^target/del/(?P<target_id>\d+)/$', views.target_del, name='target_del'),   # 削除

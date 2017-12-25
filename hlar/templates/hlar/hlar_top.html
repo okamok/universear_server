@@ -62,14 +62,77 @@
 
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
-        <h2 style="margin:0px">{% trans '使い方' %}</h2>
+        <h2 style="margin:0px">{% trans 'UNIVERSE ARで出来ること' %}</h2>
         <!-- {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br> -->
-        <br>
+        <p　class="list-mv02" style="margin-top:15px">
+            {% trans "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。" %}<br>
+            <br>
+            {% trans "試しに登録してみましょう。" %}
+        </p>
+
+        <form id="uploadForm" action="{% url 'hlar:target_temp_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal basicForm" role="form">
+            {% csrf_token %}
+
+            <table class="nomalFont list-mv02 tempAddTbl">
+                <tr>
+                    <td style="width:100px">
+                        {% trans 'ターゲット画像' %}
+                    </td>
+                    <td style="text-align:left; width:300px">
+                        <input type="file" name="target" style="width:100%; margin-top:5px;">
+                        <p style='margin-top:5px'>
+                            <ul style='font-size:7pt; padding-left:20px;'>
+                                <li>{% trans 'jpg画像のみ登録可能です。' %}{% trans '[最大2MBまで]' %}</li>
+                                <li>{% trans '過度に複雑な画像はターゲット画像に向きません。' %}{% trans 'シンプルなマーク/ロゴ画像を推奨します。' %}</li>
+                                <li>{% trans 'iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。' %}</li>
+                            <ul>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% trans 'コンテンツ動画' %}
+                    </td>
+                    <td style="text-align:left">
+                        <input type="file" name="contents" style="width:100%; margin-top:5px;">
+                        {% if target.content_name %}
+                            <video style="width:300px; margin-top:5px" src="{{s3_FQDN}}{{target.content_name}}" controls>
+                              Your browser does not support the <code>video</code> element.
+                            </video>
+                        {% endif %}
+                        <p style='font-size:9pt;margin-top:5px'>
+                            <ul style='font-size:7pt; padding-left:20px;'>
+                                <li>{% trans 'mp4またはmov形式のみ登録可能です。' %}
+                                    <!-- (最大{{CONTENTS_SIZE_LIMIT}}MBまで) -->
+                                    {% trans '[最大40MBまで]' %}
+                                </li>
+                                <li>
+                                    {% trans 'iPhoneで撮影した動画を使用する場合はiPhoneを横にしてホームボタンが右側の状態で撮影した横長の動画をご使用下さい。ホームボタンの位置が逆ですと動画の上下が反転します。またそれ以外の縦長の動画などは想定通り動作しない可能性があります。' %}
+
+                                </li>
+                            </ul>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+            <p class="nomalFont list-mv02" style="color:black">
+                <button id="btnEdit" type="button" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
+                <br>
+                ※こちらは簡易登録の為、登録後の編集が出来ません。また10回ほど認識すると無効となります。
+            </p>
+        </form>
+
+        <p class="list-mv02" style="margin-top:30px">
+            {% trans "PCやタブレットでこちらをご覧の方は、下記サンプル画像をアプリで読み取る事でUNIVERSE ARを体験していただけます。" %}<br>
+            {% trans "アプリをお手持ちのiPhoneにインストールしてこちらのサンプル画像を読み取って下さい。" %}
+        </p>
 
         <div class="list-mv02">
             <img src="{% static "images/" %}universe_sample_img.jpg" class="sampleImg" />
+            <br>
+            <!-- ※サンプル画像 -->
             <p style="margin-top:15px">
-                {% trans "アプリをお手持ちのiPhoneにインストールしてこちらのサンプル画像を読み取って下さい。" %}<br>
                 <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px;margin-top:15px;"/>
             </p>
         </div>
@@ -152,6 +215,28 @@ $(document).ready(function() {
     $(".slider-d").imgLiquid();
     $('.carousel').carousel();
 });
+
+
+
+$(function() {
+
+    // リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
+    $('#btnEdit').click(function(){
+        //var url = "{% url 'hlar:target_list' %}"; // クリックされたリンクのURLを取得
+
+        var h = $(window).height();
+        $('#wrap').css('display','none');
+        $('#loader-bg ,#loader').height(h).css('display','block');
+        //$("#loader").prepend('<img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />');
+
+
+        setTimeout(function(){ $('#uploadForm').submit(); }, 800); // URLにリンクする
+        return false;
+    });
+
+});
+
+
 </script>
 
 {% endblock content %}
