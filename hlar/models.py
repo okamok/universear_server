@@ -225,7 +225,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Target(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     # user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     vuforia_target_id = models.CharField(max_length=200, null=True)
     img_name = models.CharField(max_length=100, null=True)

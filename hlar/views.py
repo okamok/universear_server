@@ -1168,6 +1168,391 @@ def target_edit(request, target_id=None):
             CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
         ))
 
+
+
+def target_temp_edit(request, target_id=None):
+
+    targetFile = None
+
+    # if request.user.is_authenticated() == False:
+    #     return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+
+    msg = ''
+    buy_history = 0
+
+    # if target_id:   # target_id が指定されている (修正時)
+    #     target = get_object_or_404(Target, pk=target_id)
+    #
+    #     # 300回の購入履歴があるか確認
+    #     payments_object = Payment.objects.filter(target_id=str(target_id), brought_view_count=300)
+    #     print('------payments-------')
+    #     print(len(payments_object))
+    #
+    #     buy_history = len(payments_object)
+    #     # print('edit1')
+    #     # pprint(vars(target))
+    # else:         # target_id が指定されていない (追加時)
+    #     #### 登録がMAX数に達していたら一覧に飛ばす
+    #     # ターゲット一覧を取得
+    #     targets = get_targets_user_id(request.user.id)
+    #     if len(targets) >= settings.TARGET_LIMIT_COUNT:
+    #         return redirect('hlar:target_list')
+    #
+    #     target = Target()
+
+    target = Target()
+
+    if request.method == 'POST':
+        # POST 時
+
+        ######## 入力チェック
+        err = False
+        errMsg = ''
+
+        # ランダム文字列を作成
+        n = 9
+        random_str = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
+
+        #### 名前
+        # if request.POST['target_name'] == '':
+        #     # エラー
+        #     err = True
+        #     errMsg = '名前を入力して下さい。'
+        # else:
+        #     target.name = request.POST['target_name']
+
+        target.name = random_str + '_temp'
+
+        # #### 誘導リンク
+        # target.target_link_URL = request.POST['target_link_URL']
+
+        #### ターゲット @ToDo
+        if err == False and request.FILES.get('target', False):
+            targetFile = request.FILES['target']
+
+            ## サイズチェック
+            if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
+                # エラー
+                err = True
+                errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
+
+            ## 拡張子チェック
+            ext = os.path.splitext(targetFile.name)[1].lower()
+
+            if ext != '.jpeg' and ext != '.jpg':
+                # エラー
+                err = True
+                errMsg = 'ターゲット画像のファイル形式が不正です。'
+
+        #### コンテンツ
+        if err == False and request.FILES.get('contents', False):
+            contentsFile = request.FILES['contents']
+            print('file_size')
+            print(contentsFile.size)
+
+            ## サイズチェック
+            if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
+                # エラー
+                err = True
+                errMsg = 'コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000))
+
+            ## 拡張子チェック
+            ext = os.path.splitext(contentsFile.name)[1].lower()
+
+            if ext != '.mp4' and ext != '.mov':
+                # エラー
+                err = True
+                errMsg = 'コンテンツ動画のファイル形式が不正です。'
+
+
+        if (request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}) or \
+            (request.FILES.keys() <= {'target'} and request.FILES.keys() <= {'contents'}):
+            print('errなし')
+        else:
+            err = True
+            errMsg = 'ターゲットとコンテンツは同時にアップして下さい。'
+
+        if err:
+            form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+            if target.vuforia_target_id:
+                vuforia_target = get_target_by_id(target.vuforia_target_id)
+                target.name = vuforia_target['name']
+
+            return render(request, 'hlar/target_temp_add.html', dict(
+                err = err,
+                msg= errMsg,
+                # form = form,
+                # target_id = target_id,
+                target = target,
+                # stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+                # buy_history = buy_history,
+                s3_FQDN = s3_FQDN,
+                # TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                # CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+            ))
+
+
+        ######## ターゲットファイル
+        #### まず一時的にサーバーに保存
+        # 保存パス(ファイル名含む)
+        encTargetFile = None
+        filePathTarget = None
+
+        if request.FILES.keys() >= {'target'}:
+            targetFile = request.FILES['target']
+            encTargetFileBase64 = base64.b64encode(targetFile.read())
+            encTargetFile = encTargetFileBase64.decode('utf-8')
+
+        # ######## 誘導先 リンク
+        # target_link_URL = request.POST['target_link_URL']
+        target_link_URL = ''
+
+        # ######## ターゲット名
+        target_name = target.name
+
+        ######## meta テキスト
+        #### テキスト作成
+        encMetaFile = None
+        metaPath = None
+        # if request.FILES.keys() >= {'contents'} or request.POST['hid_content_name']:
+        if request.FILES.keys() >= {'contents'} :
+
+            content_name_for_meta = ''
+            target_name_for_meta = ''
+            if request.FILES.keys() >= {'contents'}:
+                contentsFile = request.FILES['contents']
+                targetFile = request.FILES['target']
+                content_name_for_meta = random_str + '_' + contentsFile.name
+                target_name_for_meta =  random_str + '_' + targetFile.name
+            elif request.POST['hid_content_name']:
+                content_name_for_meta = request.POST['hid_content_name']
+                target_name_for_meta = request.POST['target_file_name']
+
+            # meta_file_name = targetFile.name.replace('.','') + '.txt'
+            meta_file_name = target_name.replace('.','') + '.txt'
+            metaPath = TARGET_FILE_PATH + meta_file_name
+
+            metaContent = "{\n" \
+                            '\t"title": "' + target_name + '",\n' \
+                            '\t"url" : "' + s3_FQDN + content_name_for_meta + '",\n' \
+                            '\t"linkUrl" : "' + target_link_URL + '",\n' \
+                            '\t"targetImageUrl" : "' + s3_FQDN + target_name_for_meta + '"\n' \
+                           '}'
+
+            # ファイルが存在していれば削除
+            if default_storage.exists(metaPath):
+                default_storage.delete(metaPath)
+
+            # ファイル保存
+            default_storage.save(metaPath, ContentFile(metaContent))
+
+            # file読み込み
+            with open(metaPath, 'rb') as f:
+                contents = f.read()
+
+            # base64でencode
+            encMetaFileBase64 = base64.b64encode(contents)
+            encMetaFile = encMetaFileBase64.decode('utf-8')
+            print("encMetaFile")
+            print(encMetaFile)
+
+
+        ######## Vuforia API で登録
+        if target_id:
+            # # target_id が指定されている (修正時)
+            # data = {
+            #     "name": target_name,
+            #     # "width": 1,
+            #     "width": 320,
+            #     # "image": encTargetFile,
+            #     # "application_metadata": encMetaFile,
+            #     "active_flag": 1,
+            # }
+            #
+            # if encTargetFile != None:
+            #     data['image'] = encTargetFile
+            #
+            # if encMetaFile != None:
+            #     data['application_metadata'] = encMetaFile
+            #
+            # response_content = update_target(target.vuforia_target_id, data)
+
+            print('test')
+        else:
+            # target_id が指定されていない (追加時)
+            response_content = add_target(max_num_results='',
+                                     include_target_data=encMetaFile,
+                                     image=encTargetFile,
+                                     target_name=target_name)
+
+        print('4444')
+        print(response_content)
+
+        if judge_vws_result(response_content['result_code']):
+            filePathContents = None
+
+            ######## Check for Duplicate Targets 同じターゲットが登録されていないか確認
+            vuforia_target_id = ''
+            if target_id:
+                vuforia_target_id = target.vuforia_target_id
+            else:
+                vuforia_target_id = response_content['target_id']
+
+            response_duplicate = duplicates(vuforia_target_id)
+            print('response_duplicate')
+            print(response_duplicate)
+
+            if response_duplicate['result_code'] == 'Success' and len(response_duplicate['similar_targets']) > 0:
+                #### 同じ画像が登録されている
+
+                # バッチで実行
+                proc = Popen("python manage.py deltarget '" + vuforia_target_id + "'",shell=True )
+
+                # エラー時
+                form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+                if target.vuforia_target_id:
+                    vuforia_target = get_target_by_id(target.vuforia_target_id)
+                    target.name = vuforia_target['name']
+
+                # 一時ファイル削除
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+
+                return render(request, 'hlar/target_temp_add.html', dict(
+                    err = True,
+                    msg = '類似画像がすでに登録されていた為、登録出来ませんでした。',
+                    # form = form,
+                    # target_id = target_id,
+                    target = target,
+                    # stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+                    # buy_history = buy_history,
+                    s3_FQDN = s3_FQDN,
+                    # TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                    # CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+                ))
+
+
+            else:
+                ######## S3にコンテンツ(動画)を保存
+                key_name = ''
+                if request.FILES.keys() >= {'contents'}:
+
+                    key_name = random_str + '_' + contentsFile.name
+
+                    #### S3にアップロード
+                    client = boto3.client('s3')
+                    transfer = S3Transfer(client)
+
+                    # アップしたコンテンツを公開状態にする
+                    s3 = boto3.resource('s3')
+                    bucket = s3.Bucket(bucket_name)
+                    bucket.upload_fileobj(contentsFile, key_name)
+
+                    object_acl = s3.ObjectAcl(bucket_name, key_name)
+                    response = object_acl.put(ACL='public-read')
+
+                ######## S3にターゲット(image)を保存
+                if request.FILES.keys() >= {'target'}:
+                    key_name_target = random_str + '_' + targetFile.name
+                    if s3 == None:
+                        s3 = boto3.resource('s3')
+
+                    if bucket == None:
+                        bucket = s3.Bucket(bucket_name)
+
+
+                    print("targetFile.size")
+                    print(targetFile.name)
+                    print(targetFile.size)
+                    targetFile.seek(0, 0)
+                    bucket.upload_fileobj(targetFile, key_name_target)
+
+                    object_acl = s3.ObjectAcl(bucket_name, key_name_target)
+                    response = object_acl.put(ACL='public-read')
+
+
+                ######## DBに登録
+                if key_name != '':
+                    target.content_name = key_name
+
+                if request.FILES.keys() >= {'target'}:
+                    target.img_name = random_str + '_' + targetFile.name
+
+                if target_link_URL:
+                    target.target_link_URL = target_link_URL
+
+                if target_id:   # target_id が指定されている (修正時)
+                    print('test')
+                else:
+                    # target.user_id = request.user.id
+                    target.view_count = 0
+                    target.view_count_limit = 15 #とりあえずデフォルトを50回にしておく @ToDo ここは選べるようにするか？そうなると課金？
+                    target.vuforia_target_id = response_content['target_id']
+
+                target.save()
+
+                ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
+                delete_tmp_file(filePathTarget, metaPath, filePathContents)
+
+
+                return render(
+                    request,
+                    'hlar/target_temp_add.html',
+                    dict(
+                        target = target,
+                        s3_FQDN = s3_FQDN,
+                    )
+                )
+
+                # return redirect('hlar:target_list')
+        else:
+            # Vuforia API エラー時
+            form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+            if target.vuforia_target_id:
+                vuforia_target = get_target_by_id(target.vuforia_target_id)
+                target.name = vuforia_target['name']
+
+            return render(request, 'hlar/target_temp_add.html', dict(
+                err = True,
+                msg = response_content['result_code'],
+                # form = form,
+                # target_id = target_id,
+                target = target,
+                # stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+                # buy_history = buy_history,
+                s3_FQDN = s3_FQDN,
+                # TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+                # CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+            ))
+
+    else:
+        print('test')
+        # # GET 時
+        # form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+        #
+        # if target.vuforia_target_id:
+        #     vuforia_target = get_target_by_id(target.vuforia_target_id)
+        #     target.name = vuforia_target['name']
+        #
+        # if target.target_link_URL == None:
+        #     target.target_link_URL = ''
+
+    return render(
+        request,
+        'hlar/target_temp_add.html',
+        dict(
+            # form = form,
+            # target_id = target_id,
+            target = target,
+            # stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+            # buy_history = buy_history,
+            s3_FQDN = s3_FQDN,
+            # TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+            # CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+        ))
+
 def target_del(request, target_id):
 
     if target_id:   # target_id が指定されている
