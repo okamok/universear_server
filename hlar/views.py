@@ -1561,46 +1561,56 @@ def target_del(request, target_id):
     print('target.vuforia_target_id')
     print(target.vuforia_target_id)
 
-    ######## Vuforia のデータをAPIで削除
-    response_content = del_target(target.vuforia_target_id)
+    ret = del_target_func(target)
 
-    print('response_content')
-    print(response_content)
+    # ######## Vuforia のデータをAPIで削除
+    # response_content = del_target(target.vuforia_target_id)
+    #
+    # print('response_content')
+    # print(response_content)
+    #
+    # ######## HLAR側 DB Target.del_flg を onにする
+    # try:
+    #     target.del_flg = True
+    #     target.save()
+    # except Exception as e:
+    #     print ('=== エラー内容 ===')
+    #     print ('type:' + str(type(e)))
+    #     print ('args:' + str(e.args))
+    #     print ('message:' + e.message)
+    #     print ('e自身:' + str(e))
+    #
+    # ######## S3のデータを削除
+    # #### コンテンツ動画
+    # client = boto3.client('s3')
+    # response = client.delete_object(
+    #     Bucket = bucket_name,
+    #     Key = target.content_name
+    # )
+    #
+    # #### ターゲット画像
+    # response = client.delete_object(
+    #     Bucket = bucket_name,
+    #     Key = target.img_name
+    # )
+    #
+    #
+    # if judge_vws_result(response_content['result_code']):
+    #     return redirect('hlar:target_list')
+    # else:
+    #     return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
 
-    ######## HLAR側 DB Target.del_flg を onにする
-    try:
-        target.del_flg = True
-        target.save()
-    except Exception as e:
-        print ('=== エラー内容 ===')
-        print ('type:' + str(type(e)))
-        print ('args:' + str(e.args))
-        print ('message:' + e.message)
-        print ('e自身:' + str(e))
-
-    ######## S3のデータを削除
-    #### コンテンツ動画
-    client = boto3.client('s3')
-    response = client.delete_object(
-        Bucket = bucket_name,
-        Key = target.content_name
-    )
-
-    #### ターゲット画像
-    response = client.delete_object(
-        Bucket = bucket_name,
-        Key = target.img_name
-    )
+    print('ret del')
+    print(ret)
+    # pprint(vars(ret))
 
 
-    if judge_vws_result(response_content['result_code']):
+    if ret['ret'] == True:
         return redirect('hlar:target_list')
     else:
-        return render(request, 'hlar/target_edit.html', dict(msg=response_content['result_code']))
+        return render(request, 'hlar/target_edit.html', dict(msg=ret['msg']))
 
-
-
-    return HttpResponse('ターゲットの削除')
+    # return HttpResponse('ターゲットの削除')
 
 
 def target_upload(request):
@@ -1843,6 +1853,48 @@ def resize_img(imgFile):
     targetFile = ContentFile(thumb_io.getvalue())   #djangoのfile object-likeなものに変換。
 
     return targetFile
+
+
+#ターゲット削除
+def del_target_func(target):
+    ######## Vuforia のデータをAPIで削除
+    response_content = del_target(target.vuforia_target_id)
+
+    print('response_content')
+    print(response_content)
+
+    ######## HLAR側 DB Target.del_flg を onにする
+    try:
+        target.del_flg = True
+        target.save()
+    except Exception as e:
+        print ('=== エラー内容 ===')
+        print ('type:' + str(type(e)))
+        print ('args:' + str(e.args))
+        print ('message:' + e.message)
+        print ('e自身:' + str(e))
+
+    ######## S3のデータを削除
+    #### コンテンツ動画
+    client = boto3.client('s3')
+    response = client.delete_object(
+        Bucket = bucket_name,
+        Key = target.content_name
+    )
+
+    #### ターゲット画像
+    response = client.delete_object(
+        Bucket = bucket_name,
+        Key = target.img_name
+    )
+
+
+    if judge_vws_result(response_content['result_code']):
+        return dict(ret=True)
+    else:
+        return dict(ret=False, msg=response_content['result_code'])
+
+
 
 
 ## ListViewを使う方法
