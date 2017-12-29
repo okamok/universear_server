@@ -83,6 +83,7 @@ import random
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+from PIL import ExifTags
 
 # import StringIO
 # from io import StringIO
@@ -1814,6 +1815,21 @@ def resize_img(imgFile):
 
     #### resize処理(widthを500pxとしてheightを計算)
     targetFile = Image.open(imgFile)
+
+    if hasattr(targetFile._getexif(), "items" ):
+
+        exif = dict((ExifTags.TAGS[k], v) for k, v in targetFile._getexif().items() if k in ExifTags.TAGS)
+
+        print("exif")
+        print(exif)
+
+        if "Orientation" in exif:
+            # if not exif['Orientation']:
+            if exif['Orientation']:
+                if exif['Orientation'] == 6:
+                    targetFile = targetFile.rotate(-90, expand=True)
+
+
     (width, height) = targetFile.size
     height_calc = int((height * 500) / width)
 
