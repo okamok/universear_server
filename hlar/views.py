@@ -1863,6 +1863,11 @@ def del_target_func(target):
     print('response_content')
     print(response_content)
 
+    if judge_vws_result(response_content['result_code']):
+        return dict(ret=True)
+    else:
+        return dict(ret=False, msg=response_content['result_code'])
+
     ######## HLAR側 DB Target.del_flg を onにする
     try:
         target.del_flg = True
@@ -1873,6 +1878,7 @@ def del_target_func(target):
         print ('args:' + str(e.args))
         print ('message:' + e.message)
         print ('e自身:' + str(e))
+        return dict(ret=False, msg=e.message)
 
     ######## S3のデータを削除
     #### コンテンツ動画
@@ -1889,10 +1895,11 @@ def del_target_func(target):
     )
 
 
-    if judge_vws_result(response_content['result_code']):
-        return dict(ret=True)
-    else:
-        return dict(ret=False, msg=response_content['result_code'])
+    return dict(ret=True)
+    # if judge_vws_result(response_content['result_code']):
+    #     return dict(ret=True)
+    # else:
+    #     return dict(ret=False, msg=response_content['result_code'])
 
 
 
