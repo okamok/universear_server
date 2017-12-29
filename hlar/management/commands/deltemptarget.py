@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print("del temp target")
         #### 簡易登録で10分以上経過したものを取得
-        date = datetime.now() - timedelta(minutes=1)
+        date = datetime.now() - timedelta(minutes=10)
         targets_object = Target.objects.filter(user_id__isnull=True,created_date__lte=date, del_flg=0)
 
         print(targets_object)
