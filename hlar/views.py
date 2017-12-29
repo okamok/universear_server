@@ -77,6 +77,16 @@ import stripe
 import string
 import random
 
+# from sorl.thumbnail import get_thumbnail
+
+# 画像のリサイズに使用
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+
+# import StringIO
+# from io import StringIO
+# from django.core.files.uploadedfile import InMemoryUploadedFile
 # uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
 TARGET_FILE_PATH = './static/images/'
@@ -707,7 +717,10 @@ def target_edit(request, target_id=None):
 
         #### ターゲット @ToDo
         if err == False and request.FILES.get('target', False):
-            targetFile = request.FILES['target']
+            # targetFile = request.FILES['target']
+            ## ターゲット画像をresize
+            targetFile = resize_img(request.FILES['target'])
+            targetName = request.FILES['target'].name
 
             ## サイズチェック
             if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
@@ -716,7 +729,7 @@ def target_edit(request, target_id=None):
                 errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
 
             ## 拡張子チェック
-            ext = os.path.splitext(targetFile.name)[1].lower()
+            ext = os.path.splitext(targetName)[1].lower()
 
             print('ext')
             print(ext)
@@ -790,7 +803,8 @@ def target_edit(request, target_id=None):
 
         if request.FILES.keys() >= {'target'}:
 
-            targetFile = request.FILES['target']
+            #targetFile = request.FILES['target']
+
             # filePathTarget = TARGET_FILE_PATH + random_str + '_' + targetFile.name
             #
             # print("filePathTarget")
@@ -839,9 +853,9 @@ def target_edit(request, target_id=None):
             target_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
-                targetFile = request.FILES['target']
+                # targetFile = request.FILES['target']
                 content_name_for_meta = random_str + '_' + contentsFile.name
-                target_name_for_meta =  random_str + '_' + targetFile.name
+                target_name_for_meta =  random_str + '_' + targetName
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
                 target_name_for_meta = request.POST['target_file_name']
@@ -1050,7 +1064,7 @@ def target_edit(request, target_id=None):
                 if request.FILES.keys() >= {'target'}:
                     # client = boto3.client('s3')
                     # transfer = S3Transfer(client)
-                    key_name_target = random_str + '_' + targetFile.name
+                    key_name_target = random_str + '_' + targetName
                     # transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
                     if s3 == None:
                         s3 = boto3.resource('s3')
@@ -1059,9 +1073,9 @@ def target_edit(request, target_id=None):
                         bucket = s3.Bucket(bucket_name)
 
 
-                    print("targetFile.size")
-                    print(targetFile.name)
-                    print(targetFile.size)
+                    # print("targetFile.size")
+                    # print(targetFile.name)
+                    # print(targetFile.size)
                     # print(targetFile.read())
                     # bucket.upload_fileobj(targetFile, key_name_target)
                     targetFile.seek(0, 0)
@@ -1077,7 +1091,7 @@ def target_edit(request, target_id=None):
                     target.content_name = key_name
 
                 if request.FILES.keys() >= {'target'}:
-                    target.img_name = random_str + '_' + targetFile.name
+                    target.img_name = random_str + '_' + targetName
 
                 if target_link_URL:
                     target.target_link_URL = target_link_URL
@@ -1180,26 +1194,6 @@ def target_temp_edit(request, target_id=None):
     msg = ''
     buy_history = 0
 
-    # if target_id:   # target_id が指定されている (修正時)
-    #     target = get_object_or_404(Target, pk=target_id)
-    #
-    #     # 300回の購入履歴があるか確認
-    #     payments_object = Payment.objects.filter(target_id=str(target_id), brought_view_count=300)
-    #     print('------payments-------')
-    #     print(len(payments_object))
-    #
-    #     buy_history = len(payments_object)
-    #     # print('edit1')
-    #     # pprint(vars(target))
-    # else:         # target_id が指定されていない (追加時)
-    #     #### 登録がMAX数に達していたら一覧に飛ばす
-    #     # ターゲット一覧を取得
-    #     targets = get_targets_user_id(request.user.id)
-    #     if len(targets) >= settings.TARGET_LIMIT_COUNT:
-    #         return redirect('hlar:target_list')
-    #
-    #     target = Target()
-
     target = Target()
 
     if request.method == 'POST':
@@ -1228,7 +1222,11 @@ def target_temp_edit(request, target_id=None):
 
         #### ターゲット @ToDo
         if err == False and request.FILES.get('target', False):
-            targetFile = request.FILES['target']
+
+            ######## サイズチェックの前にresize処理
+            targetFile = resize_img(request.FILES['target'])
+
+            targetName = request.FILES['target'].name
 
             ## サイズチェック
             if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
@@ -1237,7 +1235,7 @@ def target_temp_edit(request, target_id=None):
                 errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
 
             ## 拡張子チェック
-            ext = os.path.splitext(targetFile.name)[1].lower()
+            ext = os.path.splitext(targetName)[1].lower()
 
             if ext != '.jpeg' and ext != '.jpg':
                 # エラー
@@ -1300,7 +1298,6 @@ def target_temp_edit(request, target_id=None):
         filePathTarget = None
 
         if request.FILES.keys() >= {'target'}:
-            targetFile = request.FILES['target']
             encTargetFileBase64 = base64.b64encode(targetFile.read())
             encTargetFile = encTargetFileBase64.decode('utf-8')
 
@@ -1322,9 +1319,8 @@ def target_temp_edit(request, target_id=None):
             target_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
-                targetFile = request.FILES['target']
                 content_name_for_meta = random_str + '_' + contentsFile.name
-                target_name_for_meta =  random_str + '_' + targetFile.name
+                target_name_for_meta =  random_str + '_' + targetName
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
                 target_name_for_meta = request.POST['target_file_name']
@@ -1454,7 +1450,7 @@ def target_temp_edit(request, target_id=None):
 
                 ######## S3にターゲット(image)を保存
                 if request.FILES.keys() >= {'target'}:
-                    key_name_target = random_str + '_' + targetFile.name
+                    key_name_target = random_str + '_' + targetName
                     if s3 == None:
                         s3 = boto3.resource('s3')
 
@@ -1477,7 +1473,7 @@ def target_temp_edit(request, target_id=None):
                     target.content_name = key_name
 
                 if request.FILES.keys() >= {'target'}:
-                    target.img_name = random_str + '_' + targetFile.name
+                    target.img_name = random_str + '_' + targetName
 
                 if target_link_URL:
                     target.target_link_URL = target_link_URL
@@ -1813,6 +1809,24 @@ def delete_tmp_file(filePathTarget, metaPath, filePathContents):
     if filePathContents != None:
         default_storage.delete(filePathContents)    #contents
 
+# 画像をリサイズする
+def resize_img(imgFile):
+
+    #### resize処理(widthを500pxとしてheightを計算)
+    targetFile = Image.open(imgFile)
+    (width, height) = targetFile.size
+    height_calc = int((height * 500) / width)
+
+    size = ( 500, height_calc)
+    thumb = targetFile.resize(size, Image.ANTIALIAS)
+
+    #### 上記　thumb はImage objectなのでdjangoのFile Object-likeなものに変換。
+    thumb_io = BytesIO()
+    thumb.save(thumb_io, format='JPEG')
+
+    targetFile = ContentFile(thumb_io.getvalue())   #djangoのfile object-likeなものに変換。
+
+    return targetFile
 
 
 ## ListViewを使う方法
