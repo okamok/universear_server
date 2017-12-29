@@ -295,7 +295,8 @@ margin:-20px 0px 30px 100px;
 
 .fontShrik {
     /*font-family: 'Shrikhand', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;*/
-    font-family: 'Bookman', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;
+    /*font-family: 'Bookman', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6', cursive;*/
+    font-family: 'Bookman', 'ヒラギノ角ゴ StdN', 'Hiragino Kaku Gothic StdN', 'HiraKakuProN-W6';
     font-weight: bold,
 }
 
