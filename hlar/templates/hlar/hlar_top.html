@@ -82,9 +82,9 @@
                         <input type="file" name="target" style="width:100%; margin-top:5px;">
                         <p style='margin-top:5px'>
                             <ul style='font-size:7pt; padding-left:20px;'>
-                                <li>{% trans 'jpg画像のみ登録可能です。' %}{% trans '[最大2MBまで]' %}</li>
+                                <!-- <li>{% trans 'jpg画像のみ登録可能です。' %}{% trans '[最大2MBまで]' %}</li> -->
                                 <li>{% trans '過度に複雑な画像はターゲット画像に向きません。' %}{% trans 'シンプルなマーク/ロゴ画像を推奨します。' %}</li>
-                                <li>{% trans 'iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。' %}</li>
+                                <!-- <li>{% trans 'iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。' %}</li> -->
                             <ul>
                         </p>
                     </td>
@@ -117,7 +117,7 @@
             </table>
 
             <p class="nomalFont list-mv02" style="color:black">
-                <button id="btnEdit" type="button" class="btn btn-primary" style="width:30%; height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
+                <button id="btnEdit" type="button" class="btn btn-primary btnTempAdd" style="height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
                 <br>
                 ※こちらは簡易登録の為、登録後の編集が出来ません。また10回ほど認識すると無効となります。
             </p>

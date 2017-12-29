@@ -431,6 +431,10 @@ margin:-20px 0px 30px 100px;
     color:black;
 }
 
+.btnTempAdd {
+    width:30%;
+}
+
 /*600px以下(スマホ用)*/
 @media screen and (max-width:600px) {
 
@@ -634,6 +638,11 @@ margin:-20px 0px 30px 100px;
         display: inline-block;
         color:black;
     }
+
+    .btnTempAdd {
+        width:80%;
+    }
+
 }
 
 
