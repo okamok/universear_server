@@ -241,6 +241,8 @@ class Target(models.Model):
     # class Meta:
     #     abstract = True
 
+    # def __unicode__(self):
+    #     return '%s' % self.img_name
 
 
 

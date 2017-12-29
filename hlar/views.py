@@ -1863,8 +1863,9 @@ def del_target_func(target):
     print('response_content')
     print(response_content)
 
-    if judge_vws_result(response_content['result_code']):
-        return dict(ret=True)
+    if response_content['result_code'] != 'UnknownTarget' and judge_vws_result(response_content['result_code']):
+        # return dict(ret=True)
+        print("ok")
     else:
         return dict(ret=False, msg=response_content['result_code'])
 
