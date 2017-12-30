@@ -90,6 +90,9 @@ from PIL import ExifTags
 # from django.core.files.uploadedfile import InMemoryUploadedFile
 # uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
+
+import re
+
 TARGET_FILE_PATH = './static/images/'
 
 bucket_name = settings.S3_BUCKET_NAME
@@ -855,8 +858,13 @@ def target_edit(request, target_id=None):
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
                 # targetFile = request.FILES['target']
-                content_name_for_meta = random_str + '_' + contentsFile.name
-                target_name_for_meta =  random_str + '_' + targetName
+
+                # content_name_for_meta = random_str + '_' + contentsFile.name
+                # target_name_for_meta =  random_str + '_' + targetName
+                content_name_for_meta = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
+                target_name_for_meta =  random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
+
+
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
                 target_name_for_meta = request.POST['target_file_name']
@@ -1024,7 +1032,7 @@ def target_edit(request, target_id=None):
                     #     print ('message:' + e.message)
                     #     print ('e自身:' + str(e))
 
-                    key_name = random_str + '_' + contentsFile.name
+                    key_name = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
 
                     print("key_name")
                     print(key_name)
@@ -1065,7 +1073,7 @@ def target_edit(request, target_id=None):
                 if request.FILES.keys() >= {'target'}:
                     # client = boto3.client('s3')
                     # transfer = S3Transfer(client)
-                    key_name_target = random_str + '_' + targetName
+                    key_name_target = random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
                     # transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
                     if s3 == None:
                         s3 = boto3.resource('s3')
@@ -1092,7 +1100,7 @@ def target_edit(request, target_id=None):
                     target.content_name = key_name
 
                 if request.FILES.keys() >= {'target'}:
-                    target.img_name = random_str + '_' + targetName
+                    target.img_name = random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
 
                 if target_link_URL:
                     target.target_link_URL = target_link_URL
@@ -1320,8 +1328,8 @@ def target_temp_edit(request, target_id=None):
             target_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
-                content_name_for_meta = random_str + '_' + contentsFile.name
-                target_name_for_meta =  random_str + '_' + targetName
+                content_name_for_meta = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
+                target_name_for_meta =  random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
             elif request.POST['hid_content_name']:
                 content_name_for_meta = request.POST['hid_content_name']
                 target_name_for_meta = request.POST['target_file_name']
@@ -1435,7 +1443,7 @@ def target_temp_edit(request, target_id=None):
                 key_name = ''
                 if request.FILES.keys() >= {'contents'}:
 
-                    key_name = random_str + '_' + contentsFile.name
+                    key_name = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
 
                     #### S3にアップロード
                     client = boto3.client('s3')
@@ -1451,7 +1459,7 @@ def target_temp_edit(request, target_id=None):
 
                 ######## S3にターゲット(image)を保存
                 if request.FILES.keys() >= {'target'}:
-                    key_name_target = random_str + '_' + targetName
+                    key_name_target = random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
                     if s3 == None:
                         s3 = boto3.resource('s3')
 
@@ -1474,7 +1482,7 @@ def target_temp_edit(request, target_id=None):
                     target.content_name = key_name
 
                 if request.FILES.keys() >= {'target'}:
-                    target.img_name = random_str + '_' + targetName
+                    target.img_name = random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
 
                 if target_link_URL:
                     target.target_link_URL = target_link_URL
