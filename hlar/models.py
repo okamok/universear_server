@@ -223,7 +223,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 
-
+# @python_2_unicode_compatible
 class Target(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     # user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -240,6 +240,10 @@ class Target(models.Model):
 
     # class Meta:
     #     abstract = True
+
+    # def __str__(self):
+    #     # return self.last_name + ' ' + self.first_name
+    #     return self.img_name
 
     # def __unicode__(self):
     #     return '%s' % self.img_name
