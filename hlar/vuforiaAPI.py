@@ -23,7 +23,7 @@ CLOUD_RECO_API_ENDPOINT = 'cloudreco.vuforia.com'
 HOST = 'https://vws.vuforia.com'
 
 VWS_ERROR_MSG = ['RequestTimeTooSkewed', 'TargetNameExist', 'RequestQuotaReached', 'UnknownTarget',
-    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail', 'TargetStatusProcessing']
+    'BadImage', 'ImageTooLarge', 'MetadataTooLarge','DateRangeError', 'Fail', 'TargetStatusProcessing', 'ProjectSuspended']
 
 
 class VuforiaBaseError(Exception):

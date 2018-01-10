@@ -90,6 +90,11 @@ from PIL import ExifTags
 # from django.core.files.uploadedfile import InMemoryUploadedFile
 # uastring_mobile = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'
 
+# 動画のリサイズに使用
+# import imageio
+# imageio.plugins.ffmpeg.download()
+# from moviepy.editor import *
+
 
 import re
 
@@ -927,8 +932,10 @@ def target_edit(request, target_id=None):
 
         print('4444')
         print(response_content)
+        print(judge_vws_result(response_content['result_code']))
 
         if judge_vws_result(response_content['result_code']):
+            print("vuforia ok")
             filePathContents = None
 
             ######## Check for Duplicate Targets 同じターゲットが登録されていないか確認
@@ -1136,6 +1143,8 @@ def target_edit(request, target_id=None):
             # Vuforia API エラー時
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
 
+            print("vuforia error")
+
             if target.vuforia_target_id:
                 vuforia_target = get_target_by_id(target.vuforia_target_id)
                 target.name = vuforia_target['name']
@@ -1253,7 +1262,12 @@ def target_temp_edit(request, target_id=None):
 
         #### コンテンツ
         if err == False and request.FILES.get('contents', False):
+
+            ######## サイズチェックの前にresize処理 @ToDo
+            # contentsFile = resize_video(request.FILES['contents'])
+
             contentsFile = request.FILES['contents']
+
             print('file_size')
             print(contentsFile.size)
 
@@ -1393,8 +1407,10 @@ def target_temp_edit(request, target_id=None):
 
         print('4444')
         print(response_content)
+        print(judge_vws_result(response_content['result_code']))
 
         if judge_vws_result(response_content['result_code']):
+            print("vuforia ok")
             filePathContents = None
 
             ######## Check for Duplicate Targets 同じターゲットが登録されていないか確認
@@ -1514,6 +1530,8 @@ def target_temp_edit(request, target_id=None):
         else:
             # Vuforia API エラー時
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
+
+            print("Vuforia error")
 
             if target.vuforia_target_id:
                 vuforia_target = get_target_by_id(target.vuforia_target_id)
@@ -1861,6 +1879,28 @@ def resize_img(imgFile):
     targetFile = ContentFile(thumb_io.getvalue())   #djangoのfile object-likeなものに変換。
 
     return targetFile
+
+# # 動画をリサイズする
+# def resize_video(path):
+#
+#     clip = VideoFileClip(path)
+#     clip = clip.rotate(90)
+#     # clip = clip.crop(x_center=540, y_center=960, width=1080, height=608)
+#     # clip = clip.resize(width=500)
+#
+#     return clip
+#
+#     #
+#     # rotation = get_rotation(file_path)
+#     # if rotation == 90:  # If video is in portrait
+#     #     clip = vfx.rotate(clip, -90)
+#     # elif rotation == 270:  # Moviepy can only cope with 90, -90, and 180 degree turns
+#     #     clip = vfx.rotate(clip, 90)  # Moviepy can only cope with 90, -90, and 180 degree turns
+#     # elif rotation == 180:
+#     #     clip = vfx.rotate(clip, 180)
+#     #
+#     # clip = clip.resize(height=720)  # You may want this line, but it is not necessary
+#     # return clip
 
 
 #ターゲット削除
