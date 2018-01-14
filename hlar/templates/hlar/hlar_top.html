@@ -15,14 +15,14 @@
 
     <div class="basicBox" style="background-color:#3878BC;padding-bottom:30px;text-align:center">
         <div class="topLeft" style="display:inline-block" >
-            <div class="content-wrap fontShrik welcomeDiv">
+            <div style="font-size:14pt;font-weight:bold" class="content-wrap fontShrik welcomeDiv">
                 {% if is_mobile %}
-                    <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
+                    <span style="font-size:30pt; font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
                     <div style="text-align:left">
                         {% trans '新しいARアプリ「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                     </div>
                 {% else %}
-                    <span style="font-size:30pt">{% trans 'welcome to UNIVERSE AR' %}</span><br>
+                    <span style="font-size:40pt;font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
                     <!-- <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;"> -->
                     {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
                     {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
@@ -31,7 +31,7 @@
                 {% endif %}
 
                 <!--add 201171128-->
-                <div  style="margin-top:20px">
+                <div  style="margin-top:20px;font-weight:bold;">
                     <a href="/accounts/register/" class="btn btn-info btnTopSignUp">{% trans 'サインアップ' %}</a>
                     <a href="#howtouse" class="btn btn-info btnTopHowToUse">{% trans '使い方' %}</a>
                 </div>
@@ -62,7 +62,7 @@
 
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
-        <h2 style="margin:0px">{% trans 'UNIVERSE ARで出来ること' %}</h2>
+        <h2 style="margin:0px;font-weight:700;">{% trans 'UNIVERSE ARで出来ること' %}</h2>
         <!-- {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br> -->
         <p　class="list-mv02" style="margin-top:15px">
             {% trans "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。" %}<br>
@@ -148,7 +148,7 @@
 
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
-        <h2 style="margin:0px">{% trans 'あなただけのオリジナルARコンテンツを作成しましょう' %}</h2>
+        <h2 style="margin:0px;font-weight:700;">{% trans 'あなただけのオリジナルARコンテンツを作成しましょう' %}</h2>
         {% trans "簡単な数ステップで作成可能です。" %}<br>
         <br>
 
@@ -193,7 +193,7 @@
 
 
     <div class="fontShrik basicBox" style="background-color:#5ABB73;color:white;padding:50px 0px 50px 0px;text-align:center">
-        <h2 style="margin:0px">TOP TARGETS</h2>
+        <h2 style="margin:0px;font-weight:700;">TOP TARGETS</h2>
         {% trans "人気のターゲットを是非アプリからお試し下さい。" %}<br>
 
         <div style="margin-top:20px;">
@@ -205,8 +205,31 @@
         </div>
     </div>
 
+
+    <div id="forexample" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center;padding:50px 0px 50px 0px;margin:5px;width:100%;">
+
+        <h2 style="margin:0px;font-weight:700;">{% trans '使用例' %}</h2>
+        <!-- <br> -->
+
+        <div style="margin-top:0px;">
+                <div class="example-box list-mv06">
+                    <img src="{% static "images/" %}universe_promotion_no_string.jpg" class="target-list" /><br>
+                    {% trans "スペシャルな映像をカードに設定して、販売促進に" %}
+                </div>
+                <div class="example-box list-mv06">
+                    <img src="{% static "images/" %}universe_wedding_bg_no_string.jpg" class="target-list" /><br>
+                    {% trans "心のこもったメッセージをカードに込めて出席者のお席に置けば一味変わった演出に" %}
+                </div>
+                <div class="example-box list-mv06">
+                    <img src="{% static "images/" %}universe_business_bg_no_string.jpg" class="target-list" /><br>
+                    {% trans "ARコンテンツを設定して、いつもの名刺にインパクトを" %}
+                </div>
+        </div>
+
+    </div>
+
     <div class="fontShrik basicBox" style="background-color:#F06868;color:white;text-align:center">
-        <h2 style="margin:0px">CONTACT</h2>
+        <h2 style="margin:0px;font-weight:700;">CONTACT</h2>
         {% trans "ご要望/お問い合わせはこちらから" %}<br>
 
         <div class="contactDiv">info@insight.hiliberate.biz</div>
