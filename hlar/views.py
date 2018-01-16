@@ -1638,6 +1638,8 @@ def target_del(request, target_id):
 
     # return HttpResponse('ターゲットの削除')
 
+def beta_monitor(request):
+    return render(request, 'hlar/beta_monitor.html')
 
 def target_upload(request):
     targetFile = request.FILES['target']
