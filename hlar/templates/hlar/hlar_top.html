@@ -19,12 +19,12 @@
                 {% if is_mobile %}
                     <span style="font-size:30pt; font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
                     <div style="text-align:left">
-                        {% trans '新しいARアプリ「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
+                        {% trans '新しいARサービス「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                     </div>
                 {% else %}
                     <span style="font-size:40pt;font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
                     <!-- <hr style="border: 1px solid white;margin:0px 0px 8px 0px;padding:0px 20px 0px 20px;"> -->
-                    {% trans '新しいARアプリ「UNIVERSE AR」へようこそ' %}<br>
+                    {% trans '新しいARサービス「UNIVERSE AR」へようこそ' %}<br>
                     {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                     <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
 
@@ -119,7 +119,7 @@
             <p class="nomalFont list-mv02" style="color:black">
                 <button id="btnEdit" type="button" class="btn btn-primary btnTempAdd" style="height:45px;"><p style="font-size:15pt">{% trans '登録' %}</p></button>
                 <br>
-                ※こちらは簡易登録の為、登録後の編集が出来ません。また10分程で無効となります。
+                ※{% trans "こちらは簡易登録の為、登録後の編集が出来ません。また10分程で無効となります。" %}
             </p>
         </form>
 
@@ -131,6 +131,7 @@
         <div class="list-mv02">
             <img src="{% static "images/" %}universe_sample_img.jpg" class="sampleImg" />
             <br>
+            {% trans "[サンプル画像]" %}
             <!-- ※サンプル画像 -->
             <p style="margin-top:15px">
                 <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px;margin-top:15px;"/>

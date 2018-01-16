@@ -35,6 +35,9 @@ urlpatterns = [
     # 決済用
     url(r'^target/payment/$', views.target_payment, name='target_payment'),  # 登録
 
+    # β版モニター
+    url(r'^beta_monitor/$', views.beta_monitor, name='beta_monitor'), 
+
 
     # url(r'^$', views.index, name='index'),
     #url(r'^$', views.IndexView.as_view(), name='index'),    # ListViewを使う場合

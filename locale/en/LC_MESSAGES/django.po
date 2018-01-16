@@ -37,8 +37,11 @@ msgstr "LogOut"
 msgid "サインアップ"
 msgstr "Sign Up"
 
-msgid "新しいARアプリ「UNIVERSE AR」へようこそ"
-msgstr "this is revolution of AR app."
+msgid "新しいARサービス「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。"
+msgstr "this is new AR service [UNIVERSE AR].You can make your own AR contents very soon for free."
+
+msgid "新しいARサービス「UNIVERSE AR」へようこそ"
+msgstr "this is new AR service [UNIVERSE AR]."
 
 msgid "無料ですぐにあなただけのARコンテンツが作成できます。"
 msgstr "You can make your own AR contents very soon for free."
@@ -46,8 +49,53 @@ msgstr "You can make your own AR contents very soon for free."
 msgid "ターゲット管理"
 msgstr "Target management"
 
+msgid "UNIVERSE ARで出来ること"
+msgstr "What you can do on UNIVERSE AR"
+
+msgid "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。"
+msgstr "you upload image and video on this site.then you see the image via app.video is played."
+
+msgid "試しに登録してみましょう。"
+msgstr "Let's upload as trial."
+
+msgid "こちらは簡易登録の為、登録後の編集が出来ません。また10分程で無効となります。"
+msgstr "this is trial.so you can't edit after add.and this available only 10 minutes."
+
+msgid "PCやタブレットでこちらをご覧の方は、下記サンプル画像をアプリで読み取る事でUNIVERSE ARを体験していただけます。"
+msgstr "in case of you have PC or Tablet.please show below sample image and see via app.you will get AR."
+
+msgid "アプリをお手持ちのiPhoneにインストールしてこちらのサンプル画像を読み取って下さい。"
+msgstr "please install app to your iPhone.then see this sample image."
+
+msgid "UNIVERSE AR体験は如何でしたでしょうか？"
+msgstr "Now you got UNIVERSE AR"
+
+msgid "次はユーザー登録を行い複数のオリジナルARコンテンツを作成/管理しましょう。"
+msgstr "Next step,let's sign up and make your original AR contents."
+
+msgid "あなただけのオリジナルARコンテンツを作成しましょう"
+msgstr "Let's make your own original AR contents"
+
+msgid "簡単な数ステップで作成可能です。"
+msgstr "You can make your original AR contents with few easy steps."
+
 msgid "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。"
 msgstr "You can make your original AR contents with few easy steps."
+
+msgid "[サンプル画像]"
+msgstr "[sample image]"
+
+msgid "使用例"
+msgstr "For example"
+
+msgid "スペシャルな映像をカードに設定して、販売促進に"
+msgstr "You set Special Video to card for promotion."
+
+msgid "心のこもったメッセージをカードに込めて出席者のお席に置けば一味変わった演出に"
+msgstr "You can set kind message for guest.that would be great Performance."
+
+msgid "ARコンテンツを設定して、いつもの名刺にインパクトを"
+msgstr "If you set to business card.that would be impressive."
 
 msgid "1.こちらからユーザー登録[gmailのアカウントでも可能]"
 msgstr "1.Let's sign up here[you can use your Gmail account]"
