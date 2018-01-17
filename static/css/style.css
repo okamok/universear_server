@@ -47,6 +47,19 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.youtube {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+.youtube iframe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .list-mv01{
 	transform: scale(0, 0);
 	-webkit-transform: scale(0, 0);
