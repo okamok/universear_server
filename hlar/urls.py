@@ -36,7 +36,14 @@ urlpatterns = [
     url(r'^target/payment/$', views.target_payment, name='target_payment'),  # 登録
 
     # β版モニター
-    url(r'^beta_monitor/$', views.beta_monitor, name='beta_monitor'), 
+    url(r'^beta_monitor/$', views.beta_monitor, name='beta_monitor'),
+
+
+
+
+    #### WEB Api
+    # file upload
+    url(r'^file_upload_api/$', views.file_upload_api, name='file_upload_api'),
 
 
     # url(r'^$', views.index, name='index'),

@@ -70,6 +70,9 @@ ADD uwsgi_params /code/
 ## install
 RUN apt-get -y install nginx
 
+#### 開発環境でのHTTPSを実行するため 
+RUN apt-get install stunnel
+
 ## 作成したnginx.confをコピー(シンボリックリンク貼る方法がうまくいかなかった)
 # RUN cp /code/myweb_nginx.conf /etc/nginx/conf.d/myweb_nginx.conf
 ADD myweb_nginx.conf /etc/nginx/conf.d/
