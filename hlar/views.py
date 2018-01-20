@@ -2,6 +2,7 @@ import os
 import json
 import base64
 import subprocess
+from collections import OrderedDict
 from subprocess import Popen
 
 from django.shortcuts import get_object_or_404, render, redirect
@@ -95,6 +96,8 @@ from PIL import ExifTags
 # imageio.plugins.ffmpeg.download()
 # from moviepy.editor import *
 
+# CSRFを無効化する
+from django.views.decorators.csrf import csrf_exempt
 
 import re
 
@@ -1972,6 +1975,62 @@ def del_target_func(target):
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
+######## WEB API
+@csrf_exempt
+def file_upload_api(request):
+
+    print("file_upload_api -1-")
+
+    # print(request.FILES)
+    pprint(vars(request.FILES['file']))
+
+
+    # imgFile = request.FILES['file']
+    # print(imgFile)
+
+
+    """書籍と感想のJSONを返す"""
+    # books = []
+    # for book in Book.objects.all().order_by('id'):
+    #
+    #     impressions = []
+    #     for impression in book.impressions.order_by('id'):
+    #         impression_dict = OrderedDict([
+    #             ('id', impression.id),
+    #             ('comment', impression.comment),
+    #         ])
+    #         impressions.append(impression_dict)
+    #
+    #     book_dict = OrderedDict([
+    #         ('id', book.id),
+    #         ('name', book.name),
+    #         ('publisher', book.publisher),
+    #         ('page', book.page),
+    #         ('impressions', impressions)
+    #     ])
+    #     books.append(book_dict)
+
+    param = "aaa"
+
+    data = OrderedDict([ ('books', param) ])
+    return render_json_response(request, data)
+
+
+
+def render_json_response(request, data, status=None):
+    """response を JSON で返却"""
+    json_str = json.dumps(data, ensure_ascii=False, indent=2)
+    callback = request.GET.get('callback')
+    if not callback:
+        callback = request.POST.get('callback')  # POSTでJSONPの場合
+    if callback:
+        json_str = "%s(%s)" % (callback, json_str)
+        response = HttpResponse(json_str, content_type='application/javascript; charset=UTF-8', status=status)
+    else:
+        response = HttpResponse(json_str, content_type='application/json; charset=UTF-8', status=status)
+    return response
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -2080,6 +2139,47 @@ class TargetViewSet(viewsets.ModelViewSet):
 
 
 
+    @detail_route(methods=['post'])
+    def file_upload(self, request, pk=None):
+
+        file_obj = request.FILES['file']
+        print(file_obj)
+
+        # ui = request.GET.get(key="ui", default="")
+        # os = request.GET.get(key="os", default="")
+
+        # print("------ui---------")
+        # print(ui)
+        #
+        # queryset = Target.objects.all()
+        #
+        # # targetを取得
+        # target_object = get_object_or_404(queryset, vuforia_target_id=str(pk))
+        #
+        # access_log_entity = AccessLog()
+        # access_log_entity.target_id = target_object.id
+        # access_log_entity.operating_system = os
+        # access_log_entity.device_unique_identifier = ui
+        #
+        #
+        # # validation
+        # try:
+        #     # user.full_clean()
+        #     access_log_entity.clean()
+        #
+        #     # save
+        #     access_log_entity.save()
+        #
+        # except ValidationError as e:
+        #     # non_field_errors = e.message_dict[NON_FIELD_ERRORS]
+        #     pprint(vars(e))
+        #     print(e.message)
+        #     msg['error_msg'] = e.message
+
+        # serializer = AccessLogSerializer(access_log_entity)
+        # return Response(serializer.data)
+        # serializer = TargetSerializer(queryset, many=True)
+        return Response(null)
 
 
         # # カウントアップしてセット

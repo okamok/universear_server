@@ -1,0 +1,2 @@
+tunnel4 stunnel/dev_https &
+python manage.py runserver&
