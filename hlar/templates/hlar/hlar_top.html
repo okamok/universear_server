@@ -44,12 +44,19 @@
             <img src="{% static "images/" %}pc_monitor.png" style="width:100%" />
 
             <div class="top-video-div">
-                <video class="top-video"
-                    preload="auto" data-func="play_video" loop="true" muted="true" autoplay="true" muted
+                <!-- <video class="top-video"
+                    preload="auto" data-func="play_video" loop="false" muted="true" autoplay="false" muted
                     playsinline="true"
                     poster="{% static "images/" %}app_icon_U_layer_with_type_resize.png">
                         <source src="{% static "images/" %}universe_pv.mp4">
-    			</video>
+    			</video> -->
+
+                <!-- <div class="top-video youtube" style="text-align:center;margin:30px 0px 30px 0px"> -->
+                <div class="top-video youtubeTopPage">
+                    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/wLRvMQxeQxY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+                    <iframe src="https://www.youtube.com/embed/wLRvMQxeQxY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+
             </div>
 
             <div class="top-iphone-div">
