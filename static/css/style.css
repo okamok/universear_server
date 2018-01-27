@@ -694,6 +694,10 @@ margin:-20px 0px 30px 100px;
         width:80%;
     }
 
+    .target_preview {
+        width:90%;
+    }
+
 }
 
 
@@ -1112,6 +1116,10 @@ margin:-20px 0px 30px 100px;
 
     .varHeader {
         margin-top: 20px;
+    }
+
+    .target_preview {
+        width:400px;
     }
 }
 

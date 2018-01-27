@@ -53,8 +53,13 @@
         <meta property="og:type" content="product">
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
         <meta property="og:site_name" content="UNIVERSE AR">
-        <meta property="og:description" content="画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です">
-        <meta property="og:image" content="https://universear.hiliberate.biz/static/images/ogp_icon_1200.jpg">
+        {% if sm_image %}
+            <meta property="og:description" content="UNIVERSE.ARアプリでこの画像を読み取りましょう！">
+            <meta property="og:image" content="{{s3_FQDN}}{{target.img_name}}">
+        {% else %}
+            <meta property="og:description" content="画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です">
+            <meta property="og:image" content="https://universear.hiliberate.biz/static/images/ogp_icon_1200.jpg">
+        {% endif %}
 
         <!-- <meta property="og:video" content="動画のファイルパス" />
         <meta property="og:video:height" content="動画の高さサイズ" />
@@ -65,8 +70,15 @@
         <!-- <meta name="twitter:site" content="@nytimes">
         <meta name="twitter:creator" content="@SarahMaslinNir"> -->
         <meta name="twitter:title" content="【UNIVERSE AR】無料で今すぐオリジナルARコンテンツを作成しましょう！">
-        <meta name="twitter:description" content="画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です">
-        <meta name="twitter:image" content="https://universear.hiliberate.biz/static/images/ogp_icon_1200.jpg">
+
+        {% if sm_image %}
+            <meta name="twitter:description" content="UNIVERSE.ARアプリでこの画像を読み取りましょう！">
+            <meta name="twitter:image" content="{{s3_FQDN}}{{target.img_name}}">
+        {% else %}
+            <meta name="twitter:description" content="画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です">
+            <meta name="twitter:image" content="https://universear.hiliberate.biz/static/images/ogp_icon_1200.jpg">
+        {% endif %}
+
 
 
     </head>
