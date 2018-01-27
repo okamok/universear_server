@@ -14,6 +14,8 @@ from django.template import loader
 from django.views import generic
 from django.utils import timezone
 
+from django.http import Http404
+
 from pprint import pprint
 
 from hlar.models import User, Target, Payment, AccessLog, Oauth as OauthTbl
@@ -659,6 +661,41 @@ def target_list(request):
                    'addTarget': addTarget,
                    'TARGET_LIMIT_COUNT': settings.TARGET_LIMIT_COUNT,
                   })         # テンプレートに渡すデータ
+
+
+# img_name は拡張子は無い状態
+def target_preview_img(request, img_name=None):
+
+    target = None
+
+    # if target_id:   # target_id が指定されている (修正時)
+    #     target = get_object_or_404(Target, pk=target_id)
+
+    if img_name:
+        # target = get_object_or_404(Target, pk=target_id)
+        targets_object = Target.objects.filter(img_name__contains=img_name)
+
+    if len(targets_object) == 0:
+        raise Http404
+
+    for t in targets_object:
+        target = t
+
+    return render(
+        request,
+        'hlar/target_preview.html',
+        dict(
+            # form = form,
+            # target_id = target_id,
+            target = target,
+            # stripe_pulishable_key = settings.STRIPE_PUBLISHABLE_KEY,
+            # buy_history = buy_history,
+            s3_FQDN = s3_FQDN,
+            sm_image = target.img_name,
+            # TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
+            # CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
+        ))
+
 
 def target_edit(request, target_id=None):
 
