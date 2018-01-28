@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^target/upload/$', views.target_upload, name='target_upload'),  # 登録
     url(r'^target/mod/(?P<target_id>\d+)/$', views.target_edit, name='target_mod'),  # 修正
     url(r'^target/del/(?P<target_id>\d+)/$', views.target_del, name='target_del'),   # 削除
-    url(r'^target/preview_img/(?P<img_name>\w+)/$', views.target_preview_img, name='target_preview_img'),   # ターゲット プレビュー
+    url(r'^target/preview_img/(?P<img_name>.*)/$', views.target_preview_img, name='target_preview_img'),   # ターゲット プレビュー
 
     # user
     url(r'^user/add/$', views.user_add, name='user_add'),
