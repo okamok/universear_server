@@ -172,6 +172,24 @@ body {
  }
 
 
+ .what-universe-can-do-box {
+     float:left;
+     width:100%;
+     padding:2.5px 10px 2.5px 10px;
+     margin-top:10px;
+     text-align: left;
+ }
+
+ .what-universe-can-do-box img {
+     width:100%;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+ }
+
+/*.easy_add_form {
+    margin-top:50px;
+}*/
 
  /**** nav関連 start ****/
 .nav-menu-1 {
@@ -802,6 +820,19 @@ margin:-20px 0px 30px 100px;
         /*width:250px;
         height:180px*/
     }
+
+    .what-universe-can-do-box {
+        width:32%;
+        padding:5px;
+        margin-left:10px;
+    }
+
+    .what-universe-can-do-box img {
+        width:100%;
+        /*width:250px;
+        height:180px*/
+    }
+
 
 
     .target-list {

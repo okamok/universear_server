@@ -18,12 +18,13 @@
             <div style="font-size:14pt;font-weight:bold" class="content-wrap fontShrik welcomeDiv">
                 {% if is_mobile %}
                     <span style="font-size:30pt; font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
-                    <div style="text-align:left">
+                    "とっておきの1枚から、広がる世界"
+                    <div style="text-align:left;font-size:11pt;font-weight:400">
                         {% trans '新しいARサービス「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                     </div>
                 {% else %}
                     <span style="font-size:40pt;font-weight:700;">{% trans 'welcome to UNIVERSE AR' %}</span><br>
-                    "とっておきの一枚から広がる世界"
+                    "とっておきの1枚から、広がる世界"
                     <div style="margin-top:20px;font-size:11pt;font-weight:400">
                         {% trans '新しいARサービス「UNIVERSE AR」へようこそ' %}<br>
                         {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
@@ -75,12 +76,30 @@
         <!-- {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br> -->
         <p　class="list-mv02" style="margin-top:15px">
             {% trans "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。" %}<br>
-            <br>
-            {% trans "試しに登録してみましょう。" %}
         </p>
 
-        <form id="uploadForm" action="{% url 'hlar:target_temp_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal basicForm" role="form">
+        <div>
+                <div class="what-universe-can-do-box list-mv06">
+                    <img src="{% static "images/" %}1_upload.jpg" class="target-list" /><br>
+                    {% trans "1.このサイトでログイン後に画像(ターゲット)と動画(コンテンツ)をアップロードし、ARコンテンツを作成。※簡易登録の場合はサインアップの必要はありません。" %}
+                </div>
+                <div class="what-universe-can-do-box list-mv06">
+                    <img src="{% static "images/" %}2_forcus.jpg" class="target-list" /><br>
+                    {% trans "2.お手持ちのiPhoneにUNIVERSE.ARアプリをインストールし、登録した画像(ターゲット)を読み込む。" %}
+                </div>
+                <div class="what-universe-can-do-box list-mv06">
+                    <img src="{% static "images/" %}3_get_ar.jpg" class="target-list" /><br>
+                    {% trans "3.登録した動画(コンテンツ)が再生されオリジナルARをお楽しみ頂けます！" %}
+                </div>
+        </div>
+
+
+        <form style="margin-top:50px" id="uploadForm" action="{% url 'hlar:target_temp_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal basicForm" role="form">
             {% csrf_token %}
+
+            <p　class="list-mv02" style="margin-top:15px;">
+                <span style="font-size:15pt">{% trans "試しに登録してみましょう。" %}</span>
+            </p>
 
             <table class="nomalFont list-mv02 tempAddTbl">
                 <tr>
