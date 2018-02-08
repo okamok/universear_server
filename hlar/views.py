@@ -766,28 +766,25 @@ def target_edit(request, target_id=None):
 
         #### ターゲット @ToDo
         if err == False and request.FILES.get('target', False):
-            # targetFile = request.FILES['target']
-            ## ターゲット画像をresize
-            targetFile = resize_img(request.FILES['target'])
-            targetName = request.FILES['target'].name
-
-            ## サイズチェック
-            if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
-                # エラー
-                err = True
-                errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
-
             ## 拡張子チェック
+            targetName = request.FILES['target'].name
             ext = os.path.splitext(targetName)[1].lower()
-
-            print('ext')
-            print(ext)
 
             if ext != '.jpeg' and ext != '.jpg':
                 # エラー
                 err = True
                 errMsg = 'ターゲット画像のファイル形式が不正です。'
 
+            else:
+                # targetFile = request.FILES['target']
+                ## ターゲット画像をresize
+                targetFile = resize_img(request.FILES['target'])
+
+                ## サイズチェック
+                if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
+                    # エラー
+                    err = True
+                    errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
 
         #### コンテンツ
         if err == False and request.FILES.get('contents', False):
@@ -1281,24 +1278,23 @@ def target_temp_edit(request, target_id=None):
         #### ターゲット @ToDo
         if err == False and request.FILES.get('target', False):
 
-            ######## サイズチェックの前にresize処理
-            targetFile = resize_img(request.FILES['target'])
-
-            targetName = request.FILES['target'].name
-
-            ## サイズチェック
-            if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
-                # エラー
-                err = True
-                errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
-
             ## 拡張子チェック
+            targetName = request.FILES['target'].name
             ext = os.path.splitext(targetName)[1].lower()
 
             if ext != '.jpeg' and ext != '.jpg':
                 # エラー
                 err = True
                 errMsg = 'ターゲット画像のファイル形式が不正です。'
+            else:
+                ######## サイズチェックの前にresize処理
+                targetFile = resize_img(request.FILES['target'])
+
+                ## サイズチェック
+                if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
+                    # エラー
+                    err = True
+                    errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
 
         #### コンテンツ
         if err == False and request.FILES.get('contents', False):
