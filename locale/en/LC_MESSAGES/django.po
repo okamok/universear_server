@@ -374,3 +374,15 @@ msgstr "UNIVERSE AR member registration"
 
 msgid "更新が完了しました。"
 msgstr "Edit finished."
+
+msgid "とっておきの1枚から、広がる世界"
+msgstr "Spread the world by your special"
+
+msgid "1.このサイトでログイン後に画像(ターゲット)と動画(コンテンツ)をアップロードし、ARコンテンツを作成。※簡易登録の場合はサインアップの必要はありません。"
+msgstr "1.Login and upload image(target) and video(contents) on this site for make AR contents.*no need login for trial"
+
+msgid "2.お手持ちのiPhoneにUNIVERSE.ARアプリをインストールし、登録した画像(ターゲット)を読み込む。"
+msgstr "2.install UNIVERSE.AR in your iPhone.then read the image(target)."
+
+msgid "3.登録した動画(コンテンツ)が再生されオリジナルARをお楽しみ頂けます！"
+msgstr "3.Video that is uploaded is played.that's your own original AR contents!"
