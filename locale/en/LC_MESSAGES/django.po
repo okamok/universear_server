@@ -386,3 +386,6 @@ msgstr "2.install UNIVERSE.AR in your iPhone.then read the image(target)."
 
 msgid "3.登録した動画(コンテンツ)が再生されオリジナルARをお楽しみ頂けます！"
 msgstr "3.Video that is uploaded is played.that's your own original AR contents!"
+
+msgid "シェア"
+msgstr "share"

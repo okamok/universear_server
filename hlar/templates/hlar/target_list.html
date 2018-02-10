@@ -63,10 +63,11 @@ table {
                 {% for target in targets %}
                 <div style="clear:both"></div>
 
-                <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit" style="border:none;">
                     <div class="rowForCellPhone">
                         <div class="targetListHead__target">
-                            <img src="{{s3_FQDN}}{{target.img_name}}" style="width:100%"/><br>
+                            <a data-id="{{target.id}}" href="#" class="btn btn-default btn-sm aTargetEdit" style="border:none;">
+                                <img src="{{s3_FQDN}}{{target.img_name}}" style="width:100%"/><br>
+                            </a>
                         </div>
 
         				<div class="targetListHead__contents" style="margin-left:5px">
@@ -78,7 +79,9 @@ table {
                         <div class="targetListHead__view_count">
                             {{ target.name }}<br>
                             {% trans '再生回数' %}:{{ target.view_count }} {% trans '回' %}<br>
-                            {% trans '再生上限' %}:{{ target.view_count_limit }} {% trans '回' %}
+                            {% trans '再生上限' %}:{{ target.view_count_limit }} {% trans '回' %}<br>
+                            <a href="{{ target.fb_url }}" target="_blank"><img style="width:30px" src="{% static 'images/' %}menu_facebook.png" alt=""></a>
+                            <a href="{{ target.twitter_url }}" target="_blank"><img style="width:30px;margin-left:3px" src="{% static 'images/' %}menu_twitter.png" alt=""></a>
                         </div>
 
                             <!-- <div class="targetListHead__view_count_limit">
@@ -89,7 +92,6 @@ table {
                                 <a href="{% url 'hlar:target_mod' target_id=target.id %}" class="btn btn-default btn-sm">修正</a>
                             </div> -->
                     </div>
-                </a>
 
                 <div style="clear:both"></div>
 
@@ -110,6 +112,7 @@ table {
         				<div class="targetListHead__id">ID</div>
         				<div class="targetListHead__target">{% trans 'ターゲット' %}</div>
         				<div class="targetListHead__contents">{% trans 'コンテンツ' %}</div>
+                        <div class="targetListHead__share">{% trans 'シェア' %}</div>
         				<div class="targetListHead__view_count">{% trans '再生回数' %}</div>
         				<div class="targetListHead__view_count_limit">{% trans '再生回数上限' %}</div>
         				<div class="targetListHead__control">{% trans '操作' %}</div>
@@ -133,6 +136,11 @@ table {
                             <video style="height:100px" src="{{s3_FQDN}}{{target.content_name}}" controls>
                               Your browser does not support the <code>video</code> element.
                             </video>
+                        </div>
+
+                        <div class="targetListHead__share">
+                            <a href="{{ target.fb_url }}" target="_blank"><img style="width:30px" src="{% static 'images/' %}menu_facebook.png" alt=""></a><br>
+                            <a href="{{ target.twitter_url }}" target="_blank"><img style="width:30px;margin-top:5px" src="{% static 'images/' %}menu_twitter.png" alt=""></a>
                         </div>
 
                         <div class="targetListHead__view_count">

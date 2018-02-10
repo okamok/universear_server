@@ -41,6 +41,7 @@ import boto3
 from boto3.s3.transfer import S3Transfer
 
 import urllib
+import urllib.parse
 # import twitter
 from requests_oauthlib import OAuth1Session
 
@@ -107,7 +108,6 @@ TARGET_FILE_PATH = './static/images/'
 
 bucket_name = settings.S3_BUCKET_NAME
 s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
-
 
 def hlar_top(request):
     # proc = Popen( cmd .strip().split(" ") )
@@ -653,6 +653,23 @@ def target_list(request):
     if len(targets) >= settings.TARGET_LIMIT_COUNT:
         addTarget = False
 
+
+    for target in targets:
+        # シェアのリンクを作成
+        arrContentName = target['content_name'].split(".")
+        targetImgURL = settings.URL_ROOT + "hlar/target/preview_img/" + arrContentName[0]
+
+        # Twitter
+        twitterText = "ARアプリ【UNIVERSE AR】でこの画像を読み取ってみましょう！ #universear"
+        twitterParam = { 'text' : twitterText, 'url' : targetImgURL}
+        target['twitter_url'] = 'https://twitter.com/share?' + urllib.parse.urlencode(twitterParam)
+
+        # facebook
+        facebookParam = { 'u' : targetImgURL}
+        target['fb_url'] = 'https://www.facebook.com/share.php?' + urllib.parse.urlencode(facebookParam)
+
+
+
     return render(request,
                   'hlar/target_list.html',     # 使用するテンプレート
                   {'targets': targets,
@@ -670,6 +687,9 @@ def target_preview_img(request, img_name=None):
 
     # if target_id:   # target_id が指定されている (修正時)
     #     target = get_object_or_404(Target, pk=target_id)
+
+    if len(img_name) < 9:
+        raise Http404
 
     if img_name:
         # target = get_object_or_404(Target, pk=target_id)

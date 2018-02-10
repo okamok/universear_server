@@ -1032,19 +1032,23 @@ margin:-20px 0px 30px 100px;
         width:30%;
     }
 
+    .targetListHead__share {
+        float:left;
+        width:50px;
+    }
     .targetListHead__view_count {
         float:left;
-        width:100px;
+        width:80px;
     }
 
     .targetListHead__view_count_limit {
         float:left;
-        width:130px;
+        width:110px;
     }
 
     .targetListHead__control {
         float:left;
-        width:50px;
+        width:40px;
     }
 
     .targetAddButton {
