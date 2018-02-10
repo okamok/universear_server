@@ -656,7 +656,7 @@ def target_list(request):
 
     for target in targets:
         # シェアのリンクを作成
-        arrContentName = target['content_name'].split(".")
+        arrContentName = target['img_name'].split(".")
         targetImgURL = settings.URL_ROOT + "hlar/target/preview_img/" + arrContentName[0]
 
         # Twitter
