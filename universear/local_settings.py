@@ -40,3 +40,6 @@ CONTENTS_SIZE_LIMIT = 40000000
 
 # S3 バケット名
 S3_BUCKET_NAME = 'hlar-test'
+
+# URL ROOT
+URL_ROOT = 'http://192.168.99.100:8000/'

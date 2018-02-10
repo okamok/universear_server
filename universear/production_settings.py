@@ -36,3 +36,6 @@ CONTENTS_SIZE_LIMIT = 40000000
 
 # S3 バケット名
 S3_BUCKET_NAME = 'universe-ar-prod'
+
+# URL ROOT
+URL_ROOT = 'https://universear.hiliberate.biz/'
