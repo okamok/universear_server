@@ -769,74 +769,75 @@ def target_edit(request, target_id=None):
     if request.method == 'POST':
         # POST 時
 
-        ######## 入力チェック
-        err = False
-        errMsg = ''
+        # contentsFile = request.FILES['contents']
+        # print('file_size_aaaaaaa')
+        # print(contentsFile.size)
 
-        #### 名前
-        if request.POST['target_name'] == '':
-            # エラー
-            err = True
-            errMsg = '名前を入力して下さい。'
-        else:
-            target.name = request.POST['target_name']
+        # import pdb; pdb.set_trace()
 
-        #### 誘導リンク
-        target.target_link_URL = request.POST['target_link_URL']
+        try:
+            ######## 入力チェック
+            err = False
+            errMsg = ''
 
-        #### ターゲット @ToDo
-        if err == False and request.FILES.get('target', False):
-            ## 拡張子チェック
-            targetName = request.FILES['target'].name
-            ext = os.path.splitext(targetName)[1].lower()
-
-            if ext != '.jpeg' and ext != '.jpg':
+            #### 名前
+            if request.POST['target_name'] == '':
                 # エラー
-                err = True
-                errMsg = 'ターゲット画像のファイル形式が不正です。'
-
+                raise Exception('名前を入力して下さい。')
             else:
-                # targetFile = request.FILES['target']
+                target.name = request.POST['target_name']
+
+            #### 誘導リンク
+            target.target_link_URL = request.POST['target_link_URL']
+
+            #### コンテンツ
+            if request.FILES.get('contents', False):
+                contentsFile = request.FILES['contents']
+
+                ## サイズチェック
+                if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
+                    # エラー
+                    raise Exception('コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)))
+
+                ## 拡張子チェック
+                ext = os.path.splitext(contentsFile.name)[1].lower()
+
+                print('ext')
+                print(ext)
+
+                if ext != '.mp4' and ext != '.mov':
+                    # エラー
+                    raise Exception('コンテンツ動画のファイル形式が不正です。')
+
+            #### ターゲット @ToDo
+            if request.FILES.get('target', False):
+                ## 拡張子チェック
+                targetName = request.FILES['target'].name
+                ext = os.path.splitext(targetName)[1].lower()
+
+                if ext != '.jpeg' and ext != '.jpg':
+                    # エラー
+                    raise Exception('ターゲット画像のファイル形式が不正です。')
+
                 ## ターゲット画像をresize
                 targetFile = resize_img(request.FILES['target'])
 
                 ## サイズチェック
                 if targetFile and (targetFile.size > settings.TARGET_SIZE_LIMIT):
                     # エラー
-                    err = True
-                    errMsg = 'ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000))
+                    raise Exception('ターゲット画像のサイズが制限({0}MB)を超えています。'.format(int(settings.TARGET_SIZE_LIMIT / 1000000)))
 
-        #### コンテンツ
-        if err == False and request.FILES.get('contents', False):
-            contentsFile = request.FILES['contents']
-            print('file_size')
-            print(contentsFile.size)
-
-            ## サイズチェック
-            if contentsFile and (contentsFile.size > settings.CONTENTS_SIZE_LIMIT):
-                # エラー
+            if (request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}) or \
+                (request.FILES.keys() <= {'target'} and request.FILES.keys() <= {'contents'}):
+                print('errなし')
+            else:
                 err = True
-                errMsg = 'コンテンツ動画のサイズが制限({0}MB)を超えています。'.format(int(settings.CONTENTS_SIZE_LIMIT / 1000000))
+                # errMsg = 'ターゲットとコンテンツは同時にアップして下さい。'
+                raise Exception('ターゲットとコンテンツは同時にアップして下さい。')
 
-            ## 拡張子チェック
-            ext = os.path.splitext(contentsFile.name)[1].lower()
 
-            print('ext')
-            print(ext)
-
-            if ext != '.mp4' and ext != '.mov':
-                # エラー
-                err = True
-                errMsg = 'コンテンツ動画のファイル形式が不正です。'
-
-        if (request.FILES.keys() >= {'target'} and request.FILES.keys() >= {'contents'}) or \
-            (request.FILES.keys() <= {'target'} and request.FILES.keys() <= {'contents'}):
-            print('errなし')
-        else:
-            err = True
-            errMsg = 'ターゲットとコンテンツは同時にアップして下さい。'
-
-        if err:
+        except Exception as e:
+            # if err:
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
 
             if target.vuforia_target_id:
@@ -844,7 +845,7 @@ def target_edit(request, target_id=None):
                 target.name = vuforia_target['name']
 
             return render(request, 'hlar/target_edit.html', dict(
-                msg= errMsg,
+                msg= e.args[0],
                 form = form,
                 target_id = target_id,
                 target = target,
@@ -854,6 +855,11 @@ def target_edit(request, target_id=None):
                 TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
                 CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
             ))
+
+
+
+
+
 
 
         ######## ターゲットファイル
