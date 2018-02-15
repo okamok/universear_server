@@ -35,7 +35,7 @@
             <table class="resposiveTable">
                 <tr>
                     <td colspan="2" style="text-align:left" >
-                        <span class="box_corner_circle">STEP1</span>{% trans 'UNIVERSE ARアプリで使用するターゲット画像を登録します。' %}
+                        <span class="box_corner_circle">STEP1</span>{% trans 'Universe.arアプリで使用するターゲット画像を登録します。' %}
                     </td>
                 </tr>
                 <tr style="border-bottom:none">
@@ -106,7 +106,7 @@
 
                     <td  class="responsiveTableContents">
                         <div id="inputP" class="form-group">
-                            <input type="text" name="target_name" class="form-control" style="width:100%" value="{{target.name}}">
+                            <input type="text" name="target_name" class="form-control" style="width:100%" value="{{target.target_name}}">
                         </div>
                     </td>
                 </tr>
@@ -356,7 +356,7 @@ var handler = StripeCheckout.configure({
   key: "{{stripe_pulishable_key}}",
 
   // image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-  image: '{% static "images/" %}hl_icon.jpg',
+  image: '{% static "images/" %}app_icon_U_layer_resize_blue.png',
   locale: 'auto',
   token: function(token) {
     // You can access the token ID with `token.id`.
@@ -415,7 +415,7 @@ var handler = StripeCheckout.configure({
 document.getElementById('btnParchase300').addEventListener('click', function(e) {
   // Open Checkout with further options:
   handler.open({
-    name: 'UNIVERSE',
+    name: 'Universe.ar',
     description: '300回再生可能です。',
     currency: 'jpy',
     amount: 2980,
@@ -433,7 +433,7 @@ document.getElementById('btnParchase300').addEventListener('click', function(e) 
 document.getElementById('btnParchase1000').addEventListener('click', function(e) {
   // Open Checkout with further options:
   handler.open({
-    name: 'UNIVERSE',
+    name: 'Universe.ar',
     description: '1000回再生可能です。',
     currency: 'jpy',
     amount: 29800,

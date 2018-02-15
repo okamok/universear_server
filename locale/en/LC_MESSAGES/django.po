@@ -37,11 +37,11 @@ msgstr "LogOut"
 msgid "サインアップ"
 msgstr "Sign Up"
 
-msgid "新しいARサービス「UNIVERSE AR」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。"
-msgstr "this is new AR service [UNIVERSE AR].You can make your own AR contents very soon for free."
+msgid "新しいARサービス「Universe.ar」へようこそ。無料ですぐにあなただけのARコンテンツが作成できます。"
+msgstr "this is new AR service [Universe.ar].You can make your own AR contents very soon for free."
 
-msgid "新しいARサービス「UNIVERSE AR」へようこそ"
-msgstr "this is new AR service [UNIVERSE AR]."
+msgid "新しいARサービス「Universe.ar」へようこそ"
+msgstr "this is new AR service [Universe.ar]."
 
 msgid "無料ですぐにあなただけのARコンテンツが作成できます。"
 msgstr "You can make your own AR contents very soon for free."
@@ -49,8 +49,8 @@ msgstr "You can make your own AR contents very soon for free."
 msgid "ターゲット管理"
 msgstr "Target management"
 
-msgid "UNIVERSE ARで出来ること"
-msgstr "What you can do on UNIVERSE AR"
+msgid "Universe.arで出来ること"
+msgstr "What you can do on Universe.ar"
 
 msgid "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。"
 msgstr "you upload image and video on this site.then you see the image via app.video is played."
@@ -61,14 +61,14 @@ msgstr "Let's upload as trial."
 msgid "こちらは簡易登録の為、登録後の編集が出来ません。また10分程で無効となります。"
 msgstr "this is trial.so you can't edit after add.and this available only 10 minutes."
 
-msgid "PCやタブレットでこちらをご覧の方は、下記サンプル画像をアプリで読み取る事でUNIVERSE ARを体験していただけます。"
+msgid "PCやタブレットでこちらをご覧の方は、下記サンプル画像をアプリで読み取る事でUniverse.arを体験していただけます。"
 msgstr "in case of you have PC or Tablet.please show below sample image and see via app.you will get AR."
 
 msgid "アプリをお手持ちのiPhoneにインストールしてこちらのサンプル画像を読み取って下さい。"
 msgstr "please install app to your iPhone.then see this sample image."
 
-msgid "UNIVERSE AR体験は如何でしたでしょうか？"
-msgstr "Now you got UNIVERSE AR"
+msgid "Universe.ar体験は如何でしたでしょうか？"
+msgstr "Now you got Universe.ar"
 
 msgid "次はユーザー登録を行い複数のオリジナルARコンテンツを作成/管理しましょう。"
 msgstr "Next step,let's sign up and make your original AR contents."
@@ -103,8 +103,8 @@ msgstr "1.Let's sign up here[you can use your Gmail account]"
 msgid "2.ターゲット登録から認識したい画像[ターゲット]と表示する動画を登録"
 msgstr "2.Please add TARGET image that you want to recognize by App."
 
-msgid "3.アプリ「UNIVERSE AR」をiPhoneにインストールする。"
-msgstr "3.Install APP [UNIVERSE AR] to your iPhone."
+msgid "3.アプリ「Universe.ar」をiPhoneにインストールする。"
+msgstr "3.Install APP [Universe.ar] to your iPhone."
 
 msgid "4.アプリを起動してターゲットにかざせばオリジナルARコンテンツの完成です。"
 msgstr "4.Boot up App on your iPhone.then focus to the TARGET.your AR contents is completed!"
@@ -115,8 +115,8 @@ msgstr "Let's try popular TARGETS!"
 msgid "ご要望/お問い合わせはこちらから"
 msgstr "Feel free to contact us."
 
-msgid "新しいARアプリ「UNIVERSE AR」"
-msgstr "This is new AR App [UNIVERSE AR]."
+msgid "新しいARアプリ「Universe.ar」"
+msgstr "This is new AR App [Universe.ar]."
 
 msgid "すぐに無料であなただけのARコンテンツが作成できます。"
 msgstr "you can make your own AR contents for free."
@@ -169,8 +169,8 @@ msgstr "Edit"
 msgid "ターゲットの編集"
 msgstr "Target edit"
 
-msgid "UNIVERSE ARアプリで使用するターゲット画像を登録します。"
-msgstr "Add Target image for use UNIVERSE AR App."
+msgid "Universe.arアプリで使用するターゲット画像を登録します。"
+msgstr "Add Target image for use Universe.ar App."
 
 msgid "ターゲット画像"
 msgstr "Target image"
@@ -340,8 +340,8 @@ msgid "こちらから<a href='/accounts/login/'>ログイン</a>して下さい
 msgstr "You can log in.<a href=\"/accounts/login/\">here</a>"
 
 
-msgid "※本メールは、UNIVERSEより"
-msgstr "※ UNIVERSE AR send customers"
+msgid "※本メールは、Universe.arより"
+msgstr "※ Universe.ar send customers"
 
 msgid "アカウント登録された方にお送りしています。"
 msgstr "who want to registered our service."
@@ -369,8 +369,8 @@ msgstr "if URL link don't work.please paste to blowser."
 msgid "複数行に表示されている場合は、つなげて1行にしてから張付けてください。"
 msgstr "if URL have several rows.please join it and paste."
 
-msgid "UNIVERSE AR 登録確認メール"
-msgstr "UNIVERSE AR member registration"
+msgid "Universe.ar 登録確認メール"
+msgstr "Universe.ar member registration"
 
 msgid "更新が完了しました。"
 msgstr "Edit finished."
@@ -381,11 +381,14 @@ msgstr "Spread the world by your special"
 msgid "1.このサイトでログイン後に画像(ターゲット)と動画(コンテンツ)をアップロードし、ARコンテンツを作成。※簡易登録の場合はサインアップの必要はありません。"
 msgstr "1.Login and upload image(target) and video(contents) on this site for make AR contents.*no need login for trial"
 
-msgid "2.お手持ちのiPhoneにUNIVERSE.ARアプリをインストールし、登録した画像(ターゲット)を読み込む。"
-msgstr "2.install UNIVERSE.AR in your iPhone.then read the image(target)."
+msgid "2.お手持ちのiPhoneにUniverse.arアプリをインストールし、登録した画像(ターゲット)を読み込む。"
+msgstr "2.install Universe.ar in your iPhone.then read the image(target)."
 
 msgid "3.登録した動画(コンテンツ)が再生されオリジナルARをお楽しみ頂けます！"
 msgstr "3.Video that is uploaded is played.that's your own original AR contents!"
 
 msgid "シェア"
 msgstr "share"
+
+msgid "ARアプリ【Universe.ar】でこの画像を読み取ってみましょう！ #universear"
+msgstr "Let's read this image by AR app【Universe.ar】 #universear"
