@@ -626,25 +626,15 @@ def target_list(request):
     if request.user.is_authenticated() == False:
         return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
 
-    # if not request.user:
-    #         return HttpResponseRedirect('/login/?next=%s' % request.path)
-
-    # if not request.user.is_authenticated():
-    #         return HttpResponseRedirect('/login/?next=%s' % request.path)
-
-#    return HttpResponse('ターゲットの一覧')
-    # targets = Target.objects.all().order_by('id')
-
-    # ua = parse_ua(uastring_mobile)
     ua = parse_ua(request.META['HTTP_USER_AGENT'])
-
-    # print('-is_mobile: {0}'.format(ua.is_mobile))
 
     print('req_id')
     print(request.user)
 
     # ターゲット一覧を取得
-    targets = get_targets_user_id(request.user.id)
+    # targets = get_targets_user_id(request.user.id)
+    targets = Target.objects.filter(user_id=str(request.user.id), del_flg=False)
+
 
     print ('type:' + str(type(targets)))
     print (len(targets))
@@ -653,20 +643,19 @@ def target_list(request):
     if len(targets) >= settings.TARGET_LIMIT_COUNT:
         addTarget = False
 
-
     for target in targets:
         # シェアのリンクを作成
-        arrContentName = target['img_name'].split(".")
+        arrContentName = target.img_name.split(".")
         targetImgURL = settings.URL_ROOT + "hlar/target/preview_img/" + arrContentName[0]
 
         # Twitter
-        twitterText = "ARアプリ【UNIVERSE AR】でこの画像を読み取ってみましょう！ #universear"
+        twitterText = _("ARアプリ【Universe.ar】でこの画像を読み取ってみましょう！ #universear")
         twitterParam = { 'text' : twitterText, 'url' : targetImgURL}
-        target['twitter_url'] = 'https://twitter.com/share?' + urllib.parse.urlencode(twitterParam)
+        target.twitter_url = 'https://twitter.com/share?' + urllib.parse.urlencode(twitterParam)
 
         # facebook
         facebookParam = { 'u' : targetImgURL}
-        target['fb_url'] = 'https://www.facebook.com/share.php?' + urllib.parse.urlencode(facebookParam)
+        target.fb_url = 'https://www.facebook.com/share.php?' + urllib.parse.urlencode(facebookParam)
 
 
 
@@ -719,24 +708,6 @@ def target_preview_img(request, img_name=None):
 
 def target_edit(request, target_id=None):
 
-    # # 被りある
-    # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
-    #
-    # # 被りなし
-    # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
-    #
-    # print('response_duplicate999')
-    # print(response_duplicate)
-    #
-    # print('response_duplicate_response')
-    # print(response_duplicate['result_code'])
-    #
-    # print('response_duplicate_similar_targets')
-    # print(response_duplicate['result_code'])
-    # print(len(response_duplicate['similar_targets']))
-
-
-
     targetFile = None
 
     if request.user.is_authenticated() == False:
@@ -754,12 +725,12 @@ def target_edit(request, target_id=None):
         print(len(payments_object))
 
         buy_history = len(payments_object)
-        # print('edit1')
-        # pprint(vars(target))
     else:         # target_id が指定されていない (追加時)
         #### 登録がMAX数に達していたら一覧に飛ばす
         # ターゲット一覧を取得
-        targets = get_targets_user_id(request.user.id)
+        # targets = get_targets_user_id(request.user.id)
+        targets = Target.objects.filter(user_id=str(request.user.id), del_flg=False)
+
         if len(targets) >= settings.TARGET_LIMIT_COUNT:
             return redirect('hlar:target_list')
 
@@ -768,12 +739,6 @@ def target_edit(request, target_id=None):
 
     if request.method == 'POST':
         # POST 時
-
-        # contentsFile = request.FILES['contents']
-        # print('file_size_aaaaaaa')
-        # print(contentsFile.size)
-
-        # import pdb; pdb.set_trace()
 
         try:
             ######## 入力チェック
@@ -786,6 +751,7 @@ def target_edit(request, target_id=None):
                 raise Exception('名前を入力して下さい。')
             else:
                 target.name = request.POST['target_name']
+                target.target_name = request.POST['target_name']
 
             #### 誘導リンク
             target.target_link_URL = request.POST['target_link_URL']
@@ -874,38 +840,7 @@ def target_edit(request, target_id=None):
         random_str = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
 
         if request.FILES.keys() >= {'target'}:
-
-            #targetFile = request.FILES['target']
-
-            # filePathTarget = TARGET_FILE_PATH + random_str + '_' + targetFile.name
-            #
-            # print("filePathTarget")
-            # print(filePathTarget)
-            #
-            # # ファイルが存在していれば削除
-            # if default_storage.exists(filePathTarget):
-            #     default_storage.delete(filePathTarget)
-            #
-            # try:
-            #     # ファイルを保存
-            #     destination = open(filePathTarget, 'wb+')
-            #     for chunk in targetFile.chunks():
-            #         destination.write(chunk)
-            #     destination.close()
-            #
-            # except Exception as e:
-            #     print ('=== エラー内容 ===')
-            #     print ('type:' + str(type(e)))
-            #     print ('args:' + str(e.args))
-            #     print ('message:' + e.message)
-            #     print ('e自身:' + str(e))
-            #
-            # # file読み込み
-            # with open(filePathTarget, 'rb') as f:
-            #     contents = f.read()
-
             # base64でencode
-            # encTargetFileBase64 = base64.b64encode(contents)
             encTargetFileBase64 = base64.b64encode(targetFile.read())
             encTargetFile = encTargetFileBase64.decode('utf-8')
 
@@ -925,10 +860,7 @@ def target_edit(request, target_id=None):
             target_name_for_meta = ''
             if request.FILES.keys() >= {'contents'}:
                 contentsFile = request.FILES['contents']
-                # targetFile = request.FILES['target']
 
-                # content_name_for_meta = random_str + '_' + contentsFile.name
-                # target_name_for_meta =  random_str + '_' + targetName
                 content_name_for_meta = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
                 target_name_for_meta =  random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
 
@@ -937,7 +869,6 @@ def target_edit(request, target_id=None):
                 content_name_for_meta = request.POST['hid_content_name']
                 target_name_for_meta = request.POST['target_file_name']
 
-            # meta_file_name = targetFile.name.replace('.','') + '.txt'
             meta_file_name = target_name.replace('.','') + '.txt'
             metaPath = TARGET_FILE_PATH + meta_file_name
 
@@ -1012,23 +943,6 @@ def target_edit(request, target_id=None):
             print('response_duplicate')
             print(response_duplicate)
 
-            # # 被りある
-            # response_duplicate = duplicates('4a1740ea01424b13af795935224584dd')
-            #
-            # # 被りなし
-            # # response_duplicate = duplicates('bc5eb6aa76a14b1d83afe7b23393b40f')
-            #
-            # print('response_duplicate999')
-            # print(response_duplicate)
-            #
-            # print('response_duplicate_response')
-            # print(response_duplicate['result_code'])
-            #
-            # print('response_duplicate_similar_targets')
-            # print(response_duplicate['similar_targets'])
-            # print(len(response_duplicate['similar_targets']))
-
-
 
             if response_duplicate['result_code'] == 'Success' and len(response_duplicate['similar_targets']) > 0:
                 #### 同じ画像が登録されている
@@ -1046,7 +960,6 @@ def target_edit(request, target_id=None):
                 # print(response_content)
 
                 # バッチで実行
-                # os.system('python manage.py deltarget 123456789')
                 proc = Popen("python manage.py deltarget '" + vuforia_target_id + "'",shell=True )
 
                 # エラー時
@@ -1077,31 +990,6 @@ def target_edit(request, target_id=None):
                 key_name = ''
                 if request.FILES.keys() >= {'contents'}:
 
-                    # #### まず一時的にサーバーに保存
-                    # # 保存パス(ファイル名含む)
-                    # filePathContents = TARGET_FILE_PATH + random_str + '_' + contentsFile.name
-                    #
-                    # print("filePathContents")
-                    # print(filePathContents)
-                    #
-                    # # ファイルが存在していれば削除
-                    # if default_storage.exists(filePathContents):
-                    #     default_storage.delete(filePathContents)
-                    #
-                    # try:
-                    #     # ファイルを保存
-                    #     destination = open(filePathContents, 'wb+')
-                    #     for chunk in contentsFile.chunks():
-                    #         destination.write(chunk)
-                    #     destination.close()
-                    #
-                    # except Exception as e:
-                    #     print ('=== エラー内容 ===')
-                    #     print ('type:' + str(type(e)))
-                    #     print ('args:' + str(e.args))
-                    #     print ('message:' + e.message)
-                    #     print ('e自身:' + str(e))
-
                     key_name = random_str + '_' + re.sub('[^\x01-\x7E]','', contentsFile.name)
 
                     print("key_name")
@@ -1110,8 +998,6 @@ def target_edit(request, target_id=None):
                     #### S3にアップロード
                     client = boto3.client('s3')
                     transfer = S3Transfer(client)
-                    # transfer.upload_file(filePathContents, bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
-                    # transfer.upload_fileobj(contentsFile.read(), bucket_name, key_name, extra_args={'ContentType': "video/quicktime"})
 
                     #s3にアップした動画を公開する
                     # s3 = boto3.resource('s3')
@@ -1122,11 +1008,6 @@ def target_edit(request, target_id=None):
                     # アップしたコンテンツを公開状態にする
                     s3 = boto3.resource('s3')
                     bucket = s3.Bucket(bucket_name)
-                    # bucket.upload_fileobj(contentsFile.read(), key_name, extra_args={'ContentType': "video/quicktime"})
-
-                    # print("contentsFile.read()")
-                    # print(contentsFile.read())
-
                     bucket.upload_fileobj(contentsFile, key_name)
 
                     object_acl = s3.ObjectAcl(bucket_name, key_name)
@@ -1137,33 +1018,21 @@ def target_edit(request, target_id=None):
                     # s3_object = s3.get_object(Bucket=bucket_name,Key=key_name)
                     # response = s3_object.put(ContentType='string')
 
-
-
                 ######## S3にターゲット(image)を保存
                 if request.FILES.keys() >= {'target'}:
-                    # client = boto3.client('s3')
-                    # transfer = S3Transfer(client)
                     key_name_target = random_str + '_' + re.sub('[^\x01-\x7E]','', targetName)
-                    # transfer.upload_file(filePathTarget, bucket_name, key_name_target, extra_args={'ContentType': "image/jpeg"})
+
                     if s3 == None:
                         s3 = boto3.resource('s3')
 
                     if bucket == None:
                         bucket = s3.Bucket(bucket_name)
 
-
-                    # print("targetFile.size")
-                    # print(targetFile.name)
-                    # print(targetFile.size)
-                    # print(targetFile.read())
-                    # bucket.upload_fileobj(targetFile, key_name_target)
                     targetFile.seek(0, 0)
                     bucket.upload_fileobj(targetFile, key_name_target)
 
-
                     object_acl = s3.ObjectAcl(bucket_name, key_name_target)
                     response = object_acl.put(ACL='public-read')
-
 
                 ######## DBに登録
                 if key_name != '':
@@ -1183,25 +1052,12 @@ def target_edit(request, target_id=None):
                     target.view_count_limit = 50 #とりあえずデフォルトを50回にしておく @ToDo ここは選べるようにするか？そうなると課金？
                     target.vuforia_target_id = response_content['target_id']
 
-
-                # target = form.save(commit=False)
-
                 target.save()
 
                 ######## 一時ファイルを削除  @ToDo いずれ画像もs3にアップしてここで一時ファイルを削除する。
                 delete_tmp_file(filePathTarget, metaPath, filePathContents)
 
-                # if filePathTarget != None:
-                #     default_storage.delete(filePathTarget)      #target(image)
-                #
-                # if metaPath != None:
-                #     default_storage.delete(metaPath)            #meta
-                #
-                # if filePathContents != None:
-                #     default_storage.delete(filePathContents)    #contents
-
                 return redirect('hlar:target_list')
-                # return render(request, 'hlar/target_edit.html', dict(msg='登録が完了しました。'))
         else:
             # Vuforia API エラー時
             form = TargetForm(instance=target)  # target インスタンスからフォームを作成
@@ -1223,31 +1079,16 @@ def target_edit(request, target_id=None):
                 TARGET_SIZE_LIMIT = format(int(settings.TARGET_SIZE_LIMIT / 1000000)),
                 CONTENTS_SIZE_LIMIT = format(int(settings.CONTENTS_SIZE_LIMIT / 1000000)),
             ))
-
-
-
-        # form = TargetForm(request.POST, instance=target)  # POST された request データからフォームを作成
-        # if form.is_valid():    # フォームのバリデーション
-        #     target = form.save(commit=False)
-        #     target.save()
-        #     return redirect('hlar:target_list')
     else:
         # GET 時
         form = TargetForm(instance=target)  # target インスタンスからフォームを作成
 
-        if target.vuforia_target_id:
-            vuforia_target = get_target_by_id(target.vuforia_target_id)
-            target.name = vuforia_target['name']
+        # if target.vuforia_target_id:
+            # vuforia_target = get_target_by_id(target.vuforia_target_id)
+            # target.name = vuforia_target['name']
 
         if target.target_link_URL == None:
             target.target_link_URL = ''
-
-#    c = Context({"my_name": "Adrian"})
-    # print('target.img_name')
-    # print(target.img_name)
-
-    # print("-----stripe_pulishable_key-----")
-    # print(settings.STRIPE_PUBLISHABLE_KEY)
 
     return render(
         request,
@@ -1297,6 +1138,7 @@ def target_temp_edit(request, target_id=None):
         #     target.name = request.POST['target_name']
 
         target.name = random_str + '_temp'
+        target.target_name = random_str + '_temp'
 
         # #### 誘導リンク
         # target.target_link_URL = request.POST['target_link_URL']

@@ -26,35 +26,6 @@ class Oauth(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=True)
     modified_date = models.DateTimeField(auto_now=True, null=True)
 
-# class User(models.Model):
-#     mail = models.EmailField(max_length=254, null=True)
-#     password = models.CharField(max_length=2000, null=True)
-#     name = models.CharField(max_length=200, null=True)
-#     image_file_name = models.CharField(max_length=200, null=True)
-#     oauth = models.ForeignKey(Oauth, on_delete=models.CASCADE, null=True)
-#     created_date = models.DateTimeField(auto_now_add=True)
-#     modified_date = models.DateTimeField(auto_now=True)
-#
-#     def clean(self):
-#         from django.core.exceptions import ValidationError
-#
-#         print('self.mail')
-#         print(self.mail)
-#         if self.mail is None or self.mail == '':
-#             raise ValidationError('メールアドレスを入力して下さい。')
-#
-#         try:
-#             # validate_email(request.POST.get("email", ""))
-#             validate_email(self.mail)
-#         except ValidationError:
-#             raise ValidationError('メールアドレスを正しい形式で入力して下さい')
-
-
-
-
-
-
-
 ##### user 作り直し
 @python_2_unicode_compatible
 class UserManager(BaseUserManager):
@@ -230,6 +201,7 @@ class Target(models.Model):
     vuforia_target_id = models.CharField(max_length=200, null=True)
     img_name = models.CharField(max_length=100, null=True)
     content_name = models.CharField(max_length=100, null=True)
+    target_name = models.CharField(max_length=200, null=True)
     target_link_URL = models.CharField(max_length=300, null=True)
     view_count = models.IntegerField(null=True)
     view_count_limit = models.IntegerField(null=True)

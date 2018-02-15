@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% trans "UNIVERSE AR 登録確認メール" %}
+{% trans "Universe.ar 登録確認メール" %}
 
 {% comment %}
 {% trans "Account activation on" %} {{ site.name }}
