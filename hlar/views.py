@@ -1090,6 +1090,10 @@ def target_edit(request, target_id=None):
         if target.target_link_URL == None:
             target.target_link_URL = ''
 
+        if target.target_name == None:
+            target.target_name = ''
+
+
     return render(
         request,
         'hlar/target_edit.html',
