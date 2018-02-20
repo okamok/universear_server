@@ -109,6 +109,7 @@ TARGET_FILE_PATH = './static/images/'
 bucket_name = settings.S3_BUCKET_NAME
 s3_FQDN = 'https://' + bucket_name + '.s3.amazonaws.com/'
 
+
 def hlar_top(request):
     # proc = Popen( cmd .strip().split(" ") )
     # proc = Popen('sleep 1m',shell=True )
