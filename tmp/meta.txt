@@ -1,4 +1,0 @@
-{
-	"title": "DEATHRO -CRAZY FOR YOU- music video",
-	"url" : "http://zine.hiliberate.biz/movie/deathro_crazy_for_you.mp4"
-}
