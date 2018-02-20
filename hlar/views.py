@@ -650,7 +650,7 @@ def target_list(request):
         targetImgURL = settings.URL_ROOT + "hlar/target/preview_img/" + arrContentName[0]
 
         # Twitter
-        twitterText = _("ARアプリ【Universe.ar】でこの画像を読み取ってみましょう！ #universear")
+        twitterText = _("ARアプリ【UNIVERSE.AR】でこの画像を読み取ってみましょう！ #universear")
         twitterParam = { 'text' : twitterText, 'url' : targetImgURL}
         target.twitter_url = 'https://twitter.com/share?' + urllib.parse.urlencode(twitterParam)
 
