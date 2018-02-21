@@ -41,13 +41,10 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'hlar/login.html', 'authentication_form': LoginForm}),
 
     url('', include('social.apps.django_app.urls', namespace='social')),    # oauth用
-    # url('', include('django.contrib.auth.urls', namespace='auth')),
 
     url(r'^logout/$', auth_views.logout, {'template_name': 'hlar/logged_out.html'}),
     url(r'^signup/$', views.signup, name='signup'),
 
-
-    # url(r'^accounts/register/$', UserProfileRegistration.as_view(), name='registration_register'),
 
     # サインアップ
     url(r'^accounts/register/$', RegistrationView.as_view(form_class=CustomRegistrationForm), name='registration_register',),
