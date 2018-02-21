@@ -40,8 +40,6 @@ urlpatterns = [
     url(r'^beta_monitor/$', views.beta_monitor, name='beta_monitor'),
 
 
-
-
     #### WEB Api
     # file upload
     url(r'^file_upload_api/$', views.file_upload_api, name='file_upload_api'),
