@@ -716,6 +716,9 @@ margin:-20px 0px 30px 100px;
         width:90%;
     }
 
+    .app-store-icon {
+        width:80%;
+    }
 }
 
 
@@ -1156,6 +1159,11 @@ margin:-20px 0px 30px 100px;
     .target_preview {
         width:400px;
     }
+
+    .app-store-icon {
+        width:300px;
+    }
+
 }
 
 

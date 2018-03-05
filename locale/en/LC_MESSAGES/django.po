@@ -392,3 +392,6 @@ msgstr "share"
 
 msgid "ARアプリ【UNIVERSE.AR】でこの画像を読み取ってみましょう！ #universear"
 msgstr "Let's read this image by AR app【UNIVERSE.AR】 #universear"
+
+msgid "DLはコチラから"
+msgstr "Download here"
