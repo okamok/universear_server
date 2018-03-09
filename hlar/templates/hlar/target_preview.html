@@ -12,8 +12,18 @@
             <h4>{% trans 'UNIVERSE.AR アプリで読み取ってみましょう' %}</h4>
         </div>
 
-        <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-top:5px" class="target_preview"/>    </div>
+        <img src="{{s3_FQDN}}{{target.img_name}}" style="margin-top:5px" class="target_preview"/>
+
+        <div style="margin-top:10px">
+            <a href="https://itunes.apple.com/us/app/universe-ar/id1287387215?mt=8" target="_blank">
+                <img src="{% static "images/" %}available-on-the-app-store.png"  style="width:150px"/><br>
+            </a>
+
+            <span style="font-size:9pt">{% trans 'アプリのインストールはこちらから' %}</span>
+        </div>
     </div>
+
+
 </div>
 
 {% endblock content %}

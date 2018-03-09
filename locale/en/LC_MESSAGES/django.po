@@ -401,3 +401,6 @@ msgstr "Let's read this image by UNIVERSE.AR!"
 
 msgid "画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です"
 msgstr "You can create your own original AR contents very easily"
+
+msgid "アプリのインストールはこちらから"
+msgstr "You can install app here"
