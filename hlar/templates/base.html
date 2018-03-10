@@ -63,15 +63,18 @@
 
         {% block extrahead %}{% endblock %}
 
-        <meta property="og:title" content="【UNIVERSE.AR】 {% trans 'とっておきの1枚から、広がる世界' %}">
+        <!-- <meta property="og:title" content="【UNIVERSE.AR】 {% trans 'とっておきの1枚から、広がる世界' %}"> -->
+        <meta property="og:title" content="【UNIVERSE.AR】Spread the world by your special">
         <meta property="og:type" content="product">
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
         <meta property="og:site_name" content="UNIVERSE.AR">
         {% if sm_image %}
-            <meta property="og:description" content="{% trans 'UNIVERSE.ARアプリでこの画像を読み取りましょう！' %}">
+            <!-- <meta property="og:description" content="{% trans 'UNIVERSE.ARアプリでこの画像を読み取りましょう！' %}"> -->
+            <meta property="og:description" content="Let's read this image by UNIVERSE.AR">
             <meta property="og:image" content="{{s3_FQDN}}{{target.img_name}}">
         {% else %}
-            <meta property="og:description" content="{% trans '画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です' %}">
+            <!-- <meta property="og:description" content="{% trans '画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です' %}"> -->
+            <meta property="og:description" content="You can create your own original AR contents so easily">
             <meta property="og:image" content="https://universear.hiliberate.biz/static/images/ogp_icon.jpg">
         {% endif %}
         <meta property="og:locale:alternate" content="en_US" />
@@ -85,13 +88,17 @@
         <meta name="twitter:card" content="summary_large_image">
         <!-- <meta name="twitter:site" content="@nytimes">
         <meta name="twitter:creator" content="@SarahMaslinNir"> -->
-        <meta name="twitter:title" content="【UNIVERSE.AR】 {% trans 'とっておきの1枚から、広がる世界' %}">
+
+        <!-- <meta name="twitter:title" content="【UNIVERSE.AR】 {% trans 'とっておきの1枚から、広がる世界' %}"> -->
+        <meta name="twitter:title" content="【UNIVERSE.AR】【UNIVERSE.AR】Spread the world by your special">
 
         {% if sm_image %}
-            <meta name="twitter:description" content="{% trans 'UNIVERSE.ARアプリでこの画像を読み取りましょう！' %}">
+            <!-- <meta name="twitter:description" content="{% trans 'UNIVERSE.ARアプリでこの画像を読み取りましょう！' %}"> -->
+            <meta property="og:description" content="Let's read this image by UNIVERSE.AR">
             <meta name="twitter:image" content="{{s3_FQDN}}{{target.img_name}}">
         {% else %}
-            <meta name="twitter:description" content="{% trans '画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です' %}">
+            <!-- <meta name="twitter:description" content="{% trans '画像と動画を登録するだけで誰でも簡単にオリジナルARコンテンツを作成可能です' %}"> -->
+            <meta property="og:description" content="You can create your own original AR contents so easily">
             <meta name="twitter:image" content="https://universear.hiliberate.biz/static/images/ogp_icon.jpg">
         {% endif %}
 
