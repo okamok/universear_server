@@ -29,8 +29,6 @@
                         {% trans '新しいARサービス「UNIVERSE.AR」へようこそ' %}<br>
                         {% trans '無料ですぐにあなただけのARコンテンツが作成できます。' %}<br>
                     </div>
-                    <!-- {% trans 'ぜひ今すぐトライしてください。' %}<br> -->
-
                 {% endif %}
 
                 <!--add 201171128-->
@@ -42,21 +40,10 @@
         </div>
         <div style="clear:both"></div>
         <div class="topRight" style="display:inline-block;margin-top:10px">
-            <!-- <img src="{% static "images/" %}iPhone_pc.png" style="width:100%" /> -->
-            <!-- <img src="{% static "images/" %}top_waku.png" style="width:100%" /> -->
             <img src="{% static "images/" %}pc_monitor.png" style="width:100%" />
 
             <div class="top-video-div">
-                <!-- <video class="top-video"
-                    preload="auto" data-func="play_video" loop="false" muted="true" autoplay="false" muted
-                    playsinline="true"
-                    poster="{% static "images/" %}app_icon_U_layer_with_type_resize.png">
-                        <source src="{% static "images/" %}universe_pv.mp4">
-    			</video> -->
-
-                <!-- <div class="top-video youtube" style="text-align:center;margin:30px 0px 30px 0px"> -->
                 <div class="top-video youtubeTopPage">
-                    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/wLRvMQxeQxY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
                     <iframe src="https://www.youtube.com/embed/wLRvMQxeQxY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
 
@@ -73,7 +60,6 @@
     <div id="howtouse" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center">
 
         <h2 style="margin:0px;font-weight:700;">{% trans 'UNIVERSE.ARで出来ること' %}</h2>
-        <!-- {% trans "簡単な数ステップであなたのオリジナルARコンテンツを作成可能です。" %}<br> -->
         <p　class="list-mv02" style="margin-top:15px">
             {% trans "このサイトでターゲット画像、再生される動画を登録します。そしてターゲット画像をアプリで読み取ると動画が再生されます。" %}<br>
         </p>
@@ -114,8 +100,6 @@
                         <p style='margin-top:5px'>
                             <ul style='font-size:7pt; padding-left:20px;'>
                                 <li>{% trans 'jpg画像のみ登録可能です。' %}{% trans '[最大2MBまで]' %}</li>
-                                <!-- <li>{% trans '過度に複雑な画像はターゲット画像に向きません。' %}{% trans 'シンプルなマーク/ロゴ画像を推奨します。' %}</li> -->
-                                <!-- <li>{% trans 'iPhoneで撮影した画像は2MBを超える可能性があるのでスクリーンショットした画像の使用を推奨します。' %}</li> -->
                             <ul>
                         </p>
                     </td>
@@ -134,7 +118,6 @@
                         <p style='font-size:9pt;margin-top:5px'>
                             <ul style='font-size:7pt; padding-left:20px;'>
                                 <li>{% trans 'mp4またはmov形式のみ登録可能です。' %}
-                                    <!-- (最大{{CONTENTS_SIZE_LIMIT}}MBまで) -->
                                     {% trans '[最大40MBまで]' %}
                                 </li>
                                 <li>
@@ -163,7 +146,6 @@
             <img src="{% static "images/" %}universe_sample_img.jpg" class="sampleImg" />
             <br>
             {% trans "[サンプル画像]" %}
-            <!-- ※サンプル画像 -->
             <p style="margin-top:15px">
                 <a href="https://itunes.apple.com/us/app/universe-ar/id1287387215?mt=8" target="_blank">
                     <img src="{% static "images/" %}available-on-the-app-store.png" class="app-store-icon" style="margin-top:15px;"/>
@@ -244,8 +226,6 @@
     <div id="forexample" class="content-top fontShrik basicBox" style="background-color:white;color:#3878BC;text-align:center;padding:50px 0px 50px 0px;margin:5px;width:100%;">
 
         <h2 style="margin:0px;font-weight:700;">{% trans '使用例' %}</h2>
-        <!-- <br> -->
-
         <div style="margin-top:0px;">
                 <div class="example-box list-mv06">
                     <img src="{% static "images/" %}universe_promotion_no_string.jpg" class="target-list" /><br>
@@ -285,13 +265,10 @@ $(function() {
 
     // リンクをクリックしたときの処理。外部リンクやページ内移動のスクロールリンクなどではフェードアウトさせたくないので少し条件を加えてる。
     $('#btnEdit').click(function(){
-        //var url = "{% url 'hlar:target_list' %}"; // クリックされたリンクのURLを取得
 
         var h = $(window).height();
         $('#wrap').css('display','none');
         $('#loader-bg ,#loader').height(h).css('display','block');
-        //$("#loader").prepend('<img src="{% static "images/" %}loader.gif" class="loaderImg" alt="Now Loading..." />');
-
 
         setTimeout(function(){ $('#uploadForm').submit(); }, 800); // URLにリンクする
         return false;

@@ -14,37 +14,15 @@ db:
   environment:
          MYSQL_ROOT_PASSWORD: password
   privileged: true
-# web:
-#   build: .
-#   # command: /bin/bash -c "nginx && uwsgi --socket :8001 --module universear.wsgi && while true; do sleep 100000; done"
-#   command: /bin/bash -c "nginx && uwsgi --ini /code/mysite_uwsgi.ini && while true; do sleep 100000; done"
-#   volumes:
-#          - .:/code
-#   ports:
-#          - "8000:8000"
-#   links:
-#          - db
-#   privileged: true
-#
 
-
-
-
-# これなら毎回コンテナ削除しても大丈夫だと思われる。
 web:
-  # image: okamok108/django:1.0.2
   build: .
 
   command: /bin/bash -c "export PYENV='develop' && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
 
-  # これだとdocker-compose start の度にパッケージインストールとかすることになるのでマズい。
-  # command: /bin/bash -c "sudo pip install --no-cache-dir -r requirements.txt && yes | mkdir /var/log/uwsgi && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
+  # これだとdocker-compose start の度にパッケージインストールとかすることになるので問題。
   # command: /bin/bash -c "sudo pip install --no-cache-dir -r requirements.txt && yes | mkdir /var/log/uwsgi && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
 
-  # command: /bin/bash -c "mkdir /var/log/uwsgi && yes | sudo pip install --no-cache-dir -r requirements.txt && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null"
-
-  # command: /bin/bash -c \"mkdir /var/log/uwsgi && yes | sudo pip install --no-cache-dir -r requirements.txt && yes | apt-get install gettext && nginx && uwsgi --ini /code/mysite_uwsgi.ini && tail -f /dev/null\"
-  # command: /bin/bash -c "mkdir /var/log/uwsgi && sudo pip install --no-cache-dir -r requirements.txt && nginx && uwsgi --ini /code/mysite_uwsgi.ini && while true; do date; done"
   volumes:
          # - .:/code
          - /Users/user/develop/universear:/code

@@ -43,13 +43,6 @@ urlpatterns = [
     #### WEB Api
     # file upload
     url(r'^file_upload_api/$', views.file_upload_api, name='file_upload_api'),
-
-
-    # url(r'^$', views.index, name='index'),
-    #url(r'^$', views.IndexView.as_view(), name='index'),    # ListViewを使う場合
-    # url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
-    # url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='results'),
-    # url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]
 
 
