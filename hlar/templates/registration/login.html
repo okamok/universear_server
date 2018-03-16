@@ -15,11 +15,9 @@
         <form method="post" action="" class="basicForm">
             <div id="inputP">
                 {% csrf_token %}
-                <!-- {{ form.as_p }} -->
 
                 {% for field in form %}
                     <p style="text-align:left">
-                        <!-- {{ field.label_tag }}<br> -->
                         {% trans field.label_tag %}<br>
                         {{ field }}
                         {{ field.errors }}

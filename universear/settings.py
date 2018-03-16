@@ -68,18 +68,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
 )
 
-# TEMPLATE_CONTEXT_PROCESSORS = (
-#     'django.contrib.auth.context_processors.auth',
-#     'django.core.context_processors.debug',
-#     'django.core.context_processors.i18n',
-#     'django.core.context_processors.media',
-#     'django.core.context_processors.static',
-#     'django.core.context_processors.tz',
-#     'django.contrib.messages.context_processors.messages',
-#     'social.apps.django_app.context_processors.backends',
-#     'social.apps.django_app.context_processors.login_redirect',
-# )
-
 
 AUTHENTICATION_BACKENDS = (
     # 'social.backends.facebook.FacebookAppOAuth2',
@@ -91,15 +79,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # locale
-# LOCALE_PATHS = (
-#     os.path.join(FILE_DIR, 'locale'),
-# )
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
-print('LOCALE_PATHS')
-print(LOCALE_PATHS)
-
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,31 +117,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'universear.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'universe',
-#         'USER': 'root',
-#         'PASSWORD':'password',
-#         'HOST': 'db',
-#         'PORT': 3306,
-#     }
-# }
-
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -174,14 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.9/topics/i18n/
-
-# LANGUAGE_CODE = 'en-us'
-#
-# TIME_ZONE = 'UTC'
 
 LANGUAGE_CODE = 'ja'
 
@@ -261,30 +210,12 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 INTERNAL_IPS = ('127.0.0.1', '122.212.33.66')
 
-
-# BASE_PATH = os.path.abspath(os.path.split(__file__)[0])
-# MEDIA_ROOT = os.path.join(BASE_PATH, 'tmp')
-# MEDIA_URL = '/tmp/'
-
-
-
-
 LOGIN_ERROR_URL = '/accounts/login/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/hlar/'
 
 AUTH_USER_MODEL = 'hlar.User'
 
-
-# SOCIAL_AUTH_TWITTER_KEY = '05WxUGIG4paZZZWj22cZJR6qC'
-# SOCIAL_AUTH_TWITTER_SECRET = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'
-#
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '110344682483-fqpd4fkdb42gtc0pf172f61s3gh2lid2.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pxJBS6A7F5qgiavEQNbr0qU8'
-
-# FILE_UPLOAD_PERMISSIONS = '0755'
-
-print(os.environ['PYENV'])
 
 if os.environ['PYENV']:
     if os.environ['PYENV'] == 'local':
@@ -339,8 +270,6 @@ REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 SERVER_ACCESS_KEYS = 'c9376a180b61bfba0996906431436c71cedbea3d'
 SERVER_SECRET_KEYS = '09c27d6f17957fc277326e609b0b08263b003af0'
 
-
-
 # okamok_cloud_2
 # SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
 # SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
@@ -348,30 +277,3 @@ SERVER_SECRET_KEYS = '09c27d6f17957fc277326e609b0b08263b003af0'
 # okamok_cloud_3
 # SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
 # SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
-
-
-# AKIAIHFPDW2LPNRNXWFA
-# WxkkOfaiGkE+4mGxoKlwW4bkBVCk42EomZeqaEuT
-
-##### 下記、view.py に記載していたもの
-# # S3_USER = 's3user'
-# # S3_ACCESS_KEY = 'AKIAJYYCJVHFIZK4Q6ZQ'
-# # S3_SECRET_KEY = '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'
-#
-# # okamok_cloud_2
-# SERVER_ACCESS_KEYS = 'f5301c7f42cf0621baae2f13c929d59e3c792c00'
-# SERVER_SECRET_KEYS = 'dbed148302cf389d8c956ee04a8d725ce6199cbf'
-#
-# # okamok_cloud_3
-# # SERVER_ACCESS_KEYS = '6968bbd6779ed68181552a8449c786bf85bfe650'
-# # SERVER_SECRET_KEYS = '5a244dbd3afd62b6808b65a55b3a9a63187e543b'
-# # TARGET_FILE_PATH = './tmp/'
-#
-# # oauth 関連
-# # request_token_url = 'http://twitter.com/oauth/request_token'
-# # # access_token_url = 'http://twitter.com/oauth/access_token'
-# # access_token_url = 'https://twitter.com/oauth/access_token'
-# # authenticate_url = 'http://twitter.com/oauth/authenticate'
-#
-# consumer_key = '05WxUGIG4paZZZWj22cZJR6qC'
-# consumer_secret = 'zodNRE2HNnaOQyQAzMyg9xPdA7UunVcVdXkElkTO4NaAwQYxya'

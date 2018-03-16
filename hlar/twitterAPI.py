@@ -1,9 +1,6 @@
 import logging
-# import urllib.request, base64
-# import pytz
 import json
 import requests
-# import binascii
 import hlar.views
 
 from wsgiref.handlers import format_date_time
@@ -14,8 +11,6 @@ from hashlib import sha1, md5
 from hmac import new as hmac
 from pprint import pprint
 from hlar.models import User, Target, Oauth as OauthTbl
-# import twitter
-
 
 from requests_oauthlib import OAuth1Session
 

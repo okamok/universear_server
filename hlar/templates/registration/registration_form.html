@@ -14,8 +14,6 @@
 
         <form method="post" action="" class="basicForm" >
             {% csrf_token %}
-             <!-- {{ form.as_p }} -->
-
             <div style="text-align:left">
                 {% for field in form %}
                   <p id="inputP">
@@ -29,8 +27,6 @@
                     {% endfor %}
                   </p>
                 {% endfor %}
-
-                <!-- <input type="submit" class="form-control btn-primary" style="width:200px;margin-top:5px" value="{% trans 'Submit' %}" /> -->
                 <input type="submit" class="form-control btn-primary" style="width:100%; height:40px; margin-top:20px" value="{% trans '登録' %}" />
             </div>
         </form>

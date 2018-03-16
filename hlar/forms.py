@@ -28,11 +28,6 @@ class CustomRegistrationForm(RegistrationForm):
         widget=TextInput(attrs={'class': '','placeholder': 'Email'})
     )
 
-#     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))
-
-
-    # username = forms.CharField(max_length=30, required=True, help_text='Optional.')
-
     password2 = forms.CharField(
         max_length=254,
         widget=forms.PasswordInput(),
@@ -45,8 +40,6 @@ class CustomRegistrationForm(RegistrationForm):
 
         widgets = {
             'username' : forms.TextInput(attrs = {'placeholder': 'Username'}),
-            # 'password1' : forms.TextInput(attrs = {'placeholder': 'password'}),
-            # 'email'    : forms.TextInput(attrs = {'placeholder': 'E-Mail'}),
         }
 
         fields = ('username', 'email', 'password1', 'password2' )
@@ -54,10 +47,7 @@ class CustomRegistrationForm(RegistrationForm):
 
 # class SignUpForm(UserCreationForm):
 class SignUpForm(UserCreationForm):
-    # first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    # last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
     email = forms.EmailField(max_length=254, help_text='必須項目!!!')
-    # email = forms.Field(widget=forms.EmailInput(attrs={'class':'form-control'}))
 
     class Meta:
         model = User
@@ -69,8 +59,6 @@ class SignUpForm(UserCreationForm):
 
         fields = ('username', 'email', 'password1', 'password2' )
 
-
-
 class UserForm(UserChangeForm):
     """user form"""
 
@@ -80,39 +68,6 @@ class UserForm(UserChangeForm):
         label="パスワード",
         required=False,
         )
-
-    # is_active = forms.ModelChoiceField(
-    #     queryset={'all':'all', 'key':'value'},
-    #     widget=forms.RadioSelect,
-    #     label="アクティブ",
-    # )
-
-
-    # license = forms.ModelMultipleChoiceField(
-    #     label="資格",
-    #     queryset=License.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,  # 複数選択チェックボックスへ変更。デフォルトはSelectMultiple
-    # )
-    #
-    # permission = forms.ModelChoiceField(
-    #     label="偉さ",
-    #     queryset=Permission.objects.all(),
-    #     widget=forms.RadioSelect,  # ラジオに変更。デフォルトはSelect
-    #     empty_label=None,
-    # )
-    #
-    # gendar = forms.ChoiceField(
-    #     label="性別",
-    #     choices=GENDER_CHOICES,
-    #     widget=forms.RadioSelect,  # ラジオに変更
-    # )
-    #
-    # login = forms.ChoiceField(
-    #     label="ログイン可能時間",
-    #     choices=TIME_CHOICES,
-    #     widget=forms.RadioSelect,  # ラジオに変更
-    # )
-
 
     class Meta:
         model = User
@@ -124,31 +79,8 @@ class UserForm(UserChangeForm):
                 field.widget.attrs["class"] = "form-control"
                 field.widget.attrs["style"] = "width:100%"
 
-
-    # def user_edit(self):
-    #         assert(self.is_valid())
-    #         user = self.cleaned_data['user']
-    #         user.email =
-    #         user.save()
-
-
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="ユーザー名", max_length=30,
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="パスワード", max_length=30,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
-
-    # class Meta:
-        # model = User
-
-        # widgets = {
-        #     'username' : forms.TextInput(attrs = {'placeholder': 'Username'}),
-        #     'email'    : forms.TextInput(attrs = {'placeholder': 'E-Mail'}),
-        # }
-        #
-        # fields = ('username', 'email', 'password1', 'password2' )
-
-
-# class RFPAuthForm(AuthenticationForm):
-#     username = forms.CharField(widget=TextInput(attrs={'class': 'span2','placeholder': 'Email'}))
-#     password = forms.CharField(widget=PasswordInput(attrs={'class': 'span2','placeholder':'Password'}))

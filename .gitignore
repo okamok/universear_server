@@ -100,3 +100,13 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+
+for_bit_bucket
+for_github
+
+universear/dev_settings.py
+universear/local_settings.py
+universear/production_settings.py
+universear/settings.py

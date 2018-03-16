@@ -72,7 +72,6 @@ def compute_md5_hex(data):
 
 def compute_hmac_base64(key, data):
     """Return the Base64 encoded HMAC-SHA1 using the provide key"""
-    # h = hmac.new(key, None, hashlib.sha1)
     h = hmac.new(key.encode(), None, hashlib.sha1)
     h.update(data)
     return base64.b64encode(h.digest())
@@ -82,13 +81,11 @@ def authorization_header_for_request(method, content, content_type, date, reques
     """Return the value of the Authorization header for the request parameters"""
     components_to_sign = list()
     components_to_sign.append(method)
-    # components_to_sign.append(str(compute_md5_hex(content)))
     components_to_sign.append(str(compute_md5_hex(content.encode('utf-8'))))
     components_to_sign.append(str(content_type))
     components_to_sign.append(str(date))
     components_to_sign.append(str(request_path))
     string_to_sign = "\n".join(components_to_sign)
-    # signature = compute_hmac_base64(SERVER_SECRET_KEYS, string_to_sign)
     signature = compute_hmac_base64(settings.SERVER_SECRET_KEYS, string_to_sign.encode('utf-8'))
     auth_header = "VWS %s:%s" % (settings.SERVER_ACCESS_KEYS, signature)
     return auth_header
@@ -114,7 +111,6 @@ def encode_multipart_formdata(fields, files):
         lines.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (key, filename))
         lines.append('Content-Type: %s' % get_content_type(filename))
         lines.append('')
-        # lines.append(value)
         lines.append('aaaa')
     lines.append('--' + BOUNDARY + '--')
     lines.append('')
@@ -130,7 +126,6 @@ def get_content_type(filename):
 
 def add_target(max_num_results, include_target_data, image, target_name):
 
-    # data = {"name": target_name, "width": 1, "image": image,"application_metadata": include_target_data, "active_flag": 1}
     data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
     url = '%s/targets' % HOST
     data = json.dumps(data)
@@ -140,14 +135,10 @@ def add_target(max_num_results, include_target_data, image, target_name):
                            headers=headers)
     response = _get_authenticated_response(req)
 
-    # print('33333')
-    # print (response)
-
     return json.loads(response.content.decode())
 
 def del_target(target_id):
     data = {"name": 'dummy'}
-    # data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
     url = '%s/targets/%s' % (HOST, target_id)
     data = json.dumps(data)
 
@@ -155,57 +146,20 @@ def del_target(target_id):
     req = requests.Request(method='DELETE', url=url)
     response = _get_authenticated_response(req)
 
-    print('response1234')
-
-    pprint(vars(response))
-
     return json.loads(response.content.decode())
 
 
 def update_target(target_id, data):
 
-    # data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
-    # url = '%s/targets' % HOST
     url = '%s/targets/%s' % (HOST, target_id)
-
     data = json.dumps(data)
-
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-
-    print(url)
-    print(data)
 
     req = requests.Request(method='PUT', url=url, data=data,
                            headers=headers)
     response = _get_authenticated_response(req)
 
-    print('33333')
-    print (response)
-
     return json.loads(response.content.decode())
-
-# def update_target(target_id, include_target_data, image, target_name):
-#
-#     data = {"name": target_name, "width": 320, "image": image,"application_metadata": include_target_data, "active_flag": 1}
-#     url = '%s/targets/%s' % (HOST, target_id)
-#
-#     data = json.dumps(data)
-#
-#     headers = {'Content-Type': 'application/json; charset=utf-8'}
-#
-#     print(url)
-#     print(data)
-#
-#     req = requests.Request(method='PUT', url=url, data=data,
-#                            headers=headers)
-#     response = _get_authenticated_response(req)
-#
-#     print('33333')
-#     print (response)
-#
-#     return json.loads(response.content.decode())
-
-
 
 
 # hlar_target.user_id を指定してターゲットを取得
@@ -218,14 +172,7 @@ def get_targets_user_id(user_id):
     print(user_id)
 
     #### pythonのDBからデータ取得
-    # targets_object = Target.objects.all()
     targets_object = Target.objects.filter(user_id=str(user_id))
-
-
-    # print('targets_object')
-    # print(targets_object)
-    # pprint(vars(targets_object))
-
 
     targets = []
     for target in targets_object:
@@ -240,12 +187,7 @@ def get_targets_user_id(user_id):
             v_target['view_state'] = target.view_state
             v_target['content_name'] = target.content_name
             v_target['img_name'] = target.img_name
-
             targets.append(v_target)
-
-    print('targets')
-    # pprint(vars(targets))
-    print(targets)
 
     return targets
 
@@ -259,8 +201,6 @@ def get_target_by_id(target_id):
     url = '%s/targets/%s' % (HOST, target_id)
     req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
-    print('1234')
-    print(response)
 
     if 'target_record' in json.loads(response.content.decode()):
         return json.loads(response.content.decode())['target_record']
@@ -277,26 +217,9 @@ def get_target_ids():
 def duplicates(target_id):
     url = '%s/duplicates/%s' % (HOST, target_id)
 
-    print('target_id')
-    print(target_id)
-
-    print('url')
-    print(url)
-
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-    # req = requests.Request(method='GET', url=url, headers=headers)
     req = requests.Request(method='GET', url=url)
     response = _get_authenticated_response(req)
-
-    # headers = {'Content-Type': 'application/json; charset=utf-8'}
-    # req = requests.Request(method='DELETE', url=url)
-    # response = _get_authenticated_response(req)
-
-
-    print('duplicates1234')
-
-    pprint(vars(response))
-
 
     return json.loads(response.content.decode())
 
@@ -313,9 +236,6 @@ def get_target_id_from_name(name):
 def _get_authenticated_response(req):
     rfc1123_date = _get_rfc1123_date()
 
-    print('rfc1123_date')
-    print(rfc1123_date)
-
     string_to_sign =\
         req.method + "\n" +\
         _get_content_md5(req) + "\n" +\
@@ -323,23 +243,11 @@ def _get_authenticated_response(req):
         rfc1123_date + "\n" +\
         _get_request_path(req)
 
-    print('string_to_sign')
-    print(string_to_sign)
-
     signature = _hmac_sha1_base64(settings.SERVER_SECRET_KEYS, string_to_sign)
-
-    print('signature')
-    print(signature)
-
-    #print(type(signature))
-    #print("signature: ", signature)
 
     req.headers['Date'] =  rfc1123_date
     auth_header = 'VWS %s:%s' % (settings.SERVER_ACCESS_KEYS, signature)
     req.headers['Authorization'] = auth_header
-
-    print('auth_header')
-    print(auth_header)
 
     try:
 

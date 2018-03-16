@@ -1,9 +1,6 @@
 {% extends "base.html" %}
-
 {% load staticfiles %}
-
 {% load i18n %}
-
 {% block title %}{% trans 'ターゲット一覧' %}{% endblock title %}
 
 {% block extrahead %}
@@ -31,9 +28,7 @@ table {
                 <span style="margin-right:5px" class="glyphicon glyphicon-plus-sign"></span>{% trans 'ターゲット追加' %}
             </a>
             <p style='font-size:9pt'>
-            <!-- ※{{TARGET_LIMIT_COUNT}}個まで無料で登録可能 -->
             ※ {% blocktrans %}{{TARGET_LIMIT_COUNT}} 個まで無料で登録可能{% endblocktrans %}
-            <!-- {% trans '5個まで無料で登録可能' %} -->
             </p>
         </div>
         {% else %}
@@ -50,16 +45,6 @@ table {
             <hr style="margin:20px 0px 0px 0px;">
 
             <div class="targetList">
-                <!-- <div>
-        				<div class="targetListHead__id">ID</div>
-        				<div class="targetListHead__target">ターゲット</div>
-        				<div class="targetListHead__contents">コンテンツ</div>
-        				<div class="targetListHead__view_count">再生回数</div>
-        				<div class="targetListHead__view_count_limit">再生回数上限</div>
-        				<div class="targetListHead__control">操作</div>
-                </div>
-                <hr style="margin-bottom:5px;"> -->
-
                 {% for target in targets %}
                 <div style="clear:both"></div>
 
@@ -88,11 +73,6 @@ table {
                 <div style="clear:both"></div>
                 <hr style="margin:0px;">
                 {% endfor %}
-
-
-
-
-
         {% else %}
             {# PCの場合 #}
 
@@ -150,8 +130,6 @@ table {
                 {% endfor %}
 
             <div>
-
-
         {% endif %}
         {% else %}
                 <div style="margin-top:10px">{% trans '登録されているターゲットがありません。' %}</div>

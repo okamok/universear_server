@@ -49,45 +49,13 @@
         <input type="hidden" name="user_oauth_id" value="{{ user.oauth_id }}" />
 
       <div class="form-group">
-        <!-- <div class="col-sm-offset-2 col-sm-10"> -->
         <div class="col-sm-10">
           <button type="submit" class="btn btn-primary">登録</button>
         </div>
       </div>
     </form>
-    <a href="{% url 'hlar:target_list' %}" class="btn btn-default btn-sm">戻る</a>
-
+        <a href="{% url 'hlar:target_list' %}" class="btn btn-default btn-sm">戻る</a>
     </div>
-
-<script>
-// $(function() {
-//
-//     $("input[name='target']").change(function(){
-//
-//         var formData = new FormData($('#uploadForm')[0]);
-//         formData.append('other_data', 999);
-//
-//         $.ajax({
-//              url: '../upload/',
-//              type: 'post',
-//              data: formData,
-//              processData: false,
-//              contentType: false,
-//              timeout: 10000
-//          }).done(function (json, statusText, jqXHR) {
-//             console.log('done');
-//             ret = JSON.parse(json);
-//             $("input[name='target_file_name']").val(ret.filename);
-//
-//          }).fail(function (jqXHR, statusText, errorThrown) {
-//              console.log('fail');
-//          }).then(function () {
-//             //$('#uploadForm').remove();
-//          });
-//     });
-// });
-</script>
-
 </div>
 
 {% endblock content %}

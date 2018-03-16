@@ -32,23 +32,18 @@
 
                 {# パスワードはこのページでは操作不可とする #}
                 {% if field.name != 'password' %}
-                <!-- <div class="fieldWrapper" id="inputP"> -->
                 <p id="inputP">
 
                     {% trans field.label_tag %} {{ field }}
                     {{ field.errors }}
                 </p>
-                <!-- </div> -->
                 {% else %}
                 <div class="fieldWrapper">
                     {% trans field.label_tag %} {% trans '変更は<a href="/password/change/">こちら</a>' %}
                     {{ field.errors }}
                 </div>
                 {% endif %}
-
             {% endfor %}
-
-
                 <input type="submit" value="{% trans '登録' %}" class="form-control btn-primary" style="width:100%;margin-top:5px"/>
                 <input id="mode" name="mode" type="hidden" value="edit">
             </div>

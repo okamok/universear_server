@@ -58,16 +58,6 @@ urlpatterns = [
     url(r'^password/change/$', auth_views.password_change, name='password_change'),
     url(r'^password/change/done/$', auth_views.password_change_done, name='password_change_done'),
 
-    # url(r'^password/change/$',
-    #     auth_views.PasswordChangeView.as_view(
-    #         success_url=reverse_lazy('auth_password_change_done')),
-    #     name='auth_password_change'),
-
-    # url(r'^password/change/done/$',
-    #     auth_views.PasswordChangeDoneView.as_view(),
-    #     name='auth_password_change_done'),
-
-    # url('/', views.hlar_top, name='hlar_top'),
     url(r'^$', lambda r: HttpResponseRedirect('hlar/')),
 ]
 
