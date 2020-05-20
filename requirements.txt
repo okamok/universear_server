@@ -15,7 +15,7 @@ django-registration-redux==1.7
 djangorestframework==3.6.3
 docutils==0.13.1
 future==0.16.0
-httplib2==0.10.3
+httplib2==0.18.0
 idna==2.5
 imageio==2.1.2
 jmespath==0.9.3
